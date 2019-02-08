@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "596282479817",
+    "firebase_url": "https://stairmasterapp.firebaseio.com",
+    "project_id": "stairmasterapp",
+    "storage_bucket": "stairmasterapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596282479817:android:447525deacad5542",
+        "android_client_info": {
+          "package_name": "com.example.stairmaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596282479817-90slq6o9jv8ksbk0n35715ogl5ej27hn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stairmaster",
+            "certificate_hash": "97d8e8fbfe6db9de936e69f38e847ad97e696c32"
+          }
+        },
+        {
+          "client_id": "596282479817-kjgs13d1vdcks4mifg797dln83p77nlk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcjurO40Giv1XjfxDYxJLeb6NwsYzs4Wo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596282479817-kjgs13d1vdcks4mifg797dln83p77nlk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
