@@ -116,7 +116,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         if (mAuth.getCurrentUser() != null) {
             finish();
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, DashboardActivity.class));
         }
     }
 

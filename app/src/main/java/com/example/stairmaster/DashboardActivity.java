@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,36 +22,45 @@ import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    ArrayList<String> arrayList;
+    static List<String> questionList;
     ListView questionListView;
-    ArrayAdapter adapter;
-    String questionString;
+    String answerString;
+    TextView editText;
+    Bundle bundle;
+
+    // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        setTitle("Dashboard");
-
-        Log.i("info","Dashboard started");
-
+        questionListView = (ListView)findViewById(R.id.questionListView);
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
 
-        Bundle bundle = getIntent().getExtras();
-        questionString = bundle.getString("questionInfo");
-
-        arrayList = new ArrayList<String>();
-        arrayList.add(questionString);
-
-        adapter = new ArrayAdapter<String>(this,R.layout.activity_dashboard,arrayList);
-        adapter.notifyDataSetChanged();
+        setTitle("Dashboard");
+        Log.i("info","Dashboard started");
 
 
-        questionListView = (ListView)findViewById(R.id.questionListView);
-//        questionListView.setAdapter(adapter);
+        if (questionList==null) {
+            questionList = new ArrayList<String>();
+        }
 
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, questionList);
+
+
+
+        bundle = getIntent().getExtras();
+        if (answerString != null) {
+            answerString = bundle.getString("answerText");
+            Log.i("info", answerString);
+            questionList.add(answerString);
+        } else {
+            Toast.makeText(this, "nothing was passed", Toast.LENGTH_SHORT).show();
+        }
+        questionListView.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
 
     }
 

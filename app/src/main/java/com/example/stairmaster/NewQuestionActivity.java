@@ -22,26 +22,14 @@ public class NewQuestionActivity extends AppCompatActivity {
     String questionString;
 
 
-    ArrayList<String> arrayList;
-    ArrayAdapter adapter;
-    ListView questionListView;
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_question);
-
 
         questionEditText = (EditText)findViewById(R.id.questionEditText);
         answerEditText = (EditText)findViewById(R.id.answerEditText);
         submitQuestionButton = (Button)findViewById(R.id.submitQuestionButton);
         cancelQuestionButton = (Button)findViewById(R.id.cancelQuestionButton);
-
-        arrayList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this,R.layout.activity_dashboard, arrayList);
-        questionListView = (ListView)findViewById(R.id.questionListView);
-
-//        questionListView.setAdapter(adapter);
 
         setTitle("Add a new question");
 
@@ -49,31 +37,16 @@ public class NewQuestionActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
-
-        submitQuestionButton();
-
     }
 
-    public void submitQuestionButton() {
+    public void submitQuestionButtonClicked(View view) {
 
-        submitQuestionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
+        questionString = questionEditText.getText().toString();
+        Log.i("info", questionString);
+        intent.putExtra("answerText", questionString);
+        startActivity(intent);
 
-                String questionEditTextString = questionEditText.getText().toString();
-                arrayList.add(questionEditTextString);
-                adapter.notifyDataSetChanged();
-
-                Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("questionInfo",questionString);
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-
-            }
-        });
     }
 
 
@@ -84,7 +57,4 @@ public class NewQuestionActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-
-
 }
