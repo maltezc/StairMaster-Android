@@ -45,9 +45,20 @@ public class NewQuestionActivity extends AppCompatActivity {
         questionString = questionEditText.getText().toString();
         Log.i("info", questionString);
         intent.putExtra("answerText", questionString);
-        startActivity(intent);
+        setResult(RESULT_OK, intent);
+        finish();
 
     }
+
+//    public void submitQuestionButtonClicked(View view) {
+//
+//        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
+//        questionString = questionEditText.getText().toString();
+//        Log.i("info", questionString);
+//        intent.putExtra("answerText", questionString);
+//        startActivity(intent);
+//
+//    }
 
 
     public void cancelQuestionButton(View view) {
