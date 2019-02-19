@@ -11,12 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -29,11 +28,11 @@ public class DashboardActivity extends AppCompatActivity {
     ListView questionListView;
     String answerString;
     TextView textView;
-    Bundle bundle;
     Button submitQuestionButton;
 
-    // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
+    ArrayAdapter arrayAdapter;
 
+    // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +48,22 @@ public class DashboardActivity extends AppCompatActivity {
         Log.i("info","Dashboard started");
 
 
-        if (questionList==null) {
-            questionList = new ArrayList<String>();
-        }
+//        if (questionList==null) {
+//            questionList = new ArrayList<String>();
+//        }
+
+        questionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // must be setOnItemClickListener not setOnClickListener***
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), QuestionProfileActivity.class);
+                intent.putExtra("questionTitle", answerString);
+                startActivity(intent);
+            }
+        });
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -65,14 +75,12 @@ public class DashboardActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 final ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, questionList);
 
-
                 answerString = data.getStringExtra("answerText");
                 textView.setText(answerString);
                 Log.i("info", answerString);
                 questionList.add(answerString);
                 questionListView.setAdapter(arrayAdapter);
                 arrayAdapter.notifyDataSetChanged();
-
 
             }
             if (resultCode == RESULT_CANCELED) {
@@ -112,7 +120,7 @@ public class DashboardActivity extends AppCompatActivity {
                 break;
 
             case R.id.menuProfile:
-                Intent intent = new Intent(this, ProfileActivity.class);
+                Intent intent = new Intent(this, UserProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 

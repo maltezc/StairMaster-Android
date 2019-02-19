@@ -33,7 +33,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
-public class ProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     private static final int CHOOSE_IMAGE = 101;
 
@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_user_profile);
 
         setTitle("Profile");
 
@@ -116,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
                         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(ProfileActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserProfileActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -150,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -193,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
