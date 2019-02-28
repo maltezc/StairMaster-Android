@@ -2,21 +2,25 @@ package com.example.stairmaster;
 
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.stairmaster.adapters.RecyclerViewAdapter;
+import com.example.stairmaster.models.Note;
+import com.example.stairmaster.util.VerticalSpacingItemDecorator;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -25,21 +29,32 @@ import java.util.List;
 public class DashboardActivity extends AppCompatActivity {
 
     static List<String> questionList;
-    ListView questionListView;
+//    ListView questionListView;
+    RecyclerView questionListView;
     String answerString;
     TextView textView;
     Button submitQuestionButton;
 
     ArrayAdapter arrayAdapter;
-
     // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
+    private static final String TAG = "DashboardActivity";
+
+    // UI components
+    private RecyclerView mRecyclerView; // m is prepended to global vaiables
+
+    // vars
+    private ArrayList<Note> mNotes = new ArrayList<>();
+    private RecyclerViewAdapter mNoteRecyclerAdapter;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        mRecyclerView = findViewById(R.id.questionRecyclerView);
+
         submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
-        questionListView = (ListView)findViewById(R.id.questionListView);
+        questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
         textView = (TextView) findViewById(R.id.textView2);
@@ -48,47 +63,14 @@ public class DashboardActivity extends AppCompatActivity {
         Log.i("info","Dashboard started");
 
 
-//        if (questionList==null) {
-//            questionList = new ArrayList<String>();
-//        }
 
-        questionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            // must be setOnItemClickListener not setOnClickListener***
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), QuestionProfileActivity.class);
-                intent.putExtra("questionTitle", answerString);
-                startActivity(intent);
-            }
-        });
+
+        initRecyclerView();
+        insertFakeNotes();
 
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-
-                Intent intent = getIntent();
-                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, questionList);
-
-                answerString = data.getStringExtra("answerText");
-                textView.setText(answerString);
-                Log.i("info", answerString);
-                questionList.add(answerString);
-                questionListView.setAdapter(arrayAdapter);
-                arrayAdapter.notifyDataSetChanged();
-
-            }
-            if (resultCode == RESULT_CANCELED) {
-                Log.i("info","nothing to pass");
-
-            }
-        }
-    }
 
 
     public void newQuestionButton(View view) {
@@ -127,6 +109,28 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+
+    private void insertFakeNotes() {
+        for (int i = 0; i < 10; i++){
+            Note note = new Note();
+            note.setTitle("title # " + i);
+            note.setContent("content #: " + i);
+            note.setTimestamp("Jan 2019");
+            mNotes.add(note);
+        }
+        mNoteRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    private void initRecyclerView(){
+        Log.d(TAG, "initRecyclerView: init recyclerview.");
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
+        mRecyclerView.addItemDecoration(itemDecorator);
+        mNoteRecyclerAdapter = new RecyclerViewAdapter(mNotes);
+        mRecyclerView.setAdapter(mNoteRecyclerAdapter);
     }
 
 }

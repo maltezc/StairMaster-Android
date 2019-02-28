@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context=".UserProfileActivity">
 
+    <!--TODO: INCORPORATE SCROLL VIEW -->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
