@@ -13,13 +13,17 @@
     <!-- for centering in middle. must set layout_width to center-->
 
 
+
     <android.support.v7.widget.Toolbar
-        android:id="@+id/mainToolbar"
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        android:background="?attr/colorPrimary"
+        >
+        <!--app:layout_scrollFlags="scroll|enterAlways"-->
+
+        <include layout="@layout/layout_note_toolbar" />
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,15 +37,22 @@
             android:layout_weight=".25"
             android:text="TextView" />
 
-        <TextView
 
-            android:id="@+id/QuestionTextView"
+
+        <EditText
+            android:id="@+id/questionEditText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".75"
+            android:layout_height="100sp"
+            android:layout_weight=".25"
+            android:ems="10"
+            android:inputType="textPersonName"
             android:lines="4"
-            android:text="QuestionTextView"
+            android:minLines="4"
+            android:text="questionEditText"
+            android:background="@null"
             android:textSize="30sp" />
+        <!-- android:background="@null"removes underline -->
+
 
     </LinearLayout>
 
@@ -111,11 +122,12 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/Answer1TextView"
+                <com.example.stairmaster.util.LinedEditText
+                    android:id="@+id/answerTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="10"
+                    android:gravity="top"
                     android:text="AnswerTextView"
                     android:textSize="20sp" />
 
@@ -131,6 +143,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Add a Question" />
+
+
 
             </LinearLayout>
 

@@ -2,9 +2,7 @@ package com.example.stairmaster;
 
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements
+        RecyclerViewAdapter.OnNoteListener,
+        View.OnClickListener
+
+{
 
     static List<String> questionList;
 //    ListView questionListView;
@@ -55,22 +57,19 @@ public class DashboardActivity extends AppCompatActivity {
 
         submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
-        Toolbar toolbar = findViewById(R.id.mainToolbar);
+        Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
-        textView = (TextView) findViewById(R.id.textView2);
+//        textView = (TextView) findViewById(R.id.textView2);
 
         setTitle("Dashboard");
         Log.i("info","Dashboard started");
 
-
-
+        findViewById(R.id.fab).setOnClickListener(this);
 
         initRecyclerView();
         insertFakeNotes();
 
     }
-
-
 
 
     public void newQuestionButton(View view) {
@@ -86,7 +85,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-
         return true;
     }
 
@@ -113,10 +111,11 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     private void insertFakeNotes() {
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i <4; i++){
             Note note = new Note();
             note.setTitle("title # " + i);
-            note.setContent("content #: " + i);
+            note.setQuestion("question #: " + i);
+            note.setAnswer("answer #: " + i);
             note.setTimestamp("Jan 2019");
             mNotes.add(note);
         }
@@ -129,8 +128,24 @@ public class DashboardActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
         mRecyclerView.addItemDecoration(itemDecorator);
-        mNoteRecyclerAdapter = new RecyclerViewAdapter(mNotes);
+        mNoteRecyclerAdapter = new RecyclerViewAdapter(mNotes, this);
         mRecyclerView.setAdapter(mNoteRecyclerAdapter);
     }
 
+    @Override
+    public void onNoteClick(int position) {
+        Log.d(TAG, "onNoteClick: clicked" + position);
+
+        //this is where you would navigate to a activity
+
+        Intent intent = new Intent(this, QuestionProfileActivity.class);
+        intent.putExtra("selected_note", mNotes.get(position));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, QuestionProfileActivity.class);
+        startActivity(intent);
+    }
 }

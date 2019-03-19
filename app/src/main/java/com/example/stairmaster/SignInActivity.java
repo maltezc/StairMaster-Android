@@ -34,8 +34,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private static final String EMAIL = "email";
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

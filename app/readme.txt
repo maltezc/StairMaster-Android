@@ -2,6 +2,19 @@
 
 private static final String TAG = "NotesListActivity";
 logt creates ^. helps with debugging
+logx shorcuts help with debugging
+
+
+Fn + Command + F12 = quickly navigate structure of file
+
+surround with
+Option + command + t
+
+Override Method insert
+ctrl + o
+
+refactor
+fn + shift + f6
 
 Recycler view Notes
 https://guides.codepath.com/android/using-the-recyclerview

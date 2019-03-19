@@ -22,6 +22,8 @@
         <activity android:name=".UserProfileActivity"></activity>
         <activity android:name=".DashboardActivity"></activity>
         <activity android:name=".NewQuestionActivity"></activity>
+        <activity android:name=".logins.GoogleSignInActivity"
+            android:label="@string/label_google_sign_in"></activity>
     </application>
 
 </manifest>
