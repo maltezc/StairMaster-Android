@@ -154,6 +154,8 @@ public class GoogleSignInActivity extends BaseActivity implements View.OnClickLi
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+        //TODO: FINISH SETTING UP GOOGLE LOGIN
     }
     // [END signin]
 

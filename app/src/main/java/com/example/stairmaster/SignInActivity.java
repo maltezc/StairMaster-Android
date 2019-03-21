@@ -1,6 +1,7 @@
 package com.example.stairmaster;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private static final String EMAIL = "email";
+    private static final String TAG = "SignInActivity";
+
+   
 
 
     @Override
@@ -40,6 +44,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_in);
 
         setTitle("Hello StackOverflow");
+
+        facebookLoginButton = (LoginButton)findViewById(R.id.buttonFacebookLogin);
 
 
         FirebaseApp.initializeApp(this);
@@ -55,9 +61,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.buttonLogin).setOnClickListener(this);
 
         callbackManager = CallbackManager.Factory.create();
-
-
-
 
     }
 

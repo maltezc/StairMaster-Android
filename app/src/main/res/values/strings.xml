@@ -4,6 +4,7 @@
     <string name="facebook_app_id">539608029873490</string>
     <string name="fb_login_protocol_scheme">fb539608029873490</string>
 
+
     <!--<string name="app_name">Firebase Authentication</string>-->
 
     <string name="label_google_sign_in">Firebase + Google Sign In</string>

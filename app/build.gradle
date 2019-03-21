@@ -54,8 +54,8 @@ dependencies {
 
     // for facebook login
     implementation 'com.android.support:customtabs:28.0.0'
-    implementation 'com.facebook.android:facebook-login:4.41.0'
-//    implementation 'com.facebook.android:facebook-login:[4,5)'
+//    implementation 'com.facebook.android:facebook-login:4.41.0'
+    implementation 'com.facebook.android:facebook-login:[4,5)'
 
     // recyclerview dependency
     implementation 'com.android.support:recyclerview-v7:28.0.0'

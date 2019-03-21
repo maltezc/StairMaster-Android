@@ -24,7 +24,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.stairmaster.DashboardActivity;
 import com.example.stairmaster.R;
+import com.example.stairmaster.SignInActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -48,6 +50,8 @@ public class FacebookLoginActivity extends BaseActivity implements
 
     private static final String TAG = "FacebookLogin";
 
+
+
     private TextView mStatusTextView;
     private TextView mDetailTextView;
 
@@ -61,6 +65,7 @@ public class FacebookLoginActivity extends BaseActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
+        Log.d(TAG, "Facebook onCreate: started");
 
         // Views
         mStatusTextView = findViewById(R.id.status);
@@ -82,7 +87,12 @@ public class FacebookLoginActivity extends BaseActivity implements
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+
+                Intent intent = new Intent(FacebookLoginActivity.this, DashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
+            //TODO: SEND USER TO DASHBOARD SOMEHWERE AROUND HERE.
 
             @Override
             public void onCancel() {
@@ -120,6 +130,10 @@ public class FacebookLoginActivity extends BaseActivity implements
 
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        Intent intent = new Intent(FacebookLoginActivity.this, DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
     // [END on_activity_result]
 
