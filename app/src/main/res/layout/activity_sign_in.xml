@@ -8,21 +8,34 @@
     tools:context=".SignInActivity">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_weight="1">
 
         <ImageView
             android:layout_width="85dp"
             android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
 
-            android:layout_centerVertical="true"/>
+            />
         <!--android:background="app_logo"-->
+
+        <TextView
+            android:id="@+id/status"
+            style="@style/ThemeOverlay.MyTextDetail"
+            android:text="@string/signed_out"
             />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/detail"
+            style="@style/ThemeOverlay.MyTextDetail"
+            tools:text="Firebase User ID: 123456789abc"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
 
 
     <RelativeLayout
@@ -45,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:hint="email"
+                android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
                 android:paddingBottom="15dp"
                 android:textColorHint="@android:color/white" />
@@ -55,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:hint="password"
+                android:hint="@string/hint_password"
                 android:inputType="textPassword"
                 android:paddingBottom="15dp"
                 android:textColorHint="@android:color/white" />
