@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.example.stairmaster.DashboardActivity;
 import com.example.stairmaster.R;
-import com.example.stairmaster.SignInActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

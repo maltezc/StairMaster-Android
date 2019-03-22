@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.stairmaster.adapters.RecyclerViewAdapter;
+import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Note;
 import com.example.stairmaster.util.VerticalSpacingItemDecorator;
 import com.google.firebase.auth.FirebaseAuth;
