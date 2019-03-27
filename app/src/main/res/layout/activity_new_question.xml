@@ -54,7 +54,7 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
-        android:onClick="submitQuestionButtonClicked"
+        android:onClick="saveQuestion"
         android:text="Submit"
         app:layout_constraintEnd_toStartOf="@+id/cancelQuestionButton"
         app:layout_constraintStart_toStartOf="parent"

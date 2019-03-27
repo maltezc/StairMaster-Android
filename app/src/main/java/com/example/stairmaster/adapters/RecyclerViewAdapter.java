@@ -40,7 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_note_list_item, viewGroup, false);
         return new ViewHolder(view, mOnNoteListener);
-//        return null; comes standard with this horrible line which throws null error.
+//        return null; comes standard with this horrible line which throws shitty null error.
     }
 
     @Override
@@ -59,7 +59,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
 
         TextView title;
         TextView timestamp;

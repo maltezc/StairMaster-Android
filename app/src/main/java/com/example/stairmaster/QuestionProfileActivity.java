@@ -251,7 +251,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void     onClick(View v) {
+    public void onClick(View v) {
         switch (v.getId()){
 
             case R.id.toolbar_check: {

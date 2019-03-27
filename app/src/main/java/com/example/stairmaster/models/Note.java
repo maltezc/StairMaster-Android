@@ -18,7 +18,7 @@ public class Note implements Parcelable {
     }
 
     public Note() {
-
+        // public no-arg constructor needed
     }
 
     protected Note(Parcel in) {
