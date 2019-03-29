@@ -16,6 +16,9 @@ ctrl + o
 refactor
 fn + shift + f6
 
+re-align
+fn + option + cmd + L(#not capitalized)
+
 Recycler view Notes
 https://guides.codepath.com/android/using-the-recyclerview
 

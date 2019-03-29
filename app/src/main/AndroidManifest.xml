@@ -13,16 +13,20 @@
         android:theme="@style/AppTheme">
         <activity android:name=".QuestionProfileActivity"></activity>
         <activity android:name=".logins.SignInActivity">
+
+        </activity>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".UserProfileActivity"></activity>
+        <activity android:name=".DashboardActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".UserProfileActivity"></activity>
-        <activity android:name=".DashboardActivity"></activity>
-        <activity android:name=".NewQuestionActivity"></activity>
+        <activity android:name=".NewQuestionActivity"
+            android:parentActivityName=".DashboardActivity"/>
 
         <!-- facebook login stuff -->
         <meta-data android:name="com.facebook.sdk.ApplicationId"

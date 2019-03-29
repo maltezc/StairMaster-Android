@@ -14,16 +14,16 @@
 
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        >
-        <!--app:layout_scrollFlags="scroll|enterAlways"-->
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolBar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?attr/colorPrimary"-->
+        <!--&gt;-->
+        <!--&lt;!&ndash;app:layout_scrollFlags="scroll|enterAlways"&ndash;&gt;-->
 
-        <include layout="@layout/layout_note_toolbar" />
-    </android.support.v7.widget.Toolbar>
+        <!--<include layout="@layout/layout_note_toolbar" />-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <LinearLayout
         android:layout_width="match_parent"

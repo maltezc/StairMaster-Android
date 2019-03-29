@@ -6,26 +6,29 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.example.stairmaster.models.Question;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 
 public class NewQuestionActivity extends AppCompatActivity {
 
     EditText questionEditText;
     EditText answerEditText;
+    private NumberPicker numberPickerPriority;
     Button submitQuestionButton;
     Button cancelQuestionButton;
     String questionString;
@@ -35,58 +38,91 @@ public class NewQuestionActivity extends AppCompatActivity {
     private static final String KEY_QUESTION_ANSWER_STRING = "Question Answer";
     private static final String TAG = "NewQuestionActivity";
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference questionRef = db.document("Questions/My First Question");
-
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_question);
 
-        questionEditText = (EditText)findViewById(R.id.questionEditText);
-        answerEditText = (EditText)findViewById(R.id.answerEditText);
-        submitQuestionButton = (Button)findViewById(R.id.submitQuestionButton);
-        cancelQuestionButton = (Button)findViewById(R.id.cancelQuestionButton);
+        questionEditText = (EditText) findViewById(R.id.questionEditText);
+        answerEditText = (EditText) findViewById(R.id.answerEditText);
+        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
+        cancelQuestionButton = (Button) findViewById(R.id.cancelQuestionButton);
+        numberPickerPriority = (NumberPicker) findViewById(R.id.number_picker_priority);
 
-        setTitle("Add a new question");
+        numberPickerPriority.setMinValue(1);
+        numberPickerPriority.setMaxValue(10);
+
+//        setTitle("Add a new question");
 
         Log.i("info", "NewQuestionActivity started");
 
-        Toolbar toolbar = findViewById(R.id.mainToolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.mainToolbar);
+//        setSupportActionBar(toolbar);
+
+
+        //TODO: FIGURE OUT TOOLBAR ISSUE. NOTE THAT IF YOU HIT SUBMIT, APP WILL CRASH, MUST USE SAVE ICON IN TOOLBAR
+        if (getSupportActionBar() != null) {
+
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+            setTitle("Add Question");
+        }
     }
 
-    public void saveQuestion(View view){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.new_question_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.save_question:
+                saveQuestion();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void saveQuestion(){
 //        String questionTitle = questionEditText.getText().toString(); //TODO: figure out title situation
         String questionString = questionEditText.getText().toString();
         String questionAnswerString = answerEditText.getText().toString();
+        int priority = numberPickerPriority.getValue();
+        if (questionString.trim().isEmpty() || questionAnswerString.trim().isEmpty()) {
 
-        Map<String, Object> question = new HashMap<>();
-//        question.put(KEY_QUESTION_TITLE, questionTitle);
-        question.put(KEY_QUESTION_STRING, questionString);
-        question.put(KEY_QUESTION_ANSWER_STRING, questionAnswerString);
+            Toast.makeText(this, "Please insert a question and a proposed answer", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-//        db.document("Questions/My First Question");
-       questionRef.set(question)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(NewQuestionActivity.this, "Question Saved", Toast.LENGTH_SHORT).show();
+        CollectionReference questionRef = FirebaseFirestore.getInstance()
+                .collection("Questions");
+        questionRef.add(new Question(questionString, questionAnswerString, priority));
+        Toast.makeText(this, "Question Added", Toast.LENGTH_SHORT).show();
+        finish();
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(NewQuestionActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
+//        Question question = new Question(questionString, questionAnswerString);
 
-                        
-                    }
-                });
-
-
+//       questionRef.set(question)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(NewQuestionActivity.this, "Question Saved", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(NewQuestionActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, e.toString());
+//
+//
+//                    }
+//                });
     }
 
 //    public void submitQuestionButtonClicked(View view) {
@@ -101,11 +137,11 @@ public class NewQuestionActivity extends AppCompatActivity {
 //    }
 
 
-    public void cancelQuestionButton(View view) {
-
-        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
-    }
+//    public void cancelQuestionButton(View view) {
+//
+//        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//
+//    }
 }

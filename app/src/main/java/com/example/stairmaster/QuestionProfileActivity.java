@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.stairmaster.models.Note;
+import com.example.stairmaster.models.Question;
 
 public class QuestionProfileActivity extends AppCompatActivity implements
         View.OnTouchListener,
@@ -40,10 +40,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
     //vars
     private boolean mIsNewNote;
-    private Note mInitialNote; // will be changed to Question instead of Note
+    private Question mInitialNote; // will be changed to Question instead of Question
     private GestureDetector mGestureDetector;
     private int mMode;
-    private Note mNoteFinal;
+    private Question mNoteFinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,12 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mCheckContainer = findViewById(R.id.check_container);
         mBackArrowContainer = findViewById(R.id.back_arrow_container);
         mCheck = findViewById(R.id.toolbar_check);
-        mBackArrow = findViewById(R.id.toolbar_back_arrow);
+//        mBackArrow = findViewById(R.id.toolbar_back_arrow);
 
         backButton = (Button)findViewById(R.id.backButton);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.mainToolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar)findViewById(R.id.mainToolbar);
+//        setSupportActionBar(toolbar);
 
         if (getIncomingIntent()) {
             // this is a new note, (EDIT MODE)
@@ -134,32 +134,32 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         enableContentInteraction();
     }
 
-    private void disableEditMode(){
-        mBackArrowContainer.setVisibility(View.VISIBLE);
-        mCheckContainer.setVisibility(View.GONE);
-
-        mQuestionViewTitle.setVisibility(View.VISIBLE);
-        mQuestionEditTitle.setVisibility(View.GONE);
-
-        mMode = EDIT_MODE_DISABLED;
-
-        disableContentInteraction();
-
-        String temp = mAnswer.getText().toString();
-        temp = temp.replace("\n", "");
-        temp = temp.replace(" ", "");
-        if (temp.length() > 0) {
-            mNoteFinal.setTitle(mQuestionEditTitle.getText().toString());
-            mNoteFinal.setAnswer(mQuestionContent.getText().toString());
-            String timestamp = "Jan 2019";
-            mNoteFinal.setTimestamp(timestamp);
-            if (!mNoteFinal.getAnswer().equals(mInitialNote.getAnswer())
-            || !mNoteFinal.getTitle().equals(mInitialNote.getTitle())) {
-//                saveChanges();
-            }
-        }
-
-    }
+//    private void disableEditMode(){
+//        mBackArrowContainer.setVisibility(View.VISIBLE);
+//        mCheckContainer.setVisibility(View.GONE);
+//
+//        mQuestionViewTitle.setVisibility(View.VISIBLE);
+//        mQuestionEditTitle.setVisibility(View.GONE);
+//
+//        mMode = EDIT_MODE_DISABLED;
+//
+//        disableContentInteraction();
+//
+//        String temp = mAnswer.getText().toString();
+//        temp = temp.replace("\n", "");
+//        temp = temp.replace(" ", "");
+//        if (temp.length() > 0) {
+////            mNoteFinal.setTitle(mQuestionEditTitle.getText().toString());
+//            mNoteFinal.setAnswer(mQuestionContent.getText().toString());
+//            String timestamp = "Jan 2019";
+////            mNoteFinal.setTimestamp(timestamp);
+////            if (!mNoteFinal.getAnswer().equals(mInitialNote.getAnswer());
+////            || !mNoteFinal.getQuestion().equals(mInitialNote.getQuestion())) {
+//////                saveChanges();
+//            }
+//        }
+//
+//    }
 
     private void hideSoftKeyboard() {
         //keyboard in android is referred to as the Soft Keyboard
@@ -176,8 +176,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
     private void setNoteProperties() {
 //            mViewTitle.setText(mInitialNote.getTitle());
-        mQuestionViewTitle.setText(mInitialNote.getTitle());
-        mQuestionEditTitle.setText(mInitialNote.getTitle());
+        mQuestionViewTitle.setText(mInitialNote.getQuestion());
+        mQuestionEditTitle.setText(mInitialNote.getQuestion());
         mQuestionContent.setText(mInitialNote.getQuestion());
         mAnswer.setText(mInitialNote.getAnswer());
     }
@@ -185,13 +185,13 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
     private void setNewNoteProperties() {
         mQuestionViewTitle.setText("Question Title");
-//            mViewTitle.setText("Note Title");
+//            mViewTitle.setText("Question Title");
         mQuestionEditTitle.setText("Question2 Title");
 
-        mInitialNote = new Note();
-        mNoteFinal = new Note();
-        mInitialNote.setTitle("Note Title");
-        mNoteFinal.setTitle("Note Title");
+        mInitialNote = new Question();
+        mNoteFinal = new Question();
+        mInitialNote.setQuestion("Question Title");
+        mNoteFinal.setQuestion("Question Title");
     }
 
     @Override
@@ -256,7 +256,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
             case R.id.toolbar_check: {
                 hideSoftKeyboard();
-                disableEditMode();
+//                disableEditMode();
                 break;
             }
 
@@ -267,10 +267,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
                 break;
             }
 
-            case R.id.toolbar_back_arrow: {
-                finish(); // can only call finish in an activity. cant call in a fragment. it wont work
-                break;
-            }
+//            case R.id.toolbar_back_arrow: {
+//                finish(); // can only call finish in an activity. cant call in a fragment. it wont work
+//                break;
+//            }
 
 
         }

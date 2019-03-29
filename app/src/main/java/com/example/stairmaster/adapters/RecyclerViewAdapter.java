@@ -1,34 +1,26 @@
 package com.example.stairmaster.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.stairmaster.R;
-import com.example.stairmaster.models.Note;
-
-import org.w3c.dom.Text;
+import com.example.stairmaster.models.Question;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<Note> mNotes = new ArrayList<>();
+    private ArrayList<Question> mNotes = new ArrayList<>();
     private OnNoteListener mOnNoteListener;
 
-    public RecyclerViewAdapter(ArrayList<Note> notes, OnNoteListener onNoteListener) {
+    public RecyclerViewAdapter(ArrayList<Question> notes, OnNoteListener onNoteListener) {
         this.mNotes = notes;
         this.mOnNoteListener = onNoteListener;
     }
@@ -48,8 +40,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Log.d(TAG, "onBindViewholder: called.");
 
-        viewHolder.timestamp.setText(mNotes.get(i).getTimestamp());
-        viewHolder.title.setText(mNotes.get(i).getTitle());
+//        viewHolder.timestamp.setText(mNotes.get(i).getTimestamp());
+        viewHolder.title.setText(mNotes.get(i).getQuestion());
     }
 
     @Override

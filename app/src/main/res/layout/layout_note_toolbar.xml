@@ -15,13 +15,13 @@
         android:id="@+id/back_arrow_container"
         android:visibility="visible">
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            android:background="?attr/selectableItemBackground"
-            android:id="@+id/toolbar_back_arrow"
-            android:layout_centerInParent="true"/><!--centerInParent can only be used in relativelayout-->
+        <!--<ImageButton-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:src="@drawable/ic_arrow_back_black_24dp"-->
+            <!--android:background="?attr/selectableItemBackground"-->
+            <!--android:id="@+id/toolbar_back_arrow"-->
+            <!--android:layout_centerInParent="true"/>&lt;!&ndash;centerInParent can only be used in relativelayout&ndash;&gt;-->
 
 
     </RelativeLayout>
