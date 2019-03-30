@@ -42,11 +42,11 @@ public class NewQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_question);
 
-        questionEditText = (EditText) findViewById(R.id.questionEditText);
-        answerEditText = (EditText) findViewById(R.id.answerEditText);
-        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
-        cancelQuestionButton = (Button) findViewById(R.id.cancelQuestionButton);
-        numberPickerPriority = (NumberPicker) findViewById(R.id.number_picker_priority);
+        questionEditText = (EditText) findViewById(R.id.questionEditTextID);
+        answerEditText = (EditText) findViewById(R.id.answerEditTextID);
+        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButtonID);
+        cancelQuestionButton = (Button) findViewById(R.id.cancelQuestionButtonID);
+        numberPickerPriority = (NumberPicker) findViewById(R.id.number_picker_priorityID);
 
         numberPickerPriority.setMinValue(1);
         numberPickerPriority.setMaxValue(10);
@@ -55,16 +55,16 @@ public class NewQuestionActivity extends AppCompatActivity {
 
         Log.i("info", "NewQuestionActivity started");
 
-//        Toolbar toolbar = findViewById(R.id.mainToolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
+        setSupportActionBar(toolbar);
 
 
-        //TODO: FIGURE OUT TOOLBAR ISSUE. NOTE THAT IF YOU HIT SUBMIT, APP WILL CRASH, MUST USE SAVE ICON IN TOOLBAR
-        if (getSupportActionBar() != null) {
-
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-            setTitle("Add Question");
-        }
+//        //TODO: FIGURE OUT TOOLBAR ISSUE. NOTE THAT IF YOU HIT SUBMIT, APP WILL CRASH, MUST USE SAVE ICON IN TOOLBAR
+//        if (getSupportActionBar() != null) {
+//
+//            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+//            setTitle("Add Question");
+//        }
     }
 
     @Override
