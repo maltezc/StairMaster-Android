@@ -3,13 +3,10 @@ package com.example.stairmaster;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,23 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.stairmaster.adapters.QuestionAdapter;
-import com.example.stairmaster.adapters.RecyclerViewAdapter;
 import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
-import com.example.stairmaster.util.VerticalSpacingItemDecorator;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
@@ -100,7 +88,7 @@ public class DashboardActivity extends AppCompatActivity
         Log.i("info","Dashboard started");
 
         findViewById(R.id.fab);
-        textViewData = findViewById(R.id.text_view_data);
+//        textViewData = findViewById(R.id.text_view_data);
 
         FloatingActionButton buttonAddQuestion = findViewById(R.id.fab);
         buttonAddQuestion.setOnClickListener(new View.OnClickListener() {

@@ -55,11 +55,9 @@ public class NewQuestionActivity extends AppCompatActivity {
 
         Log.i("info", "NewQuestionActivity started");
 
-        Toolbar toolbar = findViewById(R.id.mainToolbar);
-        setSupportActionBar(toolbar);
 
-
-
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        setTitle("Add Question");
 
 //        //TODO: FIGURE OUT TOOLBAR ISSUE. NOTE THAT IF YOU HIT SUBMIT, APP WILL CRASH, MUST USE SAVE ICON IN TOOLBAR
 //        if (getSupportActionBar() != null) {
