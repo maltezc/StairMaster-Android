@@ -59,12 +59,14 @@ public class NewQuestionActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
         setTitle("Add Question");
 
-//        //TODO: FIGURE OUT TOOLBAR ISSUE. NOTE THAT IF YOU HIT SUBMIT, APP WILL CRASH, MUST USE SAVE ICON IN TOOLBAR
-//        if (getSupportActionBar() != null) {
-//
-//            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-//            setTitle("Add Question");
-//        }
+
+        submitQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitQuestionButtonClicked(v);
+            }
+        });
+
     }
 
     @Override
