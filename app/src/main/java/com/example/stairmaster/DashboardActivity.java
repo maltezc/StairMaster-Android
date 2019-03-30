@@ -89,8 +89,8 @@ public class DashboardActivity extends AppCompatActivity
 
         mRecyclerView = findViewById(R.id.questionRecyclerView);
 
-        answerEditText = (EditText)findViewById(R.id.answerEditText);
-        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
+//        answerEditText = (EditText)findViewById(R.id.answerEditText);
+//        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
 //        Toolbar toolbar = findViewById(R.id.toolBar);
 //        setSupportActionBar(toolbar);

@@ -59,6 +59,8 @@ public class NewQuestionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+
+
 //        //TODO: FIGURE OUT TOOLBAR ISSUE. NOTE THAT IF YOU HIT SUBMIT, APP WILL CRASH, MUST USE SAVE ICON IN TOOLBAR
 //        if (getSupportActionBar() != null) {
 //
@@ -125,16 +127,17 @@ public class NewQuestionActivity extends AppCompatActivity {
 //                });
     }
 
-//    public void submitQuestionButtonClicked(View view) {
-//
+    public void submitQuestionButtonClicked(View view) {
+
 //        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
 //        questionString = questionEditText.getText().toString();
 //        Log.i("info", questionString);
 //        intent.putExtra("answerText", questionString);
 //        setResult(RESULT_OK, intent);
 //        finish();
-//
-//    }
+        saveQuestion();
+
+    }
 
 
 //    public void cancelQuestionButton(View view) {

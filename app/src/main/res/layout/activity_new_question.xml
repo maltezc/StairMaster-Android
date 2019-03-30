@@ -76,9 +76,9 @@
         android:layout_marginRight="68dp"
         android:onClick="saveQuestion"
         android:text="Submit"
-        app:layout_constraintEnd_toStartOf="@+id/cancelQuestionButton"
+        app:layout_constraintEnd_toStartOf="@+id/cancelQuestionButtonID"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answerEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/answerEditTextID" />
 
     <Button
         android:id="@+id/cancelQuestionButtonID"
@@ -89,7 +89,7 @@
         android:layout_marginLeft="8dp"
         android:onClick="cancelQuestion"
         android:text="Cancel"
-        app:layout_constraintBaseline_toBaselineOf="@+id/submitQuestionButton"
+        app:layout_constraintBaseline_toBaselineOf="@+id/submitQuestionButtonID"
         app:layout_constraintEnd_toEndOf="parent" />
 
     </LinearLayout>
