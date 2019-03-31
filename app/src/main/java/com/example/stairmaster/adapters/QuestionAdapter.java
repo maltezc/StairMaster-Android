@@ -40,6 +40,10 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
         return new QuestionHolder(v);
     }
 
+    public void deleteItem(int position) {
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
+
     class QuestionHolder extends RecyclerView.ViewHolder{
 
         TextView textViewQuestion;

@@ -3,10 +3,12 @@ package com.example.stairmaster;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -110,27 +112,7 @@ public class DashboardActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         adapter.startListening();
-//        questionRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() { // this will detach the listener at the appropriate time
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-//                if (e != null) {
-//                    Toast.makeText(DashboardActivity.this, "Error while loading", Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, e.toString());
-//                    return;
-//                }
-//
-//                if (documentSnapshot.exists()) {
-//                    Question question = documentSnapshot.toObject(Question.class);
-//
-//                    String questionString = question.getQuestion();
-//                    String questionAnswerString = question.getAnswer();
-//
-//                    textViewData.setText("Question: " + questionString + "\n" + "Answer: " + questionAnswerString);
-//                } else {
-//                    textViewData.setText("");
-//                }
-//            }
-//        });
+
 
 
     }
@@ -178,18 +160,7 @@ public class DashboardActivity extends AppCompatActivity
         return true;
     }
 
-// block below will be deleted once firebase is connected.
-//    private void insertFakeNotes() {
-//        for (int i = 0; i <4; i++){
-//            Question note = new Question();
-//            note.setTitle("title # " + i);
-//            note.setQuestion("question #: " + i);
-//            note.setAnswer("answer #: " + i);
-//            note.setTimestamp("Jan 2019");
-//            mNotes.add(note);
-//        }
-//        mNoteRecyclerAdapter.notifyDataSetChanged();
-//    }
+
 
     private void setUpRecyclerView(){
 //        Log.d(TAG, "setUpRecyclerView: init recyclerview.");
@@ -211,6 +182,23 @@ public class DashboardActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return 0;
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
 //    @Override
@@ -231,52 +219,5 @@ public class DashboardActivity extends AppCompatActivity
 //    }
 
     public void loadQuestions(View v) {
-//        questionRef.get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                        if (documentSnapshot.exists()) {
-//
-//                            Question question = documentSnapshot.toObject(Question.class);
-//
-//                            String questionString = question.getQuestion();
-//                            String questionAnswerString = question.getAnswer();
-//
-//                            textViewData.setText("Question: " + questionString + "\n" + "Answer: " + questionAnswerString);
-//
-//                        } else {
-//                            Toast.makeText(DashboardActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(DashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-//                        Log.d(TAG, e.toString());
-//                    }
-//                });
     }
-
-//    public void updateAnswer(View view) {
-//        String questionAnswerString = answerEditText.getText().toString();
-//
-//        Map<String, Object> question = new HashMap<>();
-//        question.put(KEY_QUESTION_ANSWER_STRING, questionAnswerString);
-//
-//        // questionRef.set(question, SetOptions.merge());
-//        questionRef.update(KEY_QUESTION_ANSWER_STRING, questionAnswerString);
-//    }
-
-//    public void deleteAnswerOnly(View view) {
-////        Map<String, Object> question = new HashMap<>();
-////        question.put(KEY_QUESTION_ANSWER_STRING, FieldValue.delete());
-//
-////        questionRef.update(question);
-//        questionRef.update(KEY_QUESTION_ANSWER_STRING, FieldValue.delete());
-//    }
-
-//    public void deleteQuestion(View view){
-//        questionRef.delete();
-//    }
 }
