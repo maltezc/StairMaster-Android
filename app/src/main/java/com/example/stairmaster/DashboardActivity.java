@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.stairmaster.adapters.QuestionAdapter;
 import com.example.stairmaster.logins.SignInActivity;
@@ -25,6 +26,7 @@ import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -199,6 +201,21 @@ public class DashboardActivity extends AppCompatActivity
                 adapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(recyclerView);
+
+        adapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Question question = documentSnapshot.toObject(Question.class);
+                String id = documentSnapshot.getId();
+                String path = documentSnapshot.getReference().getPath();
+//                Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(DashboardActivity.this, QuestionProfileActivity.class); //testing
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//testing
+                startActivity(intent);//testing
+
+            }
+        });
     }
 
 //    @Override

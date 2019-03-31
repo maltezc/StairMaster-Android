@@ -67,23 +67,23 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         if (getIncomingIntent()) {
             // this is a new note, (EDIT MODE)
             setNewNoteProperties();
-            enableEditMode();
+//            enableEditMode();
 
         } else {
             // this is NOT a new note (View mode)
             setNoteProperties();
-            disableContentInteraction();
+//            disableContentInteraction();
         }
         setListeners();
     }
 
 
     private void setListeners(){
-        mAnswer.setOnTouchListener(this);
+//        mAnswer.setOnTouchListener(this);
         mGestureDetector = new GestureDetector(this, this);
-        mQuestionViewTitle.setOnClickListener(this);
-        mCheck.setOnClickListener(this);
-        mBackArrow.setOnClickListener(this);
+//        mQuestionViewTitle.setOnClickListener(this);
+//        mCheck.setOnClickListener(this);
+//        mBackArrow.setOnClickListener(this);
     }
 
     private boolean getIncomingIntent() {
@@ -103,36 +103,36 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     };
 
 
-    private void disableContentInteraction() {
-        mAnswer.setKeyListener(null);
-        mAnswer.setFocusable(false);
-        mAnswer.setFocusableInTouchMode(false);
-        mAnswer.setCursorVisible(false);
-        mAnswer.clearFocus();
-    }
+//    private void disableContentInteraction() {
+//        mAnswer.setKeyListener(null);
+//        mAnswer.setFocusable(false);
+//        mAnswer.setFocusableInTouchMode(false);
+//        mAnswer.setCursorVisible(false);
+//        mAnswer.clearFocus();
+//    }
+//
+//    private void enableContentInteraction() {
+//        mAnswer.setKeyListener(new EditText(this).getKeyListener());
+//        mAnswer.setFocusable(true);
+//        mAnswer.setFocusableInTouchMode(true);
+//        mAnswer.setCursorVisible(true);
+//        mAnswer.requestFocus();
+//
+//
+//    }
 
-    private void enableContentInteraction() {
-        mAnswer.setKeyListener(new EditText(this).getKeyListener());
-        mAnswer.setFocusable(true);
-        mAnswer.setFocusableInTouchMode(true);
-        mAnswer.setCursorVisible(true);
-        mAnswer.requestFocus();
 
-
-    }
-
-
-    private void enableEditMode(){
-        mBackArrowContainer.setVisibility(View.GONE);
-        mCheckContainer.setVisibility(View.VISIBLE);
-
-        mQuestionViewTitle.setVisibility(View.GONE);
-        mQuestionEditTitle.setVisibility(View.VISIBLE);
-
-        mMode = EDIT_MODE_ENABLED;
-
-        enableContentInteraction();
-    }
+//    private void enableEditMode(){
+//        mBackArrowContainer.setVisibility(View.GONE);
+//        mCheckContainer.setVisibility(View.VISIBLE);
+//
+//        mQuestionViewTitle.setVisibility(View.GONE);
+//        mQuestionEditTitle.setVisibility(View.VISIBLE);
+//
+//        mMode = EDIT_MODE_ENABLED;
+//
+//        enableContentInteraction();
+//    }
 
 //    private void disableEditMode(){
 //        mBackArrowContainer.setVisibility(View.VISIBLE);
@@ -184,14 +184,14 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
 
     private void setNewNoteProperties() {
-        mQuestionViewTitle.setText("Question Title");
+//        mQuestionViewTitle.setText("Question Title");
 //            mViewTitle.setText("Question Title");
-        mQuestionEditTitle.setText("Question2 Title");
+//        mQuestionEditTitle.setText("Question2 Title");
 
         mInitialNote = new Question();
         mNoteFinal = new Question();
-        mInitialNote.setQuestion("Question Title");
-        mNoteFinal.setQuestion("Question Title");
+//        mInitialNote.setQuestion("Question Title");
+//        mNoteFinal.setQuestion("Question Title");
     }
 
     @Override
@@ -240,7 +240,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     @Override
     public boolean onDoubleTap(MotionEvent e) {
         Log.d(TAG, "onDoubleTap: double tapped!");
-        enableEditMode();
+//        enableEditMode();
         return false;
     }
 
@@ -261,7 +261,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             }
 
             case R.id.note_text_title: {
-                enableEditMode();
+//                enableEditMode();
                 mQuestionEditTitle.requestFocus();
                 mQuestionEditTitle.setSelection(mQuestionEditTitle.length());
                 break;
