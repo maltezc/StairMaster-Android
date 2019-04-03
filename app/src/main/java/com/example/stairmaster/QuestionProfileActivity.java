@@ -3,7 +3,6 @@ package com.example.stairmaster;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -33,7 +32,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private TextView mQuestionViewTitle;
     private EditText mQuestionEditTitle;
     private EditText mQuestionContent;
-    private TextView mAnswer;
+    private TextView mQuestionAnswerContent;
+    private TextView mQuestionPriorityContent;
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck;
     private ImageButton mBackArrow;
@@ -50,10 +50,11 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_profile);
 
-        mQuestionViewTitle = findViewById(R.id.note_text_title);
-        mQuestionEditTitle = findViewById(R.id.note_edit_title);
-        mQuestionContent = findViewById(R.id.questionEditText);
-        mAnswer = findViewById(R.id.answerTextView);
+//        mQuestionViewTitle = findViewById(R.id.note_text_title);
+//        mQuestionEditTitle = findViewById(R.id.note_edit_title);
+        mQuestionContent = findViewById(R.id.questionEditTextID);
+        mQuestionAnswerContent = findViewById(R.id.answerEditTextID);
+        mQuestionPriorityContent = findViewById(R.id.starTextViewID);
         mCheckContainer = findViewById(R.id.check_container);
         mBackArrowContainer = findViewById(R.id.back_arrow_container);
         mCheck = findViewById(R.id.toolbar_check);
@@ -64,17 +65,19 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 //        Toolbar toolbar = (Toolbar)findViewById(R.id.mainToolbar);
 //        setSupportActionBar(toolbar);
 
-        if (getIncomingIntent()) {
-            // this is a new note, (EDIT MODE)
-            setNewNoteProperties();
-//            enableEditMode();
+//        if (getIncomingIntent()) {
+//            // this is a new note, (EDIT MODE)
+//            setNewNoteProperties();
+////            enableEditMode();
+//
+//        } else {
+//            // this is NOT a new note (View mode)
+//            setNoteProperties();
+////            disableContentInteraction();
+//        }
+//        setListeners();
 
-        } else {
-            // this is NOT a new note (View mode)
-            setNoteProperties();
-//            disableContentInteraction();
-        }
-        setListeners();
+        getIncomingIntent();
     }
 
 
@@ -86,21 +89,47 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 //        mBackArrow.setOnClickListener(this);
     }
 
-    private boolean getIncomingIntent() {
+    private void getIncomingIntent() {
+        Log.d(TAG, "getIncomingIntent: checking for incoming intent");
 
-        if(getIntent().hasExtra("selected_note")) {
-            mInitialNote = getIntent().getParcelableExtra("selected_note");
-            mNoteFinal = getIntent().getParcelableExtra("selected_note");
-            Log.d(TAG, "getIncomingIntent: " + mInitialNote.toString());
+        if (getIntent().hasExtra("question_string")) {
 
-            mMode = EDIT_MODE_DISABLED;
-            mIsNewNote = false;
-            return false;
+            Log.d(TAG, "getIncomingIntent: " + mQuestionContent.toString());
+//            String questionString = getIntent().getStringExtra("question_string");
+            String questionString = (String) getIntent().getExtras().get("question_string");
+            String questionAnswerString = (String) getIntent().getExtras().get("questionAnswer_string");
+            String questionPriorityString = (String) getIntent().getExtras().get("questionPriority_string");
+
+
+            mQuestionContent.setText(questionString);
+            mQuestionAnswerContent.setText(questionAnswerString);
+            mQuestionPriorityContent.setText(questionPriorityString);
+
         }
-        mMode = EDIT_MODE_ENABLED;
-        mIsNewNote = true;
-        return true;
-    };
+
+    }
+
+    private void setQuestionContent() {
+        EditText questionEditText = findViewById(R.id.questionEditTextID);
+        questionEditText.setText(mQuestionContent.toString());
+
+
+    }
+
+
+//        if(getIntent().hasExtra("selected_note")) {
+//            mInitialNote = getIntent().getParcelableExtra("selected_note");
+//            mNoteFinal = getIntent().getParcelableExtra("selected_note");
+//            Log.d(TAG, "getIncomingIntent: " + mInitialNote.toString());
+//
+//            mMode = EDIT_MODE_DISABLED;
+//            mIsNewNote = false;
+//            return false;
+//        }
+//        mMode = EDIT_MODE_ENABLED;
+//        mIsNewNote = true;
+//        return true;
+//    };
 
 
 //    private void disableContentInteraction() {
@@ -179,7 +208,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mQuestionViewTitle.setText(mInitialNote.getQuestion());
         mQuestionEditTitle.setText(mInitialNote.getQuestion());
         mQuestionContent.setText(mInitialNote.getQuestion());
-        mAnswer.setText(mInitialNote.getAnswer());
+        mQuestionAnswerContent.setText(mInitialNote.getAnswer());
     }
 
 

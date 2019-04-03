@@ -1,5 +1,8 @@
 package com.example.stairmaster.adapters;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.stairmaster.DashboardActivity;
+import com.example.stairmaster.QuestionProfileActivity;
 import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -14,7 +19,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, QuestionAdapter.QuestionHolder> {
+
     private OnItemClickListener listener;
+    private Context mContext;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -23,6 +30,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
      * @param options
      */
     public QuestionAdapter(@NonNull FirestoreRecyclerOptions<Question> options) {
+
         super(options);
     }
 
@@ -59,24 +67,50 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
             textViewAnswer = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
 
+            mContext = itemView.getContext();
+
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
+                    String questionString = textViewQuestion.toString();
 
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position);
+//                        listener.onItemClick(getSnapshots().getSnapshot(position),questionString);
+//                        listener.onItemClick(getSnapshots().getSnapshot(position).getDocumentReference(position))
+//                        listener.onItemClick(getSnapshots().getSnapshot(position), textViewQuestion);
+//                        listener.onItemClick(textViewQuestion);
+
+
+
+                        Intent intent = new Intent(mContext, QuestionProfileActivity.class);
+                        intent.putExtra("question_string", textViewQuestion.getText());
+                        intent.putExtra("questionAnswer_string", textViewAnswer.getText());
+                        intent.putExtra("questionPriority_string", textViewPriority.getText());
+
+
+                        mContext.startActivity(intent);
+
+
+//                        Intent intent = new Intent(context.getApplicationContext(), QuestionProfileActivity.class);
+//                        Intent intent = new Intent(DashboardActivity.this, QuestionProfileActivity.class);
+
                     }
+
+
+
 
                 }
             });
 
         }
-
-
     }
     public interface OnItemClickListener {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
+
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

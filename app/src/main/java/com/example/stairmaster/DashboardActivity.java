@@ -207,12 +207,23 @@ public class DashboardActivity extends AppCompatActivity
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Question question = documentSnapshot.toObject(Question.class);
                 String id = documentSnapshot.getId();
-                String path = documentSnapshot.getReference().getPath();
-//                Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
+//                String questionString = documentSnapshot.getString("Question");
+//                String questionData = documentSnapshot.getString(question.getQuestion());
+//                String questionData = documentSnapshot.getDocumentReference(question.getQuestion()).toString();
 
-                Intent intent = new Intent(DashboardActivity.this, QuestionProfileActivity.class); //testing
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//testing
-                startActivity(intent);//testing
+                String path = documentSnapshot.getReference().getPath();
+
+//                TextView textViewQuestion = findViewById(R.id.questionEditTextID);
+
+                Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
+
+//                Toast.makeText(DashboardActivity.this, "question String = " + questionData, Toast.LENGTH_SHORT).show();
+//
+//  Intent intent = new Intent(DashboardActivity.this, QuestionProfileActivity.class); //testing
+//                intent.putExtra("question_string", textViewQuestion.getText());
+
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//testing
+//                startActivity(intent);//testing
 
             }
         });
