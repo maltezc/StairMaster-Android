@@ -1,10 +1,14 @@
 package com.example.stairmaster;
 
 import android.app.Activity;
+import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,8 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.stairmaster.models.Question;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class QuestionProfileActivity extends AppCompatActivity implements
         View.OnTouchListener,
@@ -22,21 +29,24 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         GestureDetector.OnDoubleTapListener,
         View.OnClickListener {
 
-    Button backButton;
-    String answerString;
     private static final String TAG = "QuestionProfileActivity";
     private static final int EDIT_MODE_ENABLED = 1;
     private static final int EDIT_MODE_DISABLED = 0;
 
+
+
     // ui components
-    private TextView mQuestionViewTitle;
-    private EditText mQuestionEditTitle;
-    private EditText mQuestionContent;
+    private EditText questionEditText;
+    private TextView mQuestionContent;
     private TextView mQuestionAnswerContent;
     private TextView mQuestionPriorityContent;
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck;
     private ImageButton mBackArrow;
+    private Button mEditButton;
+    private Button mPostAnswerButton;
+    private Button mCommentButton;
+
 
     //vars
     private boolean mIsNewNote;
@@ -50,17 +60,53 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_profile);
 
+        setTitle("Question");
+
 //        mQuestionViewTitle = findViewById(R.id.note_text_title);
 //        mQuestionEditTitle = findViewById(R.id.note_edit_title);
-        mQuestionContent = findViewById(R.id.questionEditTextID);
-        mQuestionAnswerContent = findViewById(R.id.answerEditTextID);
+        mQuestionContent = findViewById(R.id.questionTextViewID);
+        mQuestionAnswerContent = findViewById(R.id.answerTextViewID);
         mQuestionPriorityContent = findViewById(R.id.starTextViewID);
         mCheckContainer = findViewById(R.id.check_container);
         mBackArrowContainer = findViewById(R.id.back_arrow_container);
         mCheck = findViewById(R.id.toolbar_check);
+        mEditButton = findViewById(R.id.editButtonID);
+        mPostAnswerButton = findViewById(R.id.postAnswerButtonID);
+        mCommentButton = findViewById(R.id.commentButtonID);
 //        mBackArrow = findViewById(R.id.toolbar_back_arrow);
 
-        backButton = (Button)findViewById(R.id.backButton);
+
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+
+                questionEditText = findViewById(R.id.questionEditTextID);
+
+
+                mPostAnswerButton.setEnabled(false);
+                mPostAnswerButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+
+                mCommentButton.setEnabled(false);
+                mCommentButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+
+                String questionString = mQuestionContent.getText().toString();
+                mQuestionContent.setVisibility(View.GONE);
+                questionEditText.setVisibility(View.VISIBLE);
+                questionEditText.setText(questionString);
+
+
+
+
+
+                //todo: set menu to hide edit button and show save button
+
+
+
+
+
+            }
+        });
 
 //        Toolbar toolbar = (Toolbar)findViewById(R.id.mainToolbar);
 //        setSupportActionBar(toolbar);
@@ -106,15 +152,14 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             mQuestionPriorityContent.setText(questionPriorityString);
 
         }
-
     }
 
-    private void setQuestionContent() {
-        EditText questionEditText = findViewById(R.id.questionEditTextID);
-        questionEditText.setText(mQuestionContent.toString());
-
-
-    }
+//    private void setQuestionContent() {
+//        EditText questionEditText = findViewById(R.id.questionEditTextID);
+//        questionEditText.setText(mQuestionContent.toString());
+//
+//
+//    }
 
 
 //        if(getIntent().hasExtra("selected_note")) {
@@ -198,15 +243,14 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             view = new View(this);
         }
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
     }
 
 
 
     private void setNoteProperties() {
 //            mViewTitle.setText(mInitialNote.getTitle());
-        mQuestionViewTitle.setText(mInitialNote.getQuestion());
-        mQuestionEditTitle.setText(mInitialNote.getQuestion());
+//        mQuestionViewTitle.setText(mInitialNote.getQuestion());
+//        mQuestionEditTitle.setText(mInitialNote.getQuestion());
         mQuestionContent.setText(mInitialNote.getQuestion());
         mQuestionAnswerContent.setText(mInitialNote.getAnswer());
     }
@@ -291,8 +335,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
             case R.id.note_text_title: {
 //                enableEditMode();
-                mQuestionEditTitle.requestFocus();
-                mQuestionEditTitle.setSelection(mQuestionEditTitle.length());
+//                mQuestionEditTitle.requestFocus();
+//                mQuestionEditTitle.setSelection(mQuestionEditTitle.length());
                 break;
             }
 
@@ -306,13 +350,43 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    public void onBackPressed() {
-        if (mMode == EDIT_MODE_ENABLED) {
-            onClick(mCheck);
-        } else {
-            super.onBackPressed();
+//    @Override
+//    public void onBackPressed() {
+//        if (mMode == EDIT_MODE_ENABLED) {
+//            onClick(mCheck);
+//        } else {
+//            super.onBackPressed();
+//
+//        }
+//    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.new_question_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.save_question:
+                saveQuestion();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void saveQuestion() {
+        String questionString = mQuestionContent.getText().toString();
+
+        CollectionReference questionRef = FirebaseFirestore.getInstance()
+                .collection("Questions");
+//        questionRef.add(new Question(questionString);
+
+        Toast.makeText(this, "Question Added", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

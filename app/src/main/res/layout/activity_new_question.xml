@@ -39,7 +39,7 @@
         android:hint="Answer"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/questionEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/questionEditTextID" />
 
     <TextView
         android:text="Priority"

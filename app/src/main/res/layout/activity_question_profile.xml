@@ -35,12 +35,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".25"
-            android:text="TextView" />
+            android:text="##"
+            android:gravity="center"
+            />
 
 
 
         <TextView
-            android:id="@+id/questionEditTextID"
+            android:id="@+id/questionTextViewID"
             android:layout_width="wrap_content"
             android:layout_height="100sp"
             android:layout_weight=".25"
@@ -52,6 +54,20 @@
             android:background="@null"
             android:textSize="30sp" />
         <!-- android:background="@null"removes underline -->
+
+        <EditText
+            android:id="@+id/questionEditTextID"
+            android:layout_width="wrap_content"
+            android:layout_height="100sp"
+            android:layout_weight=".25"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:lines="4"
+            android:minLines="4"
+            android:text="questionEditText"
+            android:background="@null"
+            android:textSize="30sp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>
@@ -123,7 +139,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/answerEditTextID"
+                    android:id="@+id/answerTextViewID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="10"
@@ -131,34 +147,36 @@
                     android:text="AnswerTextView"
                     android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/editButtonID"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit"/>
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/commentButtonID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comment"
+                        android:visibility="visible"/>
+
+                    <Button
+                        android:id="@+id/editButtonID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit"/>
+
+
+                </LinearLayout>
 
                 <Button
-                    android:id="@+id/commentButtonID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Comment" />
-
-
-
-                <Button
-                    android:id="@+id/backButton"
+                    android:id="@+id/postAnswerButtonID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Back to DashBoard" />
-
-                <Button
-                    android:id="@+id/AddAnswerButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add a Question" />
-
-
-
+                    android:text="Post Answer"
+                    android:layout_marginTop="10sp"
+                    android:backgroundTint="@android:color/holo_green_light"
+                    android:visibility="visible"
+                    />
             </LinearLayout>
 
         </LinearLayout>
