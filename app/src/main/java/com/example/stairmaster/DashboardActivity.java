@@ -98,6 +98,9 @@ public class DashboardActivity extends AppCompatActivity
         buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 startActivity(new Intent(DashboardActivity.this, NewQuestionActivity.class));
             }
         });
@@ -207,15 +210,20 @@ public class DashboardActivity extends AppCompatActivity
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Question question = documentSnapshot.toObject(Question.class);
                 String id = documentSnapshot.getId();
-//                String questionString = documentSnapshot.getString("Question");
-//                String questionData = documentSnapshot.getString(question.getQuestion());
-//                String questionData = documentSnapshot.getDocumentReference(question.getQuestion()).toString();
+                Log.d(TAG, "onItemClick: " + id);
+
+
+
 
                 String path = documentSnapshot.getReference().getPath();
 
-//                TextView textViewQuestion = findViewById(R.id.questionEditTextID);
-
                 Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
+
+
+
+//                String questionString = documentSnapshot.getString("Question");
+//                String questionData = documentSnapshot.getString(question.getQuestion());
+//                String questionData = documentSnapshot.getDocumentReference(question.getQuestion()).toString();
 
 //                Toast.makeText(DashboardActivity.this, "question String = " + questionData, Toast.LENGTH_SHORT).show();
 //

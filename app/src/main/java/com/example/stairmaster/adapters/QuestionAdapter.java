@@ -3,8 +3,10 @@ package com.example.stairmaster.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,19 @@ import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, QuestionAdapter.QuestionHolder> {
 
     private OnItemClickListener listener;
     private Context mContext;
+    DocumentSnapshot documentSnapshot;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -71,6 +80,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
 
 
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -90,6 +100,36 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                         intent.putExtra("question_string", textViewQuestion.getText());
                         intent.putExtra("questionAnswer_string", textViewAnswer.getText());
                         intent.putExtra("questionPriority_string", textViewPriority.getText());
+
+//                        Question question = documentSnapshot.toObject(Question.class);
+                        String questionItemId = documentSnapshot.getId();
+                        intent.putExtra("questionID_string", questionItemId);
+                        System.out.println(questionItemId);
+
+
+
+//                        Log.d(TAG, "onItemClick: " + id);
+//                        Log.d(TAG, "onClick: ");
+//                        Log.e(TAG, "onClick: ", );
+
+
+                        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                        CollectionReference qRef = FirebaseFirestore.getInstance().collection("Questions");
+//                        qRef.document().collection()
+//                        listener.onItemClick(getSnapshots().get(qRef.document().getPath()), position);
+//                        listener.onItemClick();
+//                        String query = qRef.getPath();
+
+//                        DatabaseReference mDatabase;
+//                        mDatabase = FirebaseDatabase.getInstance().getReference();
+//
+//                        mDatabase.get
+
+//                        DocumentReference documentReference = mContext.getDatabasePath(qRef);
+//                        String path = mContext.get
+
+
+//                        intent.putExtra("questionPath_string", mContext.getDatabasePath("Questions"));
 
 
                         mContext.startActivity(intent);

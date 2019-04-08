@@ -2,7 +2,7 @@
 
 private static final String TAG = "NotesListActivity";
 logt creates ^. helps with debugging
-logx shorcuts help with debugging
+logx shortcuts help with debugging
 
 
 Fn + Command + F12 = quickly navigate structure of file
