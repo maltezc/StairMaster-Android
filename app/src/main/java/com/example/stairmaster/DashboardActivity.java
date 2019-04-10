@@ -37,23 +37,10 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class DashboardActivity extends AppCompatActivity
-//        implements
-//        RecyclerViewAdapter.OnNoteListener,
-//        View.OnClickListener
+public class DashboardActivity extends AppCompatActivity {
 
-{
-
-    static List<String> questionList;
-//    ListView questionListView;
     RecyclerView questionListView;
-    String answerString;
-    TextView textView;
-    Button submitQuestionButton;
-    Button newQuestionButton;
-    TextView textViewData;
 
-    ArrayAdapter arrayAdapter;
     // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
     private static final String TAG = "DashboardActivity";
 
@@ -61,8 +48,6 @@ public class DashboardActivity extends AppCompatActivity
     //Firebase Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference questionRef = db.collection("Questions");
-    private static final String KEY_QUESTION_STRING = "Question";
-    private static final String KEY_QUESTION_ANSWER_STRING = "Question Answer";
 
 
     // UI components
@@ -70,7 +55,6 @@ public class DashboardActivity extends AppCompatActivity
 
     // vars
     private ArrayList<Question> mNotes = new ArrayList<>();
-//    private RecyclerViewAdapter mNoteRecyclerAdapter;
     private QuestionAdapter adapter;
 
     EditText answerEditText;
@@ -81,18 +65,12 @@ public class DashboardActivity extends AppCompatActivity
 
         mRecyclerView = findViewById(R.id.questionRecyclerView);
 
-//        answerEditText = (EditText)findViewById(R.id.answerEditText);
-//        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButton);
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
-//        Toolbar toolbar = findViewById(R.id.toolBar);
-//        setSupportActionBar(toolbar);
-//        textView = (TextView) findViewById(R.id.textView2);
 
         setTitle("Dashboard");
         Log.i("info","Dashboard started");
 
         findViewById(R.id.fab);
-//        textViewData = findViewById(R.id.text_view_data);
 
         FloatingActionButton buttonAddQuestion = findViewById(R.id.fab);
         buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +85,6 @@ public class DashboardActivity extends AppCompatActivity
 
 
         setUpRecyclerView();
-//        insertFakeNotes();
 
 
 
@@ -168,14 +145,6 @@ public class DashboardActivity extends AppCompatActivity
 
 
     private void setUpRecyclerView(){
-//        Log.d(TAG, "setUpRecyclerView: init recyclerview.");
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(linearLayoutManager);
-//        VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(10);
-//        mRecyclerView.addItemDecoration(itemDecorator);
-//        mNoteRecyclerAdapter = new RecyclerViewAdapter(mNotes, this);
-//        mRecyclerView.setAdapter(mNoteRecyclerAdapter);
-
         Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Question> options = new FirestoreRecyclerOptions.Builder<Question>()
                 .setQuery(query, Question.class)
@@ -207,53 +176,22 @@ public class DashboardActivity extends AppCompatActivity
 
         adapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String itemId) {
                 Question question = documentSnapshot.toObject(Question.class);
                 String id = documentSnapshot.getId();
                 Log.d(TAG, "onItemClick: " + id);
-
-
-
 
                 String path = documentSnapshot.getReference().getPath();
 
                 Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
 
 
-
-//                String questionString = documentSnapshot.getString("Question");
-//                String questionData = documentSnapshot.getString(question.getQuestion());
-//                String questionData = documentSnapshot.getDocumentReference(question.getQuestion()).toString();
-
-//                Toast.makeText(DashboardActivity.this, "question String = " + questionData, Toast.LENGTH_SHORT).show();
-//
-//  Intent intent = new Intent(DashboardActivity.this, QuestionProfileActivity.class); //testing
-//                intent.putExtra("question_string", textViewQuestion.getText());
-
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//testing
-//                startActivity(intent);//testing
-
             }
         });
     }
 
-//    @Override
-//    public void onNoteClick(int position) {
-//        Log.d(TAG, "onNoteClick: clicked" + position);
-//
-//        //this is where you would navigate to a activity
-//
-//        Intent intent = new Intent(this, QuestionProfileActivity.class);
-//        intent.putExtra("selected_note", mNotes.get(position));
-//        startActivity(intent);
-//    }
-
-//    @Override
-//    public void onClick(View v) {
-//        Intent intent = new Intent(this, QuestionProfileActivity.class);
-//        startActivity(intent);
-//    }
 
     public void loadQuestions(View v) {
+
     }
 }

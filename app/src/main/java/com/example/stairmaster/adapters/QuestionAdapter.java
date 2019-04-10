@@ -30,7 +30,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
 
     private OnItemClickListener listener;
     private Context mContext;
-    DocumentSnapshot documentSnapshot;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -79,8 +78,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
             mContext = itemView.getContext();
 
 
-
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,72 +85,31 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                     String questionString = textViewQuestion.toString();
 
                     if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-//                        listener.onItemClick(getSnapshots().getSnapshot(position),questionString);
-//                        listener.onItemClick(getSnapshots().getSnapshot(position).getDocumentReference(position))
-//                        listener.onItemClick(getSnapshots().getSnapshot(position), textViewQuestion);
-//                        listener.onItemClick(textViewQuestion);
-
-
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
 
                         Intent intent = new Intent(mContext, QuestionProfileActivity.class);
                         intent.putExtra("question_string", textViewQuestion.getText());
                         intent.putExtra("questionAnswer_string", textViewAnswer.getText());
                         intent.putExtra("questionPriority_string", textViewPriority.getText());
 
-//                        Question question = documentSnapshot.toObject(Question.class);
-                        String questionItemId = documentSnapshot.getId();
+
+                        String questionItemId = getSnapshots().getSnapshot(position).getId();
                         intent.putExtra("questionID_string", questionItemId);
-                        System.out.println(questionItemId);
-
-
-
-//                        Log.d(TAG, "onItemClick: " + id);
-//                        Log.d(TAG, "onClick: ");
-//                        Log.e(TAG, "onClick: ", );
-
-
-                        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-                        CollectionReference qRef = FirebaseFirestore.getInstance().collection("Questions");
-//                        qRef.document().collection()
-//                        listener.onItemClick(getSnapshots().get(qRef.document().getPath()), position);
-//                        listener.onItemClick();
-//                        String query = qRef.getPath();
-
-//                        DatabaseReference mDatabase;
-//                        mDatabase = FirebaseDatabase.getInstance().getReference();
-//
-//                        mDatabase.get
-
-//                        DocumentReference documentReference = mContext.getDatabasePath(qRef);
-//                        String path = mContext.get
-
-
-//                        intent.putExtra("questionPath_string", mContext.getDatabasePath("Questions"));
-
 
                         mContext.startActivity(intent);
-
-
-//                        Intent intent = new Intent(context.getApplicationContext(), QuestionProfileActivity.class);
-//                        Intent intent = new Intent(DashboardActivity.this, QuestionProfileActivity.class);
-
                     }
-
-
-
-
                 }
             });
 
         }
     }
     public interface OnItemClickListener {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+        void onItemClick(DocumentSnapshot documentSnapshot, int position, String id);
 
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
+
         this.listener = listener;
     }
 

@@ -31,7 +31,6 @@ public class NewQuestionActivity extends AppCompatActivity {
     private NumberPicker numberPickerPriority;
     Button submitQuestionButton;
     Button cancelQuestionButton;
-    String questionString;
 
     private static final String KEY_QUESTION_TITLE = "Question Title";
     private static final String KEY_QUESTION_STRING = "Question";
@@ -106,45 +105,12 @@ public class NewQuestionActivity extends AppCompatActivity {
         Toast.makeText(this, "Question Added", Toast.LENGTH_SHORT).show();
         finish();
 
-//        Question question = new Question(questionString, questionAnswerString);
-
-//       questionRef.set(question)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Toast.makeText(NewQuestionActivity.this, "Question Saved", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(NewQuestionActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-//                        Log.d(TAG, e.toString());
-//
-//
-//                    }
-//                });
     }
 
     public void submitQuestionButtonClicked(View view) {
 
-//        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
-//        questionString = questionEditText.getText().toString();
-//        Log.i("info", questionString);
-//        intent.putExtra("answerText", questionString);
-//        setResult(RESULT_OK, intent);
-//        finish();
         saveQuestion();
 
     }
 
-
-//    public void cancelQuestionButton(View view) {
-//
-//        Intent intent = new Intent(NewQuestionActivity.this, DashboardActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//
-//    }
 }

@@ -84,11 +84,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     } else {
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         });
-
     }
 
     @Override

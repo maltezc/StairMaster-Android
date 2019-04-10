@@ -56,16 +56,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
 
     //vars
-    private boolean mIsNewNote;
-    private Question mInitialNote; // will be changed to Question instead of Question
     private GestureDetector mGestureDetector;
-    private int mMode;
-    private Question mNoteFinal;
     private boolean mShowSaveIcon;
 
     private FirebaseFirestore firestoreDB;
-    private String docId;
-
 
 
 
@@ -76,13 +70,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
         firestoreDB = FirebaseFirestore.getInstance();
 
-        Question question = null;
-
-
         setTitle("Question");
 
-//        mQuestionViewTitle = findViewById(R.id.note_text_title);
-//        mQuestionEditTitle = findViewById(R.id.note_edit_title);
         mQuestionTextView = findViewById(R.id.questionTextViewID);
         mQuestionAnswerContent = findViewById(R.id.answerTextViewID);
         mQuestionPriorityContent = findViewById(R.id.starTextViewID);
@@ -94,60 +83,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mPostAnswerButton = findViewById(R.id.postAnswerButtonID);
         mCommentButton = findViewById(R.id.commentButtonID);
 
-//        mEditButton.setVisibility(View.GONE);
-
-
-//        mEditButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-//
-//                mQuestionEditText = findViewById(R.id.questionEditTextID);
-//
-//
-//                mPostAnswerButton.setEnabled(false);
-//                mPostAnswerButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-//
-//                mCommentButton.setEnabled(false);
-//                mCommentButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-//
-//                String questionString = mQuestionTextView.getText().toString();
-//                mQuestionTextView.setVisibility(View.GONE);
-//                mQuestionEditText.setVisibility(View.VISIBLE);
-//                mQuestionEditText.setText(questionString);
-//                mSaveButton.setVisibility(View.VISIBLE);
-//                mEditButton.setVisibility(View.GONE);
-//
-//                mSaveButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        updateQuestion();
-//
-//                    }
-//                });
-//
-//
-//                    //todo: set menu to hide edit button and show save button
-//
-//
-//            }
-//        });
-
-
-//        Toolbar toolbar = (Toolbar)findViewById(R.id.mainToolbar);
-//        setSupportActionBar(toolbar);
-
-//        if (getIncomingIntent()) {
-//            // this is a new note, (EDIT MODE)
-//            setNewNoteProperties();
-////            enableEditMode();
-//
-//        } else {
-//            // this is NOT a new note (View mode)
-//            setNoteProperties();
-////            disableContentInteraction();
-//        }
-//        setListeners();
 
         getIncomingIntent();
     }
@@ -170,11 +105,12 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         if (getIntent().hasExtra("question_string")) {
 
             Log.d(TAG, "getIncomingIntent: " + mQuestionTextView.toString());
-//            String questionString = getIntent().getStringExtra("question_string");
             String questionString = (String) getIntent().getExtras().get("question_string");
             String questionAnswerString = (String) getIntent().getExtras().get("questionAnswer_string");
             String questionPriorityString = (String) getIntent().getExtras().get("questionPriority_string");
-            String questionPath = (String) getIntent().getExtras().get("questionPath_string");
+            String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+
+            System.out.println(questionPathIDString);
 
             mQuestionTextView.setText(questionString);
             mQuestionAnswerContent.setText(questionAnswerString);
@@ -186,78 +122,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
 
 
-//        if(getIntent().hasExtra("selected_note")) {
-//            mInitialNote = getIntent().getParcelableExtra("selected_note");
-//            mNoteFinal = getIntent().getParcelableExtra("selected_note");
-//            Log.d(TAG, "getIncomingIntent: " + mInitialNote.toString());
-//
-//            mMode = EDIT_MODE_DISABLED;
-//            mIsNewNote = false;
-//            return false;
-//        }
-//        mMode = EDIT_MODE_ENABLED;
-//        mIsNewNote = true;
-//        return true;
-//    };
-
-
-//    private void disableContentInteraction() {
-//        mAnswer.setKeyListener(null);
-//        mAnswer.setFocusable(false);
-//        mAnswer.setFocusableInTouchMode(false);
-//        mAnswer.setCursorVisible(false);
-//        mAnswer.clearFocus();
-//    }
-//
-//    private void enableContentInteraction() {
-//        mAnswer.setKeyListener(new EditText(this).getKeyListener());
-//        mAnswer.setFocusable(true);
-//        mAnswer.setFocusableInTouchMode(true);
-//        mAnswer.setCursorVisible(true);
-//        mAnswer.requestFocus();
-//
-//
-//    }
-
-
-//    private void enableEditMode(){
-//        mBackArrowContainer.setVisibility(View.GONE);
-//        mCheckContainer.setVisibility(View.VISIBLE);
-//
-//        mQuestionViewTitle.setVisibility(View.GONE);
-//        mQuestionEditTitle.setVisibility(View.VISIBLE);
-//
-//        mMode = EDIT_MODE_ENABLED;
-//
-//        enableContentInteraction();
-//    }
-
-//    private void disableEditMode(){
-//        mBackArrowContainer.setVisibility(View.VISIBLE);
-//        mCheckContainer.setVisibility(View.GONE);
-//
-//        mQuestionViewTitle.setVisibility(View.VISIBLE);
-//        mQuestionEditTitle.setVisibility(View.GONE);
-//
-//        mMode = EDIT_MODE_DISABLED;
-//
-//        disableContentInteraction();
-//
-//        String temp = mAnswer.getText().toString();
-//        temp = temp.replace("\n", "");
-//        temp = temp.replace(" ", "");
-//        if (temp.length() > 0) {
-////            mNoteFinal.setTitle(mQuestionEditTitle.getText().toString());
-//            mNoteFinal.setAnswer(mQuestionTextView.getText().toString());
-//            String timestamp = "Jan 2019";
-////            mNoteFinal.setTimestamp(timestamp);
-////            if (!mNoteFinal.getAnswer().equals(mInitialNote.getAnswer());
-////            || !mNoteFinal.getQuestion().equals(mInitialNote.getQuestion())) {
-//////                saveChanges();
-//            }
-//        }
-//
-//    }
 
     private void hideSoftKeyboard() {
         //keyboard in android is referred to as the Soft Keyboard
@@ -337,16 +201,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             }
 
             case R.id.note_text_title: {
-//                enableEditMode();
-//                mQuestionEditTitle.requestFocus();
-//                mQuestionEditTitle.setSelection(mQuestionEditTitle.length());
                 break;
             }
-
-//            case R.id.toolbar_back_arrow: {
-//                finish(); // can only call finish in an activity. cant call in a fragment. it wont work
-//                break;
-//            }
 
 
         }
@@ -425,26 +281,18 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         return question;
     };
 
-//    private void showEventScreen() {
-//        Intent i = new Intent();
-//        i.setClass(getActivity(), EventActivity.class);
-//        startActivity(i);
-//    }
+
 
     private void updateQuestionToCollection(Question question) {
-        String questionString = mQuestionTextView.getText().toString();
+        final String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+
         Object updatedText = mQuestionEditText.getText().toString();
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference questionsRef = rootRef.collection("Questions");
-        final String docId = rootRef.collection("Questions").document().getId();
 
+        DocumentReference docRef = questionsRef.document(questionPathIDString); // <-- this works!****
 
-
-        final String questionPath = rootRef.collection("Questions").document().getPath();
-//        DocumentReference docRef = questionsRef.document("yCCRgoRIAmtmKmTFLYJX");
-//        DocumentReference docRef = questionsRef.document("FUaCgO8CmTLDYpECsnzK"); // <-- this works!****
-        DocumentReference docRef = questionsRef.document(docId);
         docRef.update("question", updatedText).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -454,117 +302,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "onFailure: it failed because of: " + e.toString());
-                Log.d(TAG, "onFailure: itemID " + questionPath);
+                Log.d(TAG, "onFailure: itemID " + questionPathIDString);
             }
         });
 
-//        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-//        CollectionReference questionsRef = rootRef.collection("Questions");
-//        String docId = rootRef.collection("Questions").document().getId();
-//
-//        String questionPath = rootRef.collection("Questions").document(docId).collection("question").getPath();
-//        DocumentReference docRef = questionsRef.document(questionPath);
-//        docRef.update("question", updatedText).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d(TAG, "onSuccess: it worked");
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: it failed because of: " + e.toString());
-//            }
-//        });
-
-
-//        String docId = rootRef.collection("Questions").document().getId();
-//        System.out.println(docId);
-//        String questionPath = rootRef.collection("Questions").document(docId).collection("question").getPath();
-//        String questionPath2 = rootRef.collection("Questions").document(docId).getPath();
-
-//        System.out.println(questionPath);
-//        rootRef.collection(questionPath).document(docId).update("question", updatedText).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d(TAG, "onSuccess: it worked");
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: it failed because of: " + e.toString());
-//            }
-//        });
-//        System.out.println(rootRef.collection(questionPath).document(docId).update("question", updatedText));
-
-
-//        rootRef.collection(questionPath).document(docId).set("questions", SetOptions.merge())
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "onSuccess: shit was successful");
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: sht was not successful");
-//            }
-//        });
-
-
-
-//        String questionPath2 = rootRef.collection("Questions").document().getPath();
-
-//        DocumentSnapshot documentSnapshot = qRef.get("question").
-
-//        DocumentReference ref = rootRef.collection("Questions").document(questionPath);
-//        CollectionReference ref = rootRef.collection("Questions").document().collection("question");
-//        CollectionReference ref = rootRef.collection("Questions").document().collection(questionPath);
-
-//        Toast.makeText(this, "this is the path: " + questionPath, Toast.LENGTH_SHORT).show();
-//        Log.d(TAG, "updateQuestion: " + ref.get(question.getAnswer));
-//        Log.d(TAG, "updateQuestion: " + ref.collection(questionPath).document("question", questionPath).toString())
-//        Log.d(TAG, "updateQuestion: " + ref.document(questionPath)("question").toString());
-//        Log.d(TAG, "updateQuestion: " + ref.document(questionPath).get(question).toString());
-//        ref.collection("question")
-//        db.child("Spacecraft").push().setValue(spacecraft);
-//        rootRef.collection("Questions").document().update("question", updatedText);
-//        rootRef.collection("Questions").document(questionPath).update("question", updatedText);
-
-//        TextView savedText = mQuestionTextView.setText(updatedText);
-
-//        DocumentReference documentReference = rootRef.collection("Questions").document(questionPath).update("question", );
-//        DocumentReference documentReference = rootRef.document(questionPath).update("question", updatedText);
-//        CollectionReference collectionReference = rootRef.collection(questionPath).document().update("question", updatedText);
-//        CollectionReference collectionReference1 = rootRef.collection(questionPath).document(questionPath).update("questions", updatedText);
-//        rootRef.collection("events")
-//                .document()
-//                .update(event, SetOptions.merge())
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//
-//                    }
-//                })
-
-
-
-
-//
-
-
-
-
-
-
-//        String path = rootRef.collection("Questions").get;
-//        String path = rootRef.collection("Questions").getPath(questionContext);
-
-//        CollectionReference questionRef = FirebaseFirestore.getInstance()
-//                .collection("Questions");
-////        questionRef.add(new Question())
-
-//        questionRef.add(new Question(questionString);
-//        questionRef.
 
         Toast.makeText(this, "Question Saved", Toast.LENGTH_SHORT).show();
         finish();
