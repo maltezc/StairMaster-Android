@@ -16,6 +16,9 @@ ctrl + o
 refactor
 fn + shift + f6
 
+last edit location
+shift + cmd + backspace
+
 re-align
 fn + option + cmd + L(#not capitalized)
 

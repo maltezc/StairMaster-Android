@@ -84,6 +84,12 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/submitQuestionButtonID"
         app:layout_constraintEnd_toEndOf="parent" />
 
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hello"/>
+
+
     </LinearLayout>
 
 </LinearLayout>

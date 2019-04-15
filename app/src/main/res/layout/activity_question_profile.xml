@@ -35,23 +35,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".25"
-            android:text="##"
             android:gravity="center"
-            />
-
+            android:text="##" />
 
 
         <TextView
             android:id="@+id/questionTextViewID"
             android:layout_width="wrap_content"
-            android:layout_height="100sp"
+            android:layout_height="match_parent"
             android:layout_weight=".25"
+            android:background="@null"
             android:ems="10"
             android:inputType="textPersonName"
             android:lines="4"
             android:minLines="4"
             android:text="questionEditText"
-            android:background="@null"
             android:textSize="30sp" />
         <!-- android:background="@null"removes underline -->
 
@@ -60,14 +58,14 @@
             android:layout_width="wrap_content"
             android:layout_height="100sp"
             android:layout_weight=".25"
+            android:background="@null"
             android:ems="10"
             android:inputType="textPersonName"
             android:lines="4"
             android:minLines="4"
             android:text="questionEditText"
-            android:background="@null"
             android:textSize="30sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
     </LinearLayout>
