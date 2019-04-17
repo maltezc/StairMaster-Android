@@ -42,7 +42,7 @@
         <TextView
             android:id="@+id/questionTextViewID"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="48dp"
             android:layout_weight=".25"
             android:background="@null"
             android:ems="10"
@@ -144,6 +144,15 @@
                     android:gravity="top"
                     android:text="AnswerTextView"
                     android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/answerEditTextID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="10"
+                    android:gravity="top"
+                    android:text="AnswerEditText"
+                    android:textSize="20sp"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

@@ -22,13 +22,16 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class NewQuestionActivity extends AppCompatActivity {
 
     EditText questionEditText;
     EditText answerEditText;
     private NumberPicker numberPickerPriority;
+    private EditText editTextTags;
     Button submitQuestionButton;
     Button cancelQuestionButton;
 
@@ -46,6 +49,8 @@ public class NewQuestionActivity extends AppCompatActivity {
         submitQuestionButton = (Button) findViewById(R.id.submitQuestionButtonID);
         cancelQuestionButton = (Button) findViewById(R.id.cancelQuestionButtonID);
         numberPickerPriority = (NumberPicker) findViewById(R.id.number_picker_priorityID);
+        editTextTags = findViewById(R.id.edit_text_tags);
+
 
         numberPickerPriority.setMinValue(1);
         numberPickerPriority.setMaxValue(10);
@@ -93,6 +98,9 @@ public class NewQuestionActivity extends AppCompatActivity {
         String questionString = questionEditText.getText().toString();
         String questionAnswerString = answerEditText.getText().toString();
         int priority = numberPickerPriority.getValue();
+        String tagInput = editTextTags.getText().toString();
+        String[] tagArray = tagInput.split("\\s*, \\s*");
+        List<String> tags = Arrays.asList(tagArray);
         if (questionString.trim().isEmpty() || questionAnswerString.trim().isEmpty()) {
 
             Toast.makeText(this, "Please insert a question and a proposed answer", Toast.LENGTH_SHORT).show();
@@ -101,7 +109,7 @@ public class NewQuestionActivity extends AppCompatActivity {
 
         CollectionReference questionRef = FirebaseFirestore.getInstance()
                 .collection("Questions");
-        questionRef.add(new Question(questionString, questionAnswerString, priority));
+        questionRef.add(new Question(questionString, questionAnswerString, priority, tags));
         Toast.makeText(this, "Question Added", Toast.LENGTH_SHORT).show();
         finish();
 

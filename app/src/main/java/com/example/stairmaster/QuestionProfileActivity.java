@@ -24,9 +24,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
 public class QuestionProfileActivity extends AppCompatActivity implements
         View.OnTouchListener,
@@ -43,8 +41,11 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     // ui components
     private EditText mQuestionEditText;
     private TextView mQuestionTextView;
-    private TextView mQuestionAnswerContent;
+    private TextView mQuestionAnswerTextView;
+    private EditText mQuestionAnswerEditText;
     private TextView mQuestionPriorityContent;
+
+
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck;
     private ImageButton mBackArrow;
@@ -73,7 +74,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         setTitle("Question");
 
         mQuestionTextView = findViewById(R.id.questionTextViewID);
-        mQuestionAnswerContent = findViewById(R.id.answerTextViewID);
+        mQuestionAnswerTextView = findViewById(R.id.answerTextViewID);
+        mQuestionAnswerEditText = findViewById(R.id.answerEditTextID);
         mQuestionPriorityContent = findViewById(R.id.starTextViewID);
         mCheckContainer = findViewById(R.id.check_container);
         mBackArrowContainer = findViewById(R.id.back_arrow_container);
@@ -113,14 +115,11 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             System.out.println(questionPathIDString);
 
             mQuestionTextView.setText(questionString);
-            mQuestionAnswerContent.setText(questionAnswerString);
+            mQuestionAnswerTextView.setText(questionAnswerString);
             mQuestionPriorityContent.setText(questionPriorityString);
 
         }
     }
-
-
-
 
 
     private void hideSoftKeyboard() {
@@ -267,6 +266,12 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mQuestionTextView.setVisibility(View.GONE);
         mQuestionEditText.setVisibility(View.VISIBLE);
         mQuestionEditText.setText(questionString);
+
+        String answerString = mQuestionAnswerTextView.getText().toString();
+        mQuestionAnswerTextView.setVisibility(View.GONE);
+        mQuestionAnswerEditText.setVisibility(View.VISIBLE);
+        mQuestionAnswerEditText.setText(answerString);
+
     }
 
 
@@ -286,23 +291,37 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private void updateQuestionToCollection(Question question) {
         final String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
 
-        Object updatedText = mQuestionEditText.getText().toString();
+        Object updatedQuestionText = mQuestionEditText.getText().toString();
+        Object updatedAnswerText = mQuestionAnswerEditText.getText().toString();
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference questionsRef = rootRef.collection("Questions");
 
         DocumentReference docRef = questionsRef.document(questionPathIDString); // <-- this works!****
 
-        docRef.update("question", updatedText).addOnSuccessListener(new OnSuccessListener<Void>() {
+        docRef.update("question", updatedQuestionText).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d(TAG, "onSuccess: it worked");
+                Log.d(TAG, "onSuccess: Question text updated. it worked");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "onFailure: it failed because of: " + e.toString());
                 Log.d(TAG, "onFailure: itemID " + questionPathIDString);
+            }
+        });
+
+        docRef.update("answer", updatedAnswerText).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: Answer text updated!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: it failed because of " + e.toString());
+                Log.d(TAG, "onFailure: itemID" + questionPathIDString);
             }
         });
 

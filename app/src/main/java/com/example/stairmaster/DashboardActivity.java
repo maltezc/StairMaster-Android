@@ -4,6 +4,8 @@ package com.example.stairmaster;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,17 +29,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
 
 public class DashboardActivity extends AppCompatActivity {
 
     RecyclerView questionListView;
+    private EditText editTextTags;
+    private TextView textViewData;
+
 
     // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
     private static final String TAG = "DashboardActivity";
@@ -66,6 +66,8 @@ public class DashboardActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.questionRecyclerView);
 
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
+        editTextTags = findViewById(R.id.edit_text_tags);
+        textViewData = findViewById(R.id.text_view_data);
 
         setTitle("Dashboard");
         Log.i("info","Dashboard started");
@@ -191,7 +193,33 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-//    public void loadQuestions(View v) {
-//
-//    }
+    public void loadQuestions(View v) {
+        questionRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        String data = "";
+
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Question question = documentSnapshot.toObject(Question.class);
+                            question.setDocumentID(documentSnapshot.getId());
+
+                            String documentID = question.getDocumentID();
+
+                            data += "ID: " + documentID;
+
+                            for (String tag : question.getTags()) {
+                                data += "\n-" + tag;
+
+                            }
+
+                            data += "\n\n";
+                            textViewData.setText(data);
+
+
+
+                        }
+                    }
+                });
+    }
 }

@@ -57,6 +57,15 @@
 
         </NumberPicker>
 
+
+        <EditText
+            android:id="@+id/edit_text_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tags"
+            android:inputType="text"
+            android:background="@color/grey_100"/>
+
     <Button
         android:id="@+id/submitQuestionButtonID"
         android:layout_width="wrap_content"
@@ -84,10 +93,10 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/submitQuestionButtonID"
         app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.chip.Chip
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hello"/>
+        <!--<com.google.android.material.chip.Chip-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="hello"/>-->
 
 
     </LinearLayout>

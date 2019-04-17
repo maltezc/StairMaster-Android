@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -46,12 +47,28 @@
 
     <!--</android.support.v4.widget.NestedScrollView>-->
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+
+        android:onClick="loadQuestions"/>
+    <!--android:textColor="@drawable/ic_edit_black_24dp"-->
+
+    <TextView
+        android:id="@+id/text_view_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@color/grey_500"
+        android:hint="Text View data"/>
+
     <!--TODO: NEED TO ADD RECYCLER VIEW BACK IN -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/questionRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:orientation="vertical" />
+
 
 
 
@@ -71,4 +88,4 @@
     <!--app:fabSize="auto". auto is automatically set-->
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

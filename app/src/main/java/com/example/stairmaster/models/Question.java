@@ -3,6 +3,8 @@ package com.example.stairmaster.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class Question {
 
 //    private String title;
@@ -10,15 +12,26 @@ public class Question {
     private String answer;
     private int priority;
 //    private String timestamp;
+    List<String> tags;
+    private String documentID;
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public String getDocumentID() {
+        return documentID;
+    }
 
     public Question() {
         // public no-arg constructor needed
     }
 
-    public Question(String question, String answer, int priority){
+    public Question(String question, String answer, int priority, List<String> tags){
         this.question = question;
         this.answer = answer;
         this.priority = priority;
+        this.tags = tags;
     }
 
 //    public Question(String title, String question, String answer, String timestamp) {
@@ -81,8 +94,11 @@ public class Question {
         return priority;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
 
-//    public String getTimestamp() {
+    //    public String getTimestamp() {
 //
 //        return timestamp;
 //    }
