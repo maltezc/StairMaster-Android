@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.example.stairmaster.models.Question;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private static final int EDIT_MODE_ENABLED = 1;
     private static final int EDIT_MODE_DISABLED = 0;
 
+    //firebase
+    FirebaseAuth mAuth;
 
 
     // ui components
@@ -45,10 +49,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private EditText mQuestionAnswerEditText;
     private TextView mQuestionPriorityContent;
 
-
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck;
     private ImageButton mBackArrow;
+
 //    private ImageButton mSaveButton;
     private ImageButton mEditButton;
     private Button mPostAnswerButton;
@@ -70,6 +74,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_question_profile);
 
         firestoreDB = FirebaseFirestore.getInstance();
+        // [START initialize_auth]
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
 
         setTitle("Question");
 
@@ -90,15 +98,22 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
 
-
-
-
     private void setListeners(){
 //        mAnswer.setOnTouchListener(this);
         mGestureDetector = new GestureDetector(this, this);
 //        mQuestionViewTitle.setOnClickListener(this);
 //        mCheck.setOnClickListener(this);
 //        mBackArrow.setOnClickListener(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        final FirebaseUser firebaseUser = task.getResult().getUser();
+
+
     }
 
     private void getIncomingIntent() {
@@ -255,18 +270,23 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
     private void enableEditMode(){
 
+        // disables question edit text and post answer button and darkens buttons
         mQuestionEditText = findViewById(R.id.questionEditTextID);
         mPostAnswerButton.setEnabled(false);
         mPostAnswerButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
 
+        // disables and darkens comment button
         mCommentButton.setEnabled(false);
         mCommentButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
 
+
+        // allows edit for question
         String questionString = mQuestionTextView.getText().toString();
         mQuestionTextView.setVisibility(View.GONE);
         mQuestionEditText.setVisibility(View.VISIBLE);
         mQuestionEditText.setText(questionString);
 
+        // allows edit for question
         String answerString = mQuestionAnswerTextView.getText().toString();
         mQuestionAnswerTextView.setVisibility(View.GONE);
         mQuestionAnswerEditText.setVisibility(View.VISIBLE);
@@ -296,6 +316,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference questionsRef = rootRef.collection("Questions");
+
 
         DocumentReference docRef = questionsRef.document(questionPathIDString); // <-- this works!****
 

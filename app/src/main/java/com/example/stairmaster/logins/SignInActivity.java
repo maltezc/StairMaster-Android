@@ -100,7 +100,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         // [START initialize_auth]
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
 
 

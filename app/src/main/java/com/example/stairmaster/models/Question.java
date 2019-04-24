@@ -14,6 +14,7 @@ public class Question {
 //    private String timestamp;
     List<String> tags;
     private String documentID;
+    private String author;
 
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
@@ -27,14 +28,19 @@ public class Question {
         // public no-arg constructor needed
     }
 
-    public Question(String question, String answer, int priority, List<String> tags){
+    public Question(String question, String answer, int priority, List<String> tags, String author){
         this.question = question;
         this.answer = answer;
         this.priority = priority;
         this.tags = tags;
+        this.author = author;
     }
 
-//    public Question(String title, String question, String answer, String timestamp) {
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    //    public Question(String title, String question, String answer, String timestamp) {
 //        this.title = title;
 //        this.question = question;
 //        this.answer = answer;
@@ -93,6 +99,8 @@ public class Question {
 
         return priority;
     }
+
+
 
     public List<String> getTags() {
         return tags;

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.example.stairmaster.databinding.ActivityDashboardBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -36,6 +38,13 @@ import java.util.ArrayList;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    // data binding
+    ActivityDashboardBinding mBinding;
+
+    private Question mQuestion;
+
+
+
     RecyclerView questionListView;
     private EditText editTextTags;
     private TextView textViewData;
@@ -61,7 +70,11 @@ public class DashboardActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+//        setContentView(R.layout.activity_dashboard);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
+
+        Question questions = new Question();
+
 
         mRecyclerView = findViewById(R.id.questionRecyclerView);
 
@@ -138,9 +151,12 @@ public class DashboardActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, UserProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                Toast.makeText(this, "going to user's profile", Toast.LENGTH_SHORT).show();
+                break;
 
         }
 
+//        return true;
         return true;
     }
 

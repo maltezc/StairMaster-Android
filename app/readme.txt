@@ -19,6 +19,9 @@ fn + shift + f6
 last edit location
 shift + cmd + backspace
 
+join lines
+shift + control + j
+
 re-align
 fn + option + cmd + L(#not capitalized)
 

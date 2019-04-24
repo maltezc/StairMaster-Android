@@ -1,91 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout>
 
-    <!--TODO: INCORPORATE SCROLL VIEW -->
+    <data>
+        <variable
+            name="question"
+            type="com.example.stairmaster.models.Question"/>
 
-    <!--<android.support.design.widget.AppBarLayout-->
-    <!--android:id="@+id/appBarLayout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
+    </data>
 
-    <!--&lt;!&ndash; See material.io for more android functions &ndash;&gt;-->
-    <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
-    <!--&lt;!&ndash;android:id="@+id/toolBar"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:background="?attr/colorPrimary"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:layout_scrollFlags="scroll|enterAlways">&ndash;&gt;-->
-    <!--&lt;!&ndash;</android.support.v7.widget.Toolbar>&ndash;&gt;-->
-    <!--&lt;!&ndash;tools:layout_editor_absoluteX="0dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:layout_constraintTop_toTopOf="parent">&ndash;&gt;-->
-
-    <!--</android.support.design.widget.AppBarLayout>-->
-
-    <!--<Button-->
-    <!--android:id="@+id/loadQuestions"-->
-    <!--android:onClick="loadQuestions"-->
-    <!--android:text="Load Questions"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--/>-->
-
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_view_data"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:textSize="20sp"/>-->
-
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-    <Button
+    <!-- move xmlnx to layout-->
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-
-        android:onClick="loadQuestions"/>
-    <!--android:textColor="@drawable/ic_edit_black_24dp"-->
-
-    <TextView
-        android:id="@+id/text_view_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:background="@color/grey_500"
-        android:hint="Text View data"/>
-
-    <!--TODO: NEED TO ADD RECYCLER VIEW BACK IN -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/questionRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:orientation="vertical" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{question.question}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+
+            android:onClick="loadQuestions" />
+        <!--android:textColor="@drawable/ic_edit_black_24dp"-->
+
+        <TextView
+            android:id="@+id/text_view_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_500"
+            android:hint="Text View data"
+            android:textSize="20sp" />
+
+        <!--TODO: NEED TO ADD RECYCLER VIEW BACK IN -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/questionRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:orientation="vertical" />
 
 
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
 
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:onClick="newQuestionButton"
+            android:src="@drawable/ic_add_black_24dp"
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:onClick="newQuestionButton"
-        android:src="@drawable/ic_add_black_24dp"
-
-        />
-    <!--app:fabSize="auto". auto is automatically set-->
+            />
+        <!--app:fabSize="auto". auto is automatically set-->
 
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.stairmaster.logins.SignInActivity;
+import com.example.stairmaster.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -39,6 +40,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.textViewLogin).setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mAuth.getCurrentUser() != null) {
+            // handle user already logged in
+        }
+    }
+
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -62,18 +72,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if (password.length() < 6) {
-            editTextPassword.setError("Minimum lenght of password should be 6");
+            editTextPassword.setError("Minimum length of password should be 6");
             editTextPassword.requestFocus();
             return;
         }
 
         progressBar.setVisibility(View.VISIBLE);
 
+
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
+
+
+
+
+
                     finish();
                     startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
                 } else {
