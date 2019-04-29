@@ -62,6 +62,8 @@ public class NewQuestionActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
 
+        authorTextView.setText(mAuth.getCurrentUser().getDisplayName());
+
 //        setTitle("Add a new question");
 
         Log.i("info", "NewQuestionActivity started");
@@ -101,14 +103,11 @@ public class NewQuestionActivity extends AppCompatActivity {
 
 
     private void saveQuestion(){
-//        String questionTitle = questionEditText.getText().toString(); //TODO: figure out title situation
         String questionString = questionEditText.getText().toString();
         String questionAnswerString = answerEditText.getText().toString();
         String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().toString(); //TODO: HOW TO SET THIS Author
         authorTextView.setText(authorFirebase);
 
-//        String authorString = authorTextView.getText().toString();
-//        String authorString = authorTextView.getText().toString();
         int priority = numberPickerPriority.getValue();
         String tagInput = editTextTags.getText().toString();
         String[] tagArray = tagInput.split("\\s*, \\s*");

@@ -20,7 +20,7 @@
         android:id="@+id/userNameEditTextID"
         android:text="Username"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone"/>
 
     <TextView
@@ -34,12 +34,12 @@
         android:id="@+id/firstNameEditTextID"
         android:text="firstName"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/lastNameTextViewID"
-        android:text="Last name"
+        android:text="Lastname"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -48,7 +48,7 @@
         android:id="@+id/lastNameEditTextID"
         android:text="last Name"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone"/>
 
     <TextView
@@ -62,7 +62,7 @@
         android:id="@+id/emailEditTextID"
         android:text="Email"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="gone"/>
 
 

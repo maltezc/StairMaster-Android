@@ -68,12 +68,15 @@ public class DashboardActivity extends AppCompatActivity {
 
     EditText answerEditText;
 
+    String userName;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_dashboard);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dashboard);
+//        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
 
         Question questions = new Question();
+
 
 
         mRecyclerView = findViewById(R.id.questionRecyclerView);
@@ -92,8 +95,6 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 startActivity(new Intent(DashboardActivity.this, NewQuestionActivity.class));
             }
         });
@@ -102,8 +103,16 @@ public class DashboardActivity extends AppCompatActivity {
         setUpRecyclerView();
 
 
+//        String userNameString = (String) getIntent().getExtras().get("userNameString");
+//        String firstNameString = (String) getIntent().getExtras().get("firstNameString");
+//        String lastNameString = (String) getIntent().getExtras().get("lastNameString");
+
 
     }
+
+
+
+
 
     @Override
     protected void onStart() {
@@ -151,14 +160,17 @@ public class DashboardActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, UserProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+//                intent.putExtra("userNameString", userNameString);
+//                intent.putExtra("firstNameString", firstNameString);
+//                intent.putExtra("lastName", lastNameString);
+
                 Toast.makeText(this, "going to user's profile", Toast.LENGTH_SHORT).show();
                 break;
-
         }
-
-//        return true;
         return true;
     }
+
+
 
 
 

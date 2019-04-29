@@ -38,6 +38,15 @@
             android:paddingRight="15dp">
 
             <EditText
+                android:id="@+id/editTextUserNameID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:hint="Username"
+                android:paddingBottom="15dp"
+                android:textColorHint="@android:color/white" />
+
+            <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

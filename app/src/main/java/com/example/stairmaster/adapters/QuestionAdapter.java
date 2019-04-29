@@ -96,6 +96,9 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                         String questionItemId = getSnapshots().getSnapshot(position).getId();
                         intent.putExtra("questionID_string", questionItemId);
 
+//                        String userItemId = getSnapshots().getSnapshot(position).getId();
+//                        intent.putExtra("questionID_string", questionItemId);
+
                         mContext.startActivity(intent);
                     }
                 }

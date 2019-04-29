@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.example.stairmaster.databinding.ActivityUserProfileBinding;
+//import com.example.stairmaster.databinding.ActivityUserProfileBinding;
 import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,7 +51,7 @@ public class UserProfileActivity2 extends AppCompatActivity {
 
     FirebaseAuth mAuth;
 
-    ActivityUserProfileBinding activityUserProfileBinding;
+//    ActivityUserProfileBinding activityUserProfileBinding;
     private User mUser;
 
     private static final String TAG = "UserProfileActivity";
@@ -60,7 +60,7 @@ public class UserProfileActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        activityUserProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_profile);
+//        activityUserProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_question_profile);
 
         User user = new User();
 //        mUser = user.getFirstName();

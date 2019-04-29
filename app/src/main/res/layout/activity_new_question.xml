@@ -11,8 +11,9 @@
         android:id="@+id/authorTextViewID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24dp"
 
-        android:hint="username here" />
+        android:hint="Example username here" />
 
     <LinearLayout
         android:layout_width="match_parent"

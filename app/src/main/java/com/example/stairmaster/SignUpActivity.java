@@ -11,47 +11,98 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.stairmaster.logins.SignInActivity;
+import com.example.stairmaster.models.Question;
 import com.example.stairmaster.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     ProgressBar progressBar;
-    EditText editTextEmail, editTextPassword;
+    EditText editTextEmail;
+    EditText editTextPassword;
+    EditText editTextUserName;
 
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private DatabaseReference databaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+
+        editTextUserName = (EditText) findViewById(R.id.editTextUserNameID);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         findViewById(R.id.buttonSignUp).setOnClickListener(this);
         findViewById(R.id.textViewLogin).setOnClickListener(this);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
 
         if (mAuth.getCurrentUser() != null) {
             // handle user already logged in
         }
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthListener != null){
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+
+
     private void registerUser() {
-        String email = editTextEmail.getText().toString().trim();
+
+        final String email = editTextEmail.getText().toString().trim();
+        final String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        final List<Question> questionsList = new ArrayList<>();
+
+        final String firstName = "default firstName";
+        final String lastName = "default lastName";
+
 
         if (email.isEmpty()) {
             editTextEmail.setError("Email is required");
@@ -87,11 +138,67 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if (task.isSuccessful()) {
 
 
+                    CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
+                    usersRef.add(new User(userName, firstName, lastName, email, questionsList));
+
+//                    User userInfo = new User(userName, firstName, lastName, email, questionsList);
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    mAuthListener = new FirebaseAuth.AuthStateListener() {
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            if (user != null) {
+                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(userName).build();
+                                user.updateProfile(profileChangeRequest);
+
+                            }
+                        }
+                    };
+
+                    mAuth.addAuthStateListener(mAuthListener); // need this to change info on Firebase Firestore
+
+                    String usernameTest = user.getDisplayName();
 
 
+//                    databaseReference.child(user.getUid()).setValue(userInfo);
+
+                    Toast.makeText(SignUpActivity.this, "info saved hopefully", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+//                    User user = new User (
+//
+//                            userName,
+//                            firstName,
+//                            lastName,
+//                            email,
+//                            questionsList
+//                    );
+//                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            Toast.makeText(SignUpActivity.this, "Registration success!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+                    
 
                     finish();
                     startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+
+//                    Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+//                    intent.putExtra("userNameString", userName);
+//                    intent.putExtra("firstNameString", firstName);
+//                    intent.putExtra("lastName", lastName);
+
+
                 } else {
 
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {

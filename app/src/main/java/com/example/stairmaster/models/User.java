@@ -4,7 +4,12 @@ import java.util.List;
 
 import androidx.databinding.BaseObservable;
 
+import com.google.firebase.firestore.Exclude;
+
 public class User extends BaseObservable {
+
+    @Exclude
+    private int id;
 
     private String firstName;
     private String lastName;
@@ -27,6 +32,13 @@ public class User extends BaseObservable {
         this.questions = questions;
 
     }
+
+
+    public int getId() {
+
+        return id;
+    }
+
     public String getUserName(String userName) { return userName;}
 
 
