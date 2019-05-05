@@ -77,7 +77,7 @@ public class UserProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mAuthUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuthUserId = FirebaseAuth.getInstance().getUid();
-        mAuth.getCurrentUser().getDisplayName();
+//        mAuth.getCurrentUser().getDisplayName();
 
         setTitle("Profile");
 
@@ -85,23 +85,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-//    private void getIncomingIntent() {
-//        Log.d(TAG, "getIncomingIntent: checking for incoming intent");
-//
-//
-//        if (getIntent().hasExtra("question_string")) {
-//
-//            Log.d(TAG, "getIncomingIntent: got incoming intent");
-//            String userNameString = (String) getIntent().getExtras().get("userNameString");
-//            String firstNameString = (String) getIntent().getExtras().get("firstNameString");
-//            String lastNameString = (String) getIntent().getExtras().get("lastNameString");
-//
-//            userNameTextView.setText(userNameString);
-//            firstNameTextView.setText(firstNameString);
-//            lastNameTextView.setText(lastNameString);
-//
-//        }
-//    }
+
 
     @Override
     protected void onStart() {
@@ -118,9 +102,11 @@ public class UserProfileActivity extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         String userDisplayNameFB = mAuth.getCurrentUser().getDisplayName();
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+
         String firebaseUserName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
-
+        firstNameTextView.setText("please set first name");
+        lastNameTextView.setText("please set last name");
 
         if (userDisplayNameFB != null) {
             userNameTextView.setText(userDisplayNameFB);
@@ -128,151 +114,8 @@ public class UserProfileActivity extends AppCompatActivity {
         if (userFirebaseEmail != null) {
             emailTextView.setText(userFirebaseEmail);
         }
-
     }
 
-//    private void loadUserInformation() {
-//        final FirebaseUser user = mAuth.getCurrentUser();
-//
-//        if (user != null) {
-//            if (user.getPhotoUrl() != null) {
-//                Glide.with(this)
-//                        .load(user.getPhotoUrl().toString())
-//                        .into(imageView);
-//            }
-//
-//            if (user.getDisplayName() != null) {
-//                editText.setText(user.getDisplayName());
-//            }
-//
-//            if (user.isEmailVerified()) {
-//                textView.setText("Email Verified");
-//            } else {
-//                textView.setText("Email Not Verified (Click to Verify)");
-//                textView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                Toast.makeText(UserProfileActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                });
-//            }
-//        }
-//    }
-
-
-//    private void saveUserInformation() {
-//
-//        String displayName = editText.getText().toString();
-//
-//        if (displayName.isEmpty()) {
-//            editText.setError("Name required");
-//            editText.requestFocus();
-//            return;
-//        }
-//
-//        FirebaseUser user = mAuth.getCurrentUser();
-//
-//        if (user != null && profileImageUrl != null) {
-//            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-//                    .setDisplayName(displayName)
-//                    .setPhotoUri(Uri.parse(profileImageUrl))
-//                    .build();
-//
-//            user.updateProfile(profile)
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if (task.isSuccessful()) {
-//                                Toast.makeText(UserProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//        }
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-//            uriProfileImage = data.getData();
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
-//                imageView.setImageBitmap(bitmap);
-//
-//                uploadImageToFirebaseStorage();
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    private void uploadImageToFirebaseStorage() {
-//        StorageReference profileImageRef =
-//                FirebaseStorage.getInstance().getReference("profilepics/" + System.currentTimeMillis() + ".jpg");
-//
-//        if (uriProfileImage != null) {
-//            progressBar.setVisibility(View.VISIBLE);
-//            profileImageRef.putFile(uriProfileImage)
-//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            progressBar.setVisibility(View.GONE);
-//                            profileImageUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            progressBar.setVisibility(View.GONE);
-//                            Toast.makeText(UserProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//        }
-//    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu, menu);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//            case R.id.menuLogout:
-//
-//                FirebaseAuth.getInstance().signOut();
-//                finish();
-//                startActivity(new Intent(this, SignInActivity.class));
-//                break;
-//
-//            case R.id.menuDashBoard:
-//                Intent intent = new Intent(this, DashboardActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//
-//        }
-//
-//        return true;
-//    }
-//
-//    private void showImageChooser() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
-//    }
 
 
     @Override
@@ -362,40 +205,39 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         final String userName = mAuth.getCurrentUser().getDisplayName();
-        String userName2 = user.getUserName(userName);
-//        mAuthUserId = FirebaseAuth.getInstance().getUid();
-
-
-//        final int userId = user.getId();
-//        final String userIdString = String.valueOf(user.getId());
-        final String userIdString = mAuthUserId;
         final String userNameUpdated = userNameEditText.getText().toString().trim();
         final String firstNameUpdated = firstNameEditText.getText().toString().trim();
+//        final String firstNameUpdated = firstNameEditText.getText().toString().trim();
         final String lastNameUpdated = lastNameEditText.getText().toString().trim();
         final String email = lastNameEditText.getText().toString().trim();
-        final List<Question> questionsUsersList = user.getQuestions();
+//        final List<Question> questionsUsersList = user.getQuestions();
+
+//        String newFirstname;
+//        firstNameTextView.setText(firstNameUpdated);
 
 
 
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        usersRef.add(new User(userName, firstNameUpdated, lastNameUpdated, email, questionsUsersList));
+        usersRef.add(new User(userName, firstNameUpdated, lastNameUpdated, email));
 
 
-        DocumentReference docRef = usersRef.document(userIdString); // <-- this works!****
+//        DocumentReference docRef = usersRef.document(userIdString); // <-- this works!****
 
 
-        docRef.update("firstname", firstNameUpdated).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "onSuccess: First name text updated. it worked");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: it failed because of: " + e.toString());
-//                Log.d(TAG, "onFailure: itemID " + questionPathIDString);
-            }
-        });
+
+
+//        docRef.update("firstname", firstNameUpdated).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Log.d(TAG, "onSuccess: First name text updated. it worked");
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "onFailure: it failed because of: " + e.toString()); //TODO: CHECK THE LOGGSSSS AND THEIR MESSAGES/ERRORS!!
+////                Log.d(TAG, "onFailure: itemID " + questionPathIDString);
+//            }
+//        });
 
 
 

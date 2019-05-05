@@ -4,6 +4,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -13,7 +14,10 @@ import android.widget.Toast;
 import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
 import com.example.stairmaster.models.User;
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,13 +27,18 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firestore.v1.StructuredQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "SignUpActivity";
 
     ProgressBar progressBar;
     EditText editTextEmail;
@@ -40,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private DatabaseReference databaseReference;
+    private FirebaseFirestore rootRef;
 
 
     @Override
@@ -55,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         mAuth = FirebaseAuth.getInstance();
+        rootRef = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         findViewById(R.id.buttonSignUp).setOnClickListener(this);
@@ -62,15 +73,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-
+            }
+        };
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-//        mAuth.addAuthStateListener(mAuthListener);
+        mAuth.addAuthStateListener(mAuthListener);
 
         if (mAuth.getCurrentUser() != null) {
             // handle user already logged in
@@ -95,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void registerUser() {
 
-        final String email = editTextEmail.getText().toString().trim();
+        final String userEmail = editTextEmail.getText().toString().trim();
         final String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         final List<Question> questionsList = new ArrayList<>();
@@ -104,13 +120,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         final String lastName = "default lastName";
 
 
-        if (email.isEmpty()) {
+        if (userEmail.isEmpty()) {
             editTextEmail.setError("Email is required");
             editTextEmail.requestFocus();
             return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
             editTextEmail.setError("Please enter a valid email");
             editTextEmail.requestFocus();
             return;
@@ -131,7 +147,44 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
 
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
+        usersRef.add(new User(userName, firstName, lastName, userEmail));
+
+        final User userInfo = new User(userName, firstName, lastName, userEmail);
+
+        //testing this block below // TEST MEEEE
+        rootRef.collection("Users").document(userEmail).set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "onComplete: user info potentially created");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: user info creation failed :-/");
+            }
+        });
+
+
+        // block below sets user docid in database to be registered email instead of randomized code of strings.
+        rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: user created");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: " + e.toString());
+            }
+        });
+
+//        usersRef.add(userInfo);
+
+
+        mAuth.createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
@@ -139,9 +192,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
                     CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-                    usersRef.add(new User(userName, firstName, lastName, email, questionsList));
-
-//                    User userInfo = new User(userName, firstName, lastName, email, questionsList);
+                    usersRef.add(new User(userName, firstName, lastName, userEmail));
 
                     FirebaseUser user = mAuth.getCurrentUser();
 
@@ -163,40 +214,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     String usernameTest = user.getDisplayName();
 
 
-//                    databaseReference.child(user.getUid()).setValue(userInfo);
 
                     Toast.makeText(SignUpActivity.this, "info saved hopefully", Toast.LENGTH_SHORT).show();
 
-
-
-
-
-
-
-//                    User user = new User (
 //
-//                            userName,
-//                            firstName,
-//                            lastName,
-//                            email,
-//                            questionsList
-//                    );
-//                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            Toast.makeText(SignUpActivity.this, "Registration success!", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
+                    // sets user's document ID in Firebase to be email. Otherwise would be randomly generated series of strings.
+                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(SignUpActivity.this, "Registration success!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     
 
                     finish();
                     startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
-
-//                    Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
-//                    intent.putExtra("userNameString", userName);
-//                    intent.putExtra("firstNameString", firstName);
-//                    intent.putExtra("lastName", lastName);
 
 
                 } else {

@@ -8,36 +8,34 @@ import com.google.firebase.firestore.Exclude;
 
 public class User extends BaseObservable {
 
-    @Exclude
-    private int id;
+//    @Exclude
 
-    private String firstName;
-    private String lastName;
-    private String userName;
-    private String email;
-    private List<Question> questions;
-
-
+    public int id;
+    public String firstName;
+    public String lastName;
+    public String userName;
+    public String email;
+    public List<Question> questions;
 
     public User() {
         // no arg constructor needed
     }
 
-    public User(String firstName, String lastName, String userName, String email, List<Question> questions) {
+    public User(String firstName, String lastName, String userName, String email) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.email = email;
-        this.questions = questions;
+//        this.questions = questions;
 
     }
 
 
-    public int getId() {
-
-        return id;
-    }
+//    public int getId() {
+//
+//        return id;
+//    }
 
     public String getUserName(String userName) { return userName;}
 
@@ -68,9 +66,9 @@ public class User extends BaseObservable {
         this.email = email;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
+//    public List<Question> getQuestions() {
+//        return questions;
+//    }
 }
 
 

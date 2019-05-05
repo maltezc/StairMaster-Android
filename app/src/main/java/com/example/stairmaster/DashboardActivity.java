@@ -160,9 +160,6 @@ public class DashboardActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, UserProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-//                intent.putExtra("userNameString", userNameString);
-//                intent.putExtra("firstNameString", firstNameString);
-//                intent.putExtra("lastName", lastNameString);
 
                 Toast.makeText(this, "going to user's profile", Toast.LENGTH_SHORT).show();
                 break;

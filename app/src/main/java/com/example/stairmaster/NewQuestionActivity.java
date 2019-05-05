@@ -118,8 +118,7 @@ public class NewQuestionActivity extends AppCompatActivity {
             return;
         }
 
-        CollectionReference questionRef = FirebaseFirestore.getInstance()
-                .collection("Questions");
+        CollectionReference questionRef = FirebaseFirestore.getInstance().collection("Questions");
         questionRef.add(new Question(questionString, questionAnswerString, priority, tags, authorFirebase));
 
 
