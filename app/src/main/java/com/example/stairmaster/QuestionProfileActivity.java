@@ -217,8 +217,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             case R.id.note_text_title: {
                 break;
             }
-
-
         }
     }
 

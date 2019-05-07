@@ -11,35 +11,35 @@
 
     <TextView
         android:id="@+id/userNameTextViewID"
-        android:text="Username"
+        android:text="userNameTextViewID"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/userNameEditTextID"
-        android:text="Username"
+        android:text="userNameEditTextID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/firstNameTextViewID"
-        android:text="firstNamefromXML"
+        android:text="firstNameTextViewID"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/firstNameEditTextID"
-        android:text="firstName"
+        android:text="firstNameEditTextID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/lastNameTextViewID"
-        android:text="Lastname"
+        android:text="lastNameTextViewID"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -53,14 +53,14 @@
 
     <TextView
         android:id="@+id/emailTextViewID"
-        android:text="email"
+        android:text="emailTextViewID"
         android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/emailEditTextID"
-        android:text="Email"
+        android:text="emailEditTextID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>

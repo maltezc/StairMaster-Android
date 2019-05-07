@@ -5,6 +5,8 @@ logt creates ^. helps with debugging
 logx shortcuts help with debugging
 
 
+DEBUGGER: resume program/ until next breakpoint
+
 Fn + Command + F12 = quickly navigate structure of file
 
 surround with

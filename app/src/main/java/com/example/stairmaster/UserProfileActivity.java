@@ -99,13 +99,18 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserInformation() {
-        final FirebaseUser user = mAuth.getCurrentUser();
+//        final FirebaseUser user = mAuth.getCurrentUser();
         String userDisplayNameFB = mAuth.getCurrentUser().getDisplayName();
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
 
         String firebaseUserName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
+        //TODO: CHECK xml file and java file. maybe username text view is disappearing when it shouldnt or something like that.
+
+
+
         firstNameTextView.setText("please set first name");
+
         lastNameTextView.setText("please set last name");
 
         if (userDisplayNameFB != null) {
@@ -193,6 +198,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private User createUserObj(){
         final User user = new User();
         return user;
+
     };
 
     // not sure if we need this one for user profile edits
@@ -200,44 +206,44 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
     private void updateUserToCollection(User user) {
-//        final String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
 
 
+        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
 
         final String userName = mAuth.getCurrentUser().getDisplayName();
         final String userNameUpdated = userNameEditText.getText().toString().trim();
         final String firstNameUpdated = firstNameEditText.getText().toString().trim();
-//        final String firstNameUpdated = firstNameEditText.getText().toString().trim();
+        final String lastName = lastNameEditText.getText().toString().trim();
         final String lastNameUpdated = lastNameEditText.getText().toString().trim();
-        final String email = lastNameEditText.getText().toString().trim();
 //        final List<Question> questionsUsersList = user.getQuestions();
 
-//        String newFirstname;
-//        firstNameTextView.setText(firstNameUpdated);
-
-
-
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        usersRef.add(new User(userName, firstNameUpdated, lastNameUpdated, email));
+        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
 
 
-//        DocumentReference docRef = usersRef.document(userIdString); // <-- this works!****
+        docRef.update("firstName", firstNameUpdated).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: First name text updated. it worked");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: it failed because of: " + e.toString()); //TODO: CHECK THE LOGGSSSS AND THEIR MESSAGES/ERRORS!!
+            }
+        });
 
-
-
-
-//        docRef.update("firstname", firstNameUpdated).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d(TAG, "onSuccess: First name text updated. it worked");
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: it failed because of: " + e.toString()); //TODO: CHECK THE LOGGSSSS AND THEIR MESSAGES/ERRORS!!
-////                Log.d(TAG, "onFailure: itemID " + questionPathIDString);
-//            }
-//        });
+        docRef.update("lastName", lastNameUpdated).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: First name text updated. it worked");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: it failed because of: " + e.toString()); //TODO: CHECK THE LOGGSSSS AND THEIR MESSAGES/ERRORS!!
+            }
+        });
 
 
 

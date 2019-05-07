@@ -149,22 +149,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        usersRef.add(new User(userName, firstName, lastName, userEmail));
+//        usersRef.add(new User(userName, firstName, lastName, userEmail));
 
-        final User userInfo = new User(userName, firstName, lastName, userEmail);
+        final User userInfo = new User(firstName, lastName, userName, userEmail);
 
         //testing this block below // TEST MEEEE
-        rootRef.collection("Users").document(userEmail).set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.d(TAG, "onComplete: user info potentially created");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: user info creation failed :-/");
-            }
-        });
+//        rootRef.collection("Users").document(userEmail).set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                Log.d(TAG, "onComplete: user info potentially created");
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "onFailure: user info creation failed :-/");
+//            }
+//        });
 
 
         // block below sets user docid in database to be registered email instead of randomized code of strings.
@@ -184,34 +184,47 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //        usersRef.add(userInfo);
 
 
-        mAuth.createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.GONE);
-                if (task.isSuccessful()) {
+//        mAuth.createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                progressBar.setVisibility(View.GONE);
+//                if (task.isSuccessful()) {
 
 
-                    CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-                    usersRef.add(new User(userName, firstName, lastName, userEmail));
+//                    CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
+//                    usersRef.add(new User(userName, firstName, lastName, userEmail));
+                    // block below sets user docid in database to be registered email instead of randomized code of strings.
+//                    rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.d(TAG, "onSuccess: user created");
+//
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.d(TAG, "onFailure: " + e.toString());
+//                        }
+//                    });
 
                     FirebaseUser user = mAuth.getCurrentUser();
 
-                    mAuthListener = new FirebaseAuth.AuthStateListener() {
-                        @Override
-                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            if (user != null) {
-                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(userName).build();
-                                user.updateProfile(profileChangeRequest);
+//                    mAuthListener = new FirebaseAuth.AuthStateListener() {
+//                        @Override
+//                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                            FirebaseUser user = firebaseAuth.getCurrentUser();
+//                            if (user != null) {
+//                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+//                                        .setDisplayName(userName).build();
+//                                user.updateProfile(profileChangeRequest);
+//
+//                            }
+//                        }
+//                    };
+//
+//                    mAuth.addAuthStateListener(mAuthListener); // need this to change info on Firebase Firestore
 
-                            }
-                        }
-                    };
-
-                    mAuth.addAuthStateListener(mAuthListener); // need this to change info on Firebase Firestore
-
-                    String usernameTest = user.getDisplayName();
+//                    String usernameTest = user.getDisplayName();
 
 
 
@@ -219,30 +232,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 //
                     // sets user's document ID in Firebase to be email. Otherwise would be randomly generated series of strings.
-                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(SignUpActivity.this, "Registration success!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                            .setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            Toast.makeText(SignUpActivity.this, "Registration success!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                     
 
-                    finish();
-                    startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+//                    finish();
+//                    startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+//
+//
+//                } else {
+//
+//                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+//                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+//
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            }
+//        });
+                            startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
 
-
-                } else {
-
-                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
     }
 
     @Override
