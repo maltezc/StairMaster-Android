@@ -19,15 +19,19 @@ import android.widget.Toast;
 import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
 import com.example.stairmaster.models.User;
+import com.firebase.client.DataSnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.StructuredQuery;
 
 import java.util.List;
 
@@ -102,10 +106,44 @@ public class UserProfileActivity extends AppCompatActivity {
 //        final FirebaseUser user = mAuth.getCurrentUser();
         String userDisplayNameFB = mAuth.getCurrentUser().getDisplayName();
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-
         String firebaseUserName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
-        //TODO: CHECK xml file and java file. maybe username text view is disappearing when it shouldnt or something like that.
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference questionsRef = rootRef.collection("Users");
+        DocumentReference docRef = questionsRef.document(userFirebaseEmail); // <-- this works!****
+//        lastname2 = questionsRef.document(userFirebaseEmail).
+//        DocumentSnapshot documentSnapshot = docRef.
+
+//        String value = docRef.getString("username");
+//        String value = document.getString("username");
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists()) {
+                String firstNameString = documentSnapshot.getString("firstName");
+                String lastNameString = documentSnapshot.getString("lastName");
+
+                firstNameEditText.setText(firstNameString);
+                firstNameTextView.setText(firstNameString);
+                lastNameEditText.setText(lastNameString);
+                lastNameTextView.setText(lastNameString);
+
+            } else {
+                Toast.makeText(UserProfileActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+            }
+
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UserProfileActivity.this, "Loading User info Failed", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onFailure: loading user info failed because of " + e);
+            }
+        });
+
+
 
 
 
@@ -216,6 +254,7 @@ public class UserProfileActivity extends AppCompatActivity {
         final String lastName = lastNameEditText.getText().toString().trim();
         final String lastNameUpdated = lastNameEditText.getText().toString().trim();
 //        final List<Question> questionsUsersList = user.getQuestions();
+
 
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
