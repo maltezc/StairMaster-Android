@@ -81,7 +81,6 @@ public class UserProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mAuthUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuthUserId = FirebaseAuth.getInstance().getUid();
-//        mAuth.getCurrentUser().getDisplayName();
 
         setTitle("Profile");
 
@@ -103,19 +102,11 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserInformation() {
-//        final FirebaseUser user = mAuth.getCurrentUser();
-        String userDisplayNameFB = mAuth.getCurrentUser().getDisplayName();
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-        String firebaseUserName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference questionsRef = rootRef.collection("Users");
-        DocumentReference docRef = questionsRef.document(userFirebaseEmail); // <-- this works!****
-//        lastname2 = questionsRef.document(userFirebaseEmail).
-//        DocumentSnapshot documentSnapshot = docRef.
-
-//        String value = docRef.getString("username");
-//        String value = document.getString("username");
+        CollectionReference usersRef = rootRef.collection("Users");
+        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -123,11 +114,13 @@ public class UserProfileActivity extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 String firstNameString = documentSnapshot.getString("firstName");
                 String lastNameString = documentSnapshot.getString("lastName");
+                String userNameString = documentSnapshot.getString("userName");
 
                 firstNameEditText.setText(firstNameString);
                 firstNameTextView.setText(firstNameString);
                 lastNameEditText.setText(lastNameString);
                 lastNameTextView.setText(lastNameString);
+                userNameTextView.setText(userNameString);
 
             } else {
                 Toast.makeText(UserProfileActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
@@ -145,15 +138,11 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
 
-
-
         firstNameTextView.setText("please set first name");
 
         lastNameTextView.setText("please set last name");
 
-        if (userDisplayNameFB != null) {
-            userNameTextView.setText(userDisplayNameFB);
-        }
+
         if (userFirebaseEmail != null) {
             emailTextView.setText(userFirebaseEmail);
         }
@@ -167,8 +156,6 @@ public class UserProfileActivity extends AppCompatActivity {
         itemSave.setVisible(mShowSaveIcon);
         menu.findItem(R.id.edit_profile).setVisible(!mShowSaveIcon);  // you can use negation of the same flag if one and only one of two menu items is visible; or create more complex logic
 
-//        MenuItem itemEdit = menu.findItem(R.id.edit_question);
-//        itemEdit.setVisible(mShowSaveIcon);
         return true;
     }
 
@@ -268,7 +255,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: it failed because of: " + e.toString()); //TODO: CHECK THE LOGGSSSS AND THEIR MESSAGES/ERRORS!!
+                Log.d(TAG, "onFailure: it failed because of: " + e.toString());
             }
         });
 
@@ -280,7 +267,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: it failed because of: " + e.toString()); //TODO: CHECK THE LOGGSSSS AND THEIR MESSAGES/ERRORS!!
+                Log.d(TAG, "onFailure: it failed because of: " + e.toString());
             }
         });
 

@@ -16,8 +16,11 @@ import com.example.stairmaster.DashboardActivity;
 import com.example.stairmaster.QuestionProfileActivity;
 import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
+import com.example.stairmaster.models.User;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,6 +33,9 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
 
     private OnItemClickListener listener;
     private Context mContext;
+    FirebaseAuth mAuth;
+    FirebaseUser mAuthUser;
+    String mAuthUserId;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -83,6 +89,10 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     String questionString = textViewQuestion.toString();
+//                    String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); // this shouldnt be here. this passes curent user as author which is incorrect
+
+
+
 
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
@@ -91,6 +101,8 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                         intent.putExtra("question_string", textViewQuestion.getText());
                         intent.putExtra("questionAnswer_string", textViewAnswer.getText());
                         intent.putExtra("questionPriority_string", textViewPriority.getText());
+//                        intent.putExtra("questionAuthorString", user);
+
 
 
                         String questionItemId = getSnapshots().getSnapshot(position).getId();

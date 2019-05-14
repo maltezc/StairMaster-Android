@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class QuestionProfileActivity extends AppCompatActivity implements
@@ -48,6 +49,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private TextView mQuestionAnswerTextView;
     private EditText mQuestionAnswerEditText;
     private TextView mQuestionPriorityContent;
+    private TextView mAuthorTextView;
 
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck;
@@ -92,6 +94,23 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mSaveButton = findViewById(R.id.save_question);
         mPostAnswerButton = findViewById(R.id.postAnswerButtonID);
         mCommentButton = findViewById(R.id.commentButtonID);
+        mAuthorTextView = findViewById(R.id.authorTextViewID);
+
+        //TODO: SET AUTHOR HERE MAYBE? FIGURE IT OUT
+
+
+        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS SHOULD BE COLLECTING THE QUESTIONS AUTHOR. FIGURE OUT HOW TO SET
+        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String userNameString = documentSnapshot.getString("userName");
+
+                mAuthorTextView.setText(userNameString);
+            }
+        });
 
 
         getIncomingIntent();
@@ -126,12 +145,14 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             String questionAnswerString = (String) getIntent().getExtras().get("questionAnswer_string");
             String questionPriorityString = (String) getIntent().getExtras().get("questionPriority_string");
             String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+//            String questionAuthorString = (String) getIntent().getExtras().get("questionAuthorString");
 
             System.out.println(questionPathIDString);
 
             mQuestionTextView.setText(questionString);
             mQuestionAnswerTextView.setText(questionAnswerString);
             mQuestionPriorityContent.setText(questionPriorityString);
+//            mAuthorTextView.setText(questionAuthorString);
 
         }
     }
