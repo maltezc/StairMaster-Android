@@ -39,6 +39,7 @@ public class NewQuestionActivity extends AppCompatActivity {
     Button submitQuestionButton;
     Button cancelQuestionButton;
     TextView authorTextView;
+    String mUserNameString;
 
     //firebase
     FirebaseAuth mAuth;
@@ -69,12 +70,8 @@ public class NewQuestionActivity extends AppCompatActivity {
         // [END initialize_auth]
 
 
-
-//        authorTextView.setText(mAuth.getCurrentUser().getDisplayName());
-
-
-
-//        setTitle("Add a new question");
+        String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); //TODO: HOW TO SET THIS Author
+        authorTextView.setText(authorFirebase);
 
         Log.i("info", "NewQuestionActivity started");
 
@@ -87,19 +84,6 @@ public class NewQuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitQuestionButtonClicked(v);
-            }
-        });
-
-        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
-
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String userNameString = documentSnapshot.getString("userName");
-
-                authorTextView.setText(userNameString);
             }
         });
 
@@ -129,7 +113,20 @@ public class NewQuestionActivity extends AppCompatActivity {
         String questionString = questionEditText.getText().toString();
         String questionAnswerString = answerEditText.getText().toString();
         String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); //TODO: HOW TO SET THIS Author
-//        authorTextView.setText(authorFirebase);
+
+        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS SHOULD BE COLLECTING THE QUESTIONS AUTHOR. FIGURE OUT HOW TO SET
+        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String userNameString = documentSnapshot.getString("userName");
+
+                authorTextView.setText(userNameString);
+//                authorFirebase = userNameString;
+            }
+        });
 
         int priority = numberPickerPriority.getValue();
         String tagInput = editTextTags.getText().toString();
@@ -142,7 +139,20 @@ public class NewQuestionActivity extends AppCompatActivity {
         }
 
         CollectionReference questionRef = FirebaseFirestore.getInstance().collection("Questions");
-        questionRef.add(new Question(questionString, questionAnswerString, priority, tags, authorFirebase));
+//        questionRef.add(new Question(questionString, questionAnswerString, priority, tags, authorFirebase)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//            @Override
+//            public void onSuccess(DocumentReference documentReference) {
+//                Log.d(TAG, "onSuccess: questionRef.add was executed");
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "onFailure: questionref.add failed");
+//            }
+//        });
+
+
+        
 
 //TODO: FIX AUTHOR OF QUESTION. FIREBASE IS NOT SHOWING AUTHOR. FIGURE IT OUT.
 ///////Code block below is a test
@@ -152,12 +162,12 @@ public class NewQuestionActivity extends AppCompatActivity {
 //        questionRef.document().set(questionInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d(TAG, "onSuccess: New Question Created");
+                Log.d(TAG, "onSuccess: QuestionRef.set executed");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: Question was no created.");
+                Log.d(TAG, "onFailure: questionRef.set failed");
             }
         });
 ////////End of code block test

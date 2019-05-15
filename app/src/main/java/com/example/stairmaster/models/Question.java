@@ -16,6 +16,7 @@ public class Question {
     private String documentID;
     private String author;
 
+
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
     }
@@ -34,6 +35,10 @@ public class Question {
         this.priority = priority;
         this.tags = tags;
         this.author = author;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     public void setAuthor(String author) {
