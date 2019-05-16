@@ -112,9 +112,13 @@ public class NewQuestionActivity extends AppCompatActivity {
     private void saveQuestion(){
         String questionString = questionEditText.getText().toString();
         String questionAnswerString = answerEditText.getText().toString();
-        String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); //TODO: HOW TO SET THIS Author
+        String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+
+        //**note** .add will add a new document.
+        // .set will create or overwrite.
+        // .update will update some of the fields without overwriting the entiredocument
 
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS SHOULD BE COLLECTING THE QUESTIONS AUTHOR. FIGURE OUT HOW TO SET
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
@@ -152,7 +156,7 @@ public class NewQuestionActivity extends AppCompatActivity {
 //        });
 
 
-        
+
 
 //TODO: FIX AUTHOR OF QUESTION. FIREBASE IS NOT SHOWING AUTHOR. FIGURE IT OUT.
 ///////Code block below is a test

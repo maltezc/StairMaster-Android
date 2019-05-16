@@ -91,9 +91,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                     String questionString = textViewQuestion.toString();
 //                    String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); // this shouldnt be here. this passes curent user as author which is incorrect
 
-
-
-
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
 
@@ -101,15 +98,9 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                         intent.putExtra("question_string", textViewQuestion.getText());
                         intent.putExtra("questionAnswer_string", textViewAnswer.getText());
                         intent.putExtra("questionPriority_string", textViewPriority.getText());
-//                        intent.putExtra("questionAuthorString", user);
-
-
 
                         String questionItemId = getSnapshots().getSnapshot(position).getId();
                         intent.putExtra("questionID_string", questionItemId);
-
-//                        String userItemId = getSnapshots().getSnapshot(position).getId();
-//                        intent.putExtra("questionID_string", questionItemId);
 
                         mContext.startActivity(intent);
                     }

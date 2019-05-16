@@ -37,7 +37,7 @@ public class Question {
         this.author = author;
     }
 
-    public String getAuthor() {
+    public String getAuthor() { // this is what appears in firebase!!!
         return author;
     }
 

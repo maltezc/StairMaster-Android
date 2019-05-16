@@ -27,7 +27,7 @@ public class User extends BaseObservable {
         this.lastName = lastName;
         this.userName = userName;
         this.email = email;
-//        this.questions = questions;
+        this.questions = questions;
 
     }
 
@@ -66,9 +66,13 @@ public class User extends BaseObservable {
         this.email = email;
     }
 
-//    public List<Question> getQuestions() {
-//        return questions;
-//    }
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
 }
 
 

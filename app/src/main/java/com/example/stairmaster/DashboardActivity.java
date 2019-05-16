@@ -27,6 +27,7 @@ import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,36 +40,36 @@ import java.util.ArrayList;
 public class DashboardActivity extends AppCompatActivity {
 
     // data binding
-    ActivityDashboardBinding mBinding;
+//    ActivityDashboardBinding mBinding;
 
     private Question mQuestion;
-
-
 
     RecyclerView questionListView;
     private EditText editTextTags;
     private TextView textViewData;
 
-
     // shit should always be declared up here and then initialized down in OnCreate UON to avoid null pointer exceptions
     private static final String TAG = "DashboardActivity";
-
 
     //Firebase Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference questionRef = db.collection("Questions");
 
-
     // UI components
     private RecyclerView mRecyclerView; // m is prepended to global vaiables
 
     // vars
-    private ArrayList<Question> mNotes = new ArrayList<>();
+    private ArrayList<Question> mQuestions = new ArrayList<>();
     private QuestionAdapter adapter;
+
+    FirebaseAuth mAuth;
+    FirebaseUser mAuthUser;
+    String mAuthUserId;
 
     EditText answerEditText;
 
     String userName;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +78,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         Question questions = new Question();
 
-
-
-        mRecyclerView = findViewById(R.id.questionRecyclerView);
+//        mRecyclerView = findViewById(R.id.questionRecyclerView);
 
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
         editTextTags = findViewById(R.id.edit_text_tags);
@@ -99,27 +98,14 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-
         setUpRecyclerView();
-
-
-//        String userNameString = (String) getIntent().getExtras().get("userNameString");
-//        String firstNameString = (String) getIntent().getExtras().get("firstNameString");
-//        String lastNameString = (String) getIntent().getExtras().get("lastNameString");
-
-
     }
-
-
-
 
 
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
-
-
 
     }
 
@@ -130,7 +116,6 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void newQuestionButton(View view) {
-
         Intent intent = new Intent(DashboardActivity.this, NewQuestionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivityForResult(intent,1);
@@ -166,9 +151,6 @@ public class DashboardActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
-
 
 
     private void setUpRecyclerView(){
@@ -211,8 +193,6 @@ public class DashboardActivity extends AppCompatActivity {
                 String path = documentSnapshot.getReference().getPath();
 
                 Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }
@@ -235,13 +215,10 @@ public class DashboardActivity extends AppCompatActivity {
 
                             for (String tag : question.getTags()) {
                                 data += "\n-" + tag;
-
                             }
 
                             data += "\n\n";
                             textViewData.setText(data);
-
-
 
                         }
                     }

@@ -43,7 +43,6 @@
             android:hint="Text View data"
             android:textSize="20sp" />
 
-        <!--TODO: NEED TO ADD RECYCLER VIEW BACK IN -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/questionRecyclerView"
             android:layout_width="match_parent"
