@@ -286,33 +286,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
         final String userName = mAuth.getCurrentUser().getDisplayName();
 
-        Query query1 = questionRef.whereEqualTo("userName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-        Query query2 = questionRef.whereEqualTo("userName", userName);
-        Query query3 = questionRef.whereArrayContains("userName", userName);
-        Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING); // <---original
+        Query query5 = questionRef.whereEqualTo("author", userName);
+//        Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING); // <---original
 
-        // test block below
-//        query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()){
-//                    for (QueryDocumentSnapshot document:task.getResult()){
-//                        Question question = document.toObject(Question.class);
-//                        mQuestions.add(question);
-//                    }
-//                    mQuestionRecyclerViewAdapter.notifyDataSetChanged();
-//                } else {
-//                    Toast.makeText(UserProfileActivity.this, "Query Failed check logs", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
-
-        //testblock ends
-
-
+  
         FirestoreRecyclerOptions<Question> options = new FirestoreRecyclerOptions.Builder<Question>()
-                .setQuery(query, Question.class)
+                .setQuery(query5, Question.class)
                 .build();
 
         mQuestionRecyclerViewAdapter = new QuestionAdapter(options);
