@@ -3,6 +3,8 @@ package com.example.stairmaster;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -64,9 +66,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
+
         mAuth = FirebaseAuth.getInstance();
         rootRef = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
         findViewById(R.id.buttonSignUp).setOnClickListener(this);
         findViewById(R.id.textViewLogin).setOnClickListener(this);
@@ -115,9 +120,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         final String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         final List<Question> questionsList = new ArrayList<>();
-
         final String firstName = "default firstName";
         final String lastName = "default lastName";
+//        final Uri userProfilePicture = "";
+
 
 
         if (userEmail.isEmpty()) {
@@ -149,23 +155,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-//        usersRef.add(new User(userName, firstName, lastName, userEmail));
 
         final User userInfo = new User(firstName, lastName, userName, userEmail);
-
-        //testing this block below // TEST MEEEE
-//        rootRef.collection("Users").document(userEmail).set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                Log.d(TAG, "onComplete: user info potentially created");
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: user info creation failed :-/");
-//            }
-//        });
-
 
         // block below sets user docid in database to be registered email instead of randomized code of strings.
         rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {

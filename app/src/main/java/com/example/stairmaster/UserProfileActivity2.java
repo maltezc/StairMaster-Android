@@ -65,12 +65,6 @@ public class UserProfileActivity2 extends AppCompatActivity {
         User user = new User();
 //        mUser = user.getFirstName();
 
-
-
-
-
-
-
         setTitle("Profile");
 
         mAuth = FirebaseAuth.getInstance();
@@ -184,6 +178,7 @@ public class UserProfileActivity2 extends AppCompatActivity {
             }
         }
     }
+
 
     private void uploadImageToFirebaseStorage() {
         StorageReference profileImageRef =

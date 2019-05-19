@@ -1,14 +1,13 @@
 package com.example.stairmaster.models;
 
+import android.net.Uri;
+
 import java.util.List;
 
 import androidx.databinding.BaseObservable;
 
-import com.google.firebase.firestore.Exclude;
-
 public class User extends BaseObservable {
 
-//    @Exclude
 
     public int id;
     public String firstName;
@@ -16,6 +15,8 @@ public class User extends BaseObservable {
     public String userName;
     public String email;
     public List<Question> questions;
+    public Uri userImageURI;
+
 
     public User() {
         // no arg constructor needed
@@ -28,14 +29,19 @@ public class User extends BaseObservable {
         this.userName = userName;
         this.email = email;
         this.questions = questions;
+        this.userImageURI = userImageURI;
 
     }
 
 
-//    public int getId() {
-//
-//        return id;
-//    }
+    public Uri getUserImageURI() {
+        return userImageURI;
+    }
+
+    public void setUserImageURI(Uri userImageURI) {
+        this.userImageURI = userImageURI;
+    }
+
 
     public String getUserName(String userName) { return userName;}
 
@@ -73,6 +79,14 @@ public class User extends BaseObservable {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
+//    public Uri getUserImageURI() {
+//        return userImageURI;
+//    }
+
+//    public void setUserImageURI(Uri userImageURI) {
+//        this.userImageURI = userImageURI;
+//    }
 }
 
 

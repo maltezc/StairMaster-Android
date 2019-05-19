@@ -1,6 +1,7 @@
 package com.example.stairmaster;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,10 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.example.stairmaster.adapters.QuestionAdapter;
 import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
@@ -55,6 +58,8 @@ public class UserProfileActivity extends AppCompatActivity {
     RecyclerView questionListView;
     private QuestionAdapter mQuestionRecyclerViewAdapter;
     private TextView textViewData;
+    ImageView userProfilePhoto;
+
 
 
     //Firebase Firestore
@@ -96,13 +101,28 @@ public class UserProfileActivity extends AppCompatActivity {
         mAuthUser = FirebaseAuth.getInstance().getCurrentUser();
         mAuthUserId = FirebaseAuth.getInstance().getUid();
         textViewData = findViewById(R.id.text_view_data);
+        userProfilePhoto = (ImageView) findViewById(R.id.userProfileImageView);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        userProfilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageChooser();
+            }
+        });
+
+//        userProfilePhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showImageChooser();
+//            }
+//        });
 
 
         setUpRecyclerView();
         setTitle("Profile");
-
-//        getIncomingIntent();
-
     }
 
 
@@ -127,15 +147,26 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void loadUserInformation() {
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference usersRef = rootRef.collection("Users");
+        final CollectionReference usersRef = rootRef.collection("Users");
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+
+        if (user != null) {
+            if (user.getPhotoUrl() != null) {
+                Glide.with(this)
+                        .load(user.getPhotoUrl().toString())
+                        .into(userProfilePhoto);
+            }
+        }
+
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
             if (documentSnapshot.exists()) {
+
                 String firstNameString = documentSnapshot.getString("firstName");
                 String lastNameString = documentSnapshot.getString("lastName");
                 String userNameString = documentSnapshot.getString("userName");
@@ -145,6 +176,15 @@ public class UserProfileActivity extends AppCompatActivity {
                 lastNameEditText.setText(lastNameString);
                 lastNameTextView.setText(lastNameString);
                 userNameTextView.setText(userNameString);
+
+
+
+//                if (user.getPhotoUrl() != null) {
+//
+//                    Glide.with(this)
+//                            .load(user.getPhotoUrl().toString())
+//                            .into(userProfilePhoto);
+//                }
 
             } else {
                 Toast.makeText(UserProfileActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
@@ -286,12 +326,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
         final String userName = mAuth.getCurrentUser().getDisplayName();
 
-        Query query5 = questionRef.whereEqualTo("author", userName);
+        Query query = questionRef.whereEqualTo("author", userName);
 //        Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING); // <---original
 
-  
+
         FirestoreRecyclerOptions<Question> options = new FirestoreRecyclerOptions.Builder<Question>()
-                .setQuery(query5, Question.class)
+                .setQuery(query, Question.class)
                 .build();
 
         mQuestionRecyclerViewAdapter = new QuestionAdapter(options);
@@ -357,6 +397,13 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void showImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
     }
 
 }
