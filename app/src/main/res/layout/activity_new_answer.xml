@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/questionContent"
+        android:id="@+id/questionContentID"
         android:text="Question Goes here"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,12 +24,13 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"/>
     <TextView
-        android:id="@+id/dateTimeStamp"
+        android:id="@+id/dateTimeStampTextViewID"
         android:text="DateTime Stamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/answerEditTextID"
         android:hint="Answer here"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,12 +54,12 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/saveDraftButton"
+            android:id="@+id/saveDraftButtonID"
             android:text="Save Draft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/uploadImageButton"
+            android:id="@+id/uploadImageButtonID"
             android:text="Upload Image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -66,7 +67,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/CancelButton"
+        android:id="@+id/CancelAnswerButtonID"
         android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
