@@ -136,9 +136,10 @@ public class NewQuestionActivity extends AppCompatActivity {
         String tagInput = editTextTags.getText().toString();
         String[] tagArray = tagInput.split("\\s*, \\s*");
         List<String> tags = Arrays.asList(tagArray);
-        if (questionString.trim().isEmpty() || questionAnswerString.trim().isEmpty()) {
+        if (questionString.trim().isEmpty() ) {
+//        if (questionString.trim().isEmpty() || questionAnswerString.trim().isEmpty()) {
 
-            Toast.makeText(this, "Please insert a question and a proposed answer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please insert a question.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -158,7 +159,6 @@ public class NewQuestionActivity extends AppCompatActivity {
 
 
 
-//TODO: FIX AUTHOR OF QUESTION. FIREBASE IS NOT SHOWING AUTHOR. FIGURE IT OUT.
 ///////Code block below is a test
         final Question questionInfo = new Question(questionString, questionAnswerString, priority, tags, authorFirebase);
 

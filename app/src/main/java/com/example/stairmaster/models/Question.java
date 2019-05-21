@@ -9,21 +9,16 @@ public class Question {
 
 //    private String title;
     private String question;
-    private String answer;
+    private String answer; //TODO: Change answers to list
+    private String comment; // TODO: Change comments to list
     private int priority;
-//    private String timestamp;
+//    private String timestamp; //TODO: add timestamp for when question was created and then revised.
     List<String> tags;
     private String documentID;
     private String author;
 
 
-    public void setDocumentID(String documentID) {
-        this.documentID = documentID;
-    }
 
-    public String getDocumentID() {
-        return documentID;
-    }
 
     public Question() {
         // public no-arg constructor needed
@@ -35,6 +30,14 @@ public class Question {
         this.priority = priority;
         this.tags = tags;
         this.author = author;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public String getDocumentID() {
+        return documentID;
     }
 
     public String getAuthor() { // this is what appears in firebase!!!

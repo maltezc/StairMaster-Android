@@ -123,6 +123,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         final String firstName = "default firstName";
         final String lastName = "default lastName";
 //        final Uri userProfilePicture = "";
+        //TODO: SET POINTS TO 0
 
 
 

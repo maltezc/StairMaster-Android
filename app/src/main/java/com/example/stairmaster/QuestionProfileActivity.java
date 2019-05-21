@@ -96,11 +96,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mCommentButton = findViewById(R.id.commentButtonID);
         mAuthorTextView = findViewById(R.id.authorTextViewID);
 
-        //TODO: SET AUTHOR HERE MAYBE? FIGURE IT OUT
 
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS SHOULD BE COLLECTING THE QUESTIONS AUTHOR. FIGURE OUT HOW TO SET
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -109,6 +108,17 @@ public class QuestionProfileActivity extends AppCompatActivity implements
                 String userNameString = documentSnapshot.getString("userName");
 
                 mAuthorTextView.setText(userNameString);
+            }
+        });
+
+        mPostAnswerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO:  send user to new activity through intent.
+                //TODO: be able to upload photo
+                //TODO: look at preview
+                //TODO: save to firebase
+
             }
         });
 

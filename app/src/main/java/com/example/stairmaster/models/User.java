@@ -10,17 +10,14 @@ public class User extends BaseObservable {
 
 
     public int id;
-    public String firstName;
-    public String lastName;
-    public String userName;
-    public String email;
-    public List<Question> questions;
-    public Uri userImageURI;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String email;
+    private List<Question> questions;
+    private Uri userImageURI;
+    private int reputationPoints;
 
-
-    public User() {
-        // no arg constructor needed
-    }
 
     public User(String firstName, String lastName, String userName, String email) {
 
@@ -30,13 +27,28 @@ public class User extends BaseObservable {
         this.email = email;
         this.questions = questions;
         this.userImageURI = userImageURI;
-
     }
+
+
+    public User() {
+        // no arg constructor needed
+    }
+
+    public int getReputationPoints() {
+        return reputationPoints;
+    }
+
+    public void setReputationPoints(int reputationPoints) {
+        this.reputationPoints = reputationPoints;
+    }
+    //Todo: add "reputation points"
+
 
 
     public Uri getUserImageURI() {
         return userImageURI;
     }
+    //TODO: Fix user Image
 
     public void setUserImageURI(Uri userImageURI) {
         this.userImageURI = userImageURI;
