@@ -11,26 +11,26 @@
 
 
     <TextView
-        android:id="@+id/questionContentID"
+        android:id="@+id/questionContentTextViewId"
         android:text="Question Goes here"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:layout_marginTop="10sp"/>
     <TextView
-        android:id="@+id/authorTextViewID"
-        android:text="author"
+        android:id="@+id/questionAuthorTextViewId"
+        android:text="Question Author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"/>
     <TextView
-        android:id="@+id/dateTimeStampTextViewID"
+        android:id="@+id/dateTimeStampTextViewId"
         android:text="DateTime Stamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/answerEditTextID"
+        android:id="@+id/answerEditTextId"
         android:hint="Answer here"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,24 +42,30 @@
         android:textSize="30sp"
         android:lines="10" />
 
+    <TextView
+        android:id="@+id/answerAuthorTextViewId"
+        android:hint="Answer's Author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/postAnswerButtonID"
+            android:id="@+id/postAnswerButtonId"
             android:text="Post Answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/saveDraftButtonID"
+            android:id="@+id/saveDraftButtonId"
             android:text="Save Draft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/uploadImageButtonID"
+            android:id="@+id/uploadImageButtonId"
             android:text="Upload Image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -67,7 +73,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/CancelAnswerButtonID"
+        android:id="@+id/cancelAnswerButtonId"
         android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

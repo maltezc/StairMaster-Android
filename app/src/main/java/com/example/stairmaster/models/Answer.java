@@ -10,16 +10,20 @@ public class Answer {
 
     private String answer; //TODO: Change answers to list
     private String comment; // TODO: Change comments to list
-    private Timestamp timestamp;
-    private int Score;
+    private String timestamp;
+    private int score;
     private String author;
+    private String answerFirebaseId; // not sure if this is necessary;
+    private String parentQuestionId;
 
-    public Answer(String answer, Timestamp timeStamp, int score, String author) {
+
+    public Answer(String answer, String timeStamp, String author, String parentQuestionId) {
 
         this.answer = answer;
         this.timestamp = timeStamp;
 //        this.score; //TODO: figure out how to add score.
         this.author = author;
+        this.parentQuestionId = parentQuestionId;
 
 
     }
@@ -28,6 +32,13 @@ public class Answer {
         // public no-arg constructor needed
     }
 
+    public String getAnswerFirebaseId() {
+        return answerFirebaseId;
+    }
+
+    public void setAnswerFirebaseId(String answerFirebaseId) {
+        this.answerFirebaseId = answerFirebaseId;
+    }
 
     public String getAnswer() {
         return answer;
@@ -45,20 +56,20 @@ public class Answer {
         this.comment = comment;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
     public int getScore() {
-        return Score;
+        return score;
     }
 
     public void setScore(int score) {
-        Score = score;
+        score = score;
     }
 
     public String getAuthor() {
@@ -67,5 +78,13 @@ public class Answer {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getParentQuestionId() {
+        return parentQuestionId;
+    }
+
+    public void setParentQuestionId(String parentQuestionId) {
+        this.parentQuestionId = parentQuestionId;
     }
 }

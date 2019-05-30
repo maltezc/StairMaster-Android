@@ -27,6 +27,10 @@ shift + control + j
 re-align
 fn + option + cmd + L(#not capitalized)
 
+adding to drawable
+Go to:
+New --> Vector Asset --> Click on icon --> choose
+
 Recycler view Notes
 https://guides.codepath.com/android/using-the-recyclerview
 

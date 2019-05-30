@@ -20,15 +20,19 @@ import com.example.stairmaster.models.Question;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class NewQuestionActivity extends AppCompatActivity {
 
@@ -40,6 +44,8 @@ public class NewQuestionActivity extends AppCompatActivity {
     Button cancelQuestionButton;
     TextView authorTextView;
     String mUserNameString;
+    TextView mDateTimeStampTextView;
+
 
     //firebase
     FirebaseAuth mAuth;
@@ -54,13 +60,14 @@ public class NewQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_question);
 
-        authorTextView = (TextView) findViewById(R.id.authorTextViewID);
-        questionEditText = (EditText) findViewById(R.id.questionEditTextID);
-        answerEditText = (EditText) findViewById(R.id.answerEditTextID);
-        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButtonID);
-        cancelQuestionButton = (Button) findViewById(R.id.cancelQuestionButtonID);
-        numberPickerPriority = (NumberPicker) findViewById(R.id.number_picker_priorityID);
+        authorTextView = (TextView) findViewById(R.id.authorTextViewId);
+        questionEditText = (EditText) findViewById(R.id.questionEditTextId);
+        answerEditText = (EditText) findViewById(R.id.answerEditTextId);
+        submitQuestionButton = (Button) findViewById(R.id.submitQuestionButtonId);
+        cancelQuestionButton = (Button) findViewById(R.id.cancelQuestionButtonId);
+        numberPickerPriority = (NumberPicker) findViewById(R.id.number_picker_priorityId);
         editTextTags = findViewById(R.id.edit_text_tags);
+        mDateTimeStampTextView = findViewById(R.id.dateTimeStampTextViewId);
 
         numberPickerPriority.setMinValue(1);
         numberPickerPriority.setMaxValue(10);
@@ -70,7 +77,7 @@ public class NewQuestionActivity extends AppCompatActivity {
         // [END initialize_auth]
 
 
-        String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); //TODO: HOW TO SET THIS Author
+        String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         authorTextView.setText(authorFirebase);
 
         Log.i("info", "NewQuestionActivity started");
@@ -111,7 +118,8 @@ public class NewQuestionActivity extends AppCompatActivity {
 
     private void saveQuestion(){
         String questionString = questionEditText.getText().toString();
-        String questionAnswerString = answerEditText.getText().toString();
+//        List<Answer> questionAnswerString;
+//        Answer questionAnswerString = answerEditText.getText().toString();
         String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
@@ -120,7 +128,7 @@ public class NewQuestionActivity extends AppCompatActivity {
         // .set will create or overwrite.
         // .update will update some of the fields without overwriting the entiredocument
 
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS SHOULD BE COLLECTING THE QUESTIONS AUTHOR. FIGURE OUT HOW TO SET
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -128,7 +136,6 @@ public class NewQuestionActivity extends AppCompatActivity {
                 String userNameString = documentSnapshot.getString("userName");
 
                 authorTextView.setText(userNameString);
-//                authorFirebase = userNameString;
             }
         });
 
@@ -137,57 +144,85 @@ public class NewQuestionActivity extends AppCompatActivity {
         String[] tagArray = tagInput.split("\\s*, \\s*");
         List<String> tags = Arrays.asList(tagArray);
         if (questionString.trim().isEmpty() ) {
+            //TODO: DO MORE CHECK FOR SIM OR DUPLICATE
+
 //        if (questionString.trim().isEmpty() || questionAnswerString.trim().isEmpty()) {
 
             Toast.makeText(this, "Please insert a question.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        CollectionReference questionRef = FirebaseFirestore.getInstance().collection("Questions");
-//        questionRef.add(new Question(questionString, questionAnswerString, priority, tags, authorFirebase)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        final CollectionReference questionRef = FirebaseFirestore.getInstance().collection("Questions");
+
+
+//        questionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 //            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                Log.d(TAG, "onSuccess: questionRef.add was executed");
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: questionref.add failed");
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                queryDocumentSnapshots
+//
 //            }
 //        });
 
+//        String questionItemId = getSnapshots().getSnapshot(position).getId();
 
 
 
-///////Code block below is a test
-        final Question questionInfo = new Question(questionString, questionAnswerString, priority, tags, authorFirebase);
 
-        questionRef.document().set(questionInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-//        questionRef.document().set(questionInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+        //time stamp block
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
+        String datetimeString = formatter.format(date);
+        System.out.println("Today : " + datetimeString);
+        mDateTimeStampTextView.setText(datetimeString);
+
+        // question doc ref id
+//         String questionUniqueId = questionRef.document().getId(); //// this is not getting the correct ID. need to get firebaseID
+
+        final Question questionInfo = new Question(questionString, priority, tags, authorFirebase, datetimeString);
+
+
+
+        questionRef.add(questionInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "onSuccess: QuestionRef.set executed");
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d(TAG, "onSuccess: questionRef.add executed");
+
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: questionRef.set failed");
+                Log.d(TAG, "onFailure: questionRef.add failed");
             }
         });
-////////End of code block test
 
-//        rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        questionRef.add(questionInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//            @Override
+//            public void onSuccess(DocumentReference documentReference) {
+//                documentReference.addSnapshotListener(new OnSuccessListener<>())
+//            }
+//        })
+
+
+
+
+
+        // OG code Below
+//        questionRef.document().set(questionInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
 //            @Override
 //            public void onSuccess(Void aVoid) {
-//                Log.d(TAG, "onSuccess: user created");
+//                Log.d(TAG, "onSuccess: QuestionRef.set executed");
 //
+//                questionRef.document().getId();
 //            }
 //        }).addOnFailureListener(new OnFailureListener() {
 //            @Override
 //            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: " + e.toString());
+//                Log.d(TAG, "onFailure: questionRef.set failed");
 //            }
 //        });
+        //End of OG code
 
 
 

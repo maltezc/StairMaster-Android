@@ -1,9 +1,12 @@
 package com.example.stairmaster;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -19,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +32,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class QuestionProfileActivity extends AppCompatActivity implements
         View.OnTouchListener,
@@ -65,8 +70,12 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     //vars
     private GestureDetector mGestureDetector;
     private boolean mShowSaveIcon;
+    private String mQuestionFirebaseId;
 
     private FirebaseFirestore firestoreDB;
+    private String questionPathIDString;
+
+
 
 
 
@@ -83,29 +92,51 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
         setTitle("Question");
 
-        mQuestionTextView = findViewById(R.id.questionTextViewID);
-        mQuestionAnswerTextView = findViewById(R.id.answerTextViewID);
-        mQuestionAnswerEditText = findViewById(R.id.answerEditTextID);
-        mQuestionPriorityContent = findViewById(R.id.starTextViewID);
+        mQuestionTextView = findViewById(R.id.questionTextViewId);
+        mQuestionAnswerTextView = findViewById(R.id.answerTextViewId);
+        mQuestionAnswerEditText = findViewById(R.id.answerEditTextId);
+        mQuestionPriorityContent = findViewById(R.id.starTextViewId);
         mCheckContainer = findViewById(R.id.check_container);
         mBackArrowContainer = findViewById(R.id.back_arrow_container);
         mCheck = findViewById(R.id.toolbar_check);
         mEditButton = findViewById(R.id.edit_question);
         mSaveButton = findViewById(R.id.save_question);
-        mPostAnswerButton = findViewById(R.id.postAnswerButtonID);
-        mCommentButton = findViewById(R.id.commentButtonID);
-        mAuthorTextView = findViewById(R.id.authorTextViewID);
+        mPostAnswerButton = findViewById(R.id.postAnswerButtonId);
+        mCommentButton = findViewById(R.id.commentButtonId);
+        mAuthorTextView = findViewById(R.id.authorTextViewId);
 
+        questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
+
+
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference questionsRef = rootRef.collection("Questions");
+        //TODO: CREATE DOCUMENT REFERENCE. potentially create unique identifier for each question through creating firebaseinstance ID,
+        //todo: set doc ref variable, then pull timestamp and other necessary info. similar approach is used for "users"
+
+
+        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+
+
+//        questionsRef.document().getId();
+
+//        questionsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                String datetimeStamp = queryDocumentSnapshots.getQuery()
+//
+//            }
+//        });
 
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS MIGHT LOAD ACTIVE USER INSTEAD OF AUTHOR OF QUESTION
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String userNameString = documentSnapshot.getString("userName");
+                String userNameString = documentSnapshot.getString("userName");//TODO: THIS MIGHT LOAD ACTIVE USER INSTEAD OF AUTHOR OF QUESTION
 
                 mAuthorTextView.setText(userNameString);
             }
@@ -118,12 +149,36 @@ public class QuestionProfileActivity extends AppCompatActivity implements
                 //TODO: be able to upload photo
                 //TODO: look at preview
                 //TODO: save to firebase
+                postAnswerButtonClicked();
 
             }
         });
 
-
         getIncomingIntent();
+    }
+
+    private void postAnswerButtonClicked() {
+
+        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+
+
+        getIncomingIntent(); //TODO: pass variable from incoming intent to questionPathIdString
+//        String questionPathIDString = "";
+
+        Intent intent = new Intent(QuestionProfileActivity.this, NewAnswerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        intent.putExtra("question_string", mQuestionTextView.getText());
+        intent.putExtra("questionAuthor_string", mAuthorTextView.getText());
+        intent.putExtra("questionID_string", questionPathIDString);
+//        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+
+
+//        intent.putExtra("questionAnswer_string", textViewAnswer.getText());
+//        intent.putExtra("questionPriority_string", textViewPriority.getText());
+//        intent.putExtra("questionID_string", questionItemId);
+
+        startActivity(intent);
     }
 
 
@@ -146,6 +201,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
     private void getIncomingIntent() {
+
         Log.d(TAG, "getIncomingIntent: checking for incoming intent");
 
         if (getIntent().hasExtra("question_string")) {
@@ -155,14 +211,12 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             String questionAnswerString = (String) getIntent().getExtras().get("questionAnswer_string");
             String questionPriorityString = (String) getIntent().getExtras().get("questionPriority_string");
             String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
-//            String questionAuthorString = (String) getIntent().getExtras().get("questionAuthorString");
 
             System.out.println(questionPathIDString);
 
             mQuestionTextView.setText(questionString);
             mQuestionAnswerTextView.setText(questionAnswerString);
             mQuestionPriorityContent.setText(questionPriorityString);
-//            mAuthorTextView.setText(questionAuthorString);
 
         }
     }
@@ -300,7 +354,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private void enableEditMode(){
 
         // disables question edit text and post answer button and darkens buttons
-        mQuestionEditText = findViewById(R.id.questionEditTextID);
+        mQuestionEditText = findViewById(R.id.questionEditTextId);
         mPostAnswerButton.setEnabled(false);
         mPostAnswerButton.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
 
@@ -320,7 +374,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mQuestionAnswerTextView.setVisibility(View.GONE);
         mQuestionAnswerEditText.setVisibility(View.VISIBLE);
         mQuestionAnswerEditText.setText(answerString);
-
     }
 
 

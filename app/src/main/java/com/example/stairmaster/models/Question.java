@@ -3,34 +3,47 @@ package com.example.stairmaster.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
 import java.util.List;
 
 public class Question {
 
 //    private String title;
     private String question;
-    private String answer; //TODO: Change answers to list
+//    private String answer; //TODO: Change answers to list
+    List<Answer> answers;
     private String comment; // TODO: Change comments to list
     private int priority;
-//    private String timestamp; //TODO: add timestamp for when question was created and then revised.
+    private String timestamp; //TODO: add timestamp for when question was created and then revised.
     List<String> tags;
     private String documentID;
     private String author;
-
-
+    private String questionFirebaseId;
 
 
     public Question() {
         // public no-arg constructor needed
     }
 
-    public Question(String question, String answer, int priority, List<String> tags, String author){
+    public Question(String question, int priority, List<String> tags, String author, String timestamp){
+//    public Question(String question, List<Answer> answers, int priority, List<String> tags, String author){
         this.question = question;
-        this.answer = answer;
+        this.answers = answers;
         this.priority = priority;
         this.tags = tags;
         this.author = author;
+        this.timestamp = timestamp;
+//        this.questionFirebaseId = questionFirebaseId; //TODO: It would be nice to figure this out.
     }
+
+    public String getQuestionFirebaseId() {
+        return questionFirebaseId;
+    }
+
+    public void setQuestionFirebaseId(String questionFirebaseId) {
+        this.questionFirebaseId = questionFirebaseId;
+    }
+
 
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
@@ -48,41 +61,6 @@ public class Question {
         this.author = author;
     }
 
-    //    public Question(String title, String question, String answer, String timestamp) {
-//        this.title = title;
-//        this.question = question;
-//        this.answer = answer;
-//        this.timestamp = timestamp;
-//    }
-
-//    protected Question(Parcel in) {
-//        title = in.readString();
-//        question = in.readString();
-//        answer = in.readString();
-//        timestamp = in.readString();
-//    }
-
-//    public static final Creator<Question> CREATOR = new Creator<Question>() {
-//        @Override
-//        public Question createFromParcel(Parcel in) {
-//            return new Question(in);
-//        }
-//
-//        @Override
-//        public Question[] newArray(int size) {
-//            return new Question[size];
-//        }
-//    };
-
-//    public String getTitle() {
-//
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//
-//        this.title = title;
-//    }
 
     public String getQuestion() {
 
@@ -93,14 +71,14 @@ public class Question {
 
         this.question = question;
     }
-    public String getAnswer() {
+    public List<Answer> getAnswers() {
 
-        return answer;
+        return answers;
     }
 
     public void setAnswer(String answer) {
 
-        this.answer = answer;
+        this.answers = answers;
     }
 
     public int getPriority() {
@@ -108,42 +86,18 @@ public class Question {
         return priority;
     }
 
-
-
     public List<String> getTags() {
         return tags;
     }
 
-    //    public String getTimestamp() {
-//
-//        return timestamp;
-//    }
-//
-//    public void setTimestamp(String timestamp) {
-//
-//        this.timestamp = timestamp;
-//    }
+        public String getTimestamp() {
 
-//    @Override
-//    public String toString() {
-//        return "Question{" +
-////                "title='" + title + '\'' +
-//                ", question='" + question + '\'' +
-//                ", answer='" + answer + '\'' +
-////                ", timestamp='" + timestamp + '\'' +
-//                '}';
-//    }
+        return timestamp;
+    }
 
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
+    public void setTimestamp(String timestamp) {
 
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(title);
-//        dest.writeString(question);
-//        dest.writeString(answer);
-//        dest.writeString(timestamp);
-//    }
+        this.timestamp = timestamp;
+    }
+
 }

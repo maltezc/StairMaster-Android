@@ -31,7 +31,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/starTextViewID"
+            android:id="@+id/starTextViewId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".25"
@@ -40,7 +40,7 @@
 
 
         <TextView
-            android:id="@+id/questionTextViewID"
+            android:id="@+id/questionTextViewId"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_weight=".25"
@@ -54,7 +54,7 @@
         <!-- android:background="@null"removes underline -->
 
         <EditText
-            android:id="@+id/questionEditTextID"
+            android:id="@+id/questionEditTextId"
             android:layout_width="wrap_content"
             android:layout_height="100sp"
             android:layout_weight=".25"
@@ -136,16 +136,8 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/answerTextViewID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="10"
-                    android:gravity="top"
-                    android:text="AnswerTextView"
-                    android:textSize="20sp" />
                 <EditText
-                    android:id="@+id/answerEditTextID"
+                    android:id="@+id/answerEditTextId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="10"
@@ -154,11 +146,26 @@
                     android:textSize="20sp"
                     android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/authorTextViewID"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="username here" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/authorTextViewId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="username here"
+                        android:layout_marginRight="20sp"/>
+
+                    <TextView
+                        android:id="@+id/dateTimeStampTextViewId"
+                        android:text="DateTime Stamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -166,14 +173,14 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/commentButtonID"
+                        android:id="@+id/commentButtonId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Comment"
                         android:visibility="visible"/>
 
                     <Button
-                        android:id="@+id/editButtonID"
+                        android:id="@+id/editButtonId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Edit"/>
@@ -182,7 +189,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/postAnswerButtonID"
+                    android:id="@+id/postAnswerButtonId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Post Answer"
@@ -191,6 +198,11 @@
                     android:visibility="visible"
                     />
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/questionRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical" />
 
         </LinearLayout>
     </ScrollView>
