@@ -51,7 +51,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     // ui components
     private EditText mQuestionEditText;
     private TextView mQuestionTextView;
-    private TextView mQuestionAnswerTextView;
+    private RecyclerView mAnswerRecyclerView;
     private EditText mQuestionAnswerEditText;
     private TextView mQuestionPriorityContent;
     private TextView mAuthorTextView;
@@ -93,7 +93,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         setTitle("Question");
 
         mQuestionTextView = findViewById(R.id.questionTextViewId);
-        mQuestionAnswerTextView = findViewById(R.id.answerTextViewId);
+//        mAnswerRecyclerView = findViewById(R.id.answerRecyclerViewId);
         mQuestionAnswerEditText = findViewById(R.id.answerEditTextId);
         mQuestionPriorityContent = findViewById(R.id.starTextViewId);
         mCheckContainer = findViewById(R.id.check_container);
@@ -105,7 +105,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mCommentButton = findViewById(R.id.commentButtonId);
         mAuthorTextView = findViewById(R.id.authorTextViewId);
 
-        questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
+        mAnswerRecyclerView = (RecyclerView) findViewById(R.id.answerRecyclerViewId);
 
 
 
@@ -215,7 +215,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             System.out.println(questionPathIDString);
 
             mQuestionTextView.setText(questionString);
-            mQuestionAnswerTextView.setText(questionAnswerString);
+//            mQuestionAnswerTextView.setText(questionAnswerString);
             mQuestionPriorityContent.setText(questionPriorityString);
 
         }
@@ -370,10 +370,10 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mQuestionEditText.setText(questionString);
 
         // allows edit for question
-        String answerString = mQuestionAnswerTextView.getText().toString();
-        mQuestionAnswerTextView.setVisibility(View.GONE);
-        mQuestionAnswerEditText.setVisibility(View.VISIBLE);
-        mQuestionAnswerEditText.setText(answerString);
+//        String answerString = mQuestionAnswerTextView.getText().toString();
+//        mQuestionAnswerTextView.setVisibility(View.GONE);
+//        mQuestionAnswerEditText.setVisibility(View.VISIBLE);
+//        mQuestionAnswerEditText.setText(answerString);
     }
 
 

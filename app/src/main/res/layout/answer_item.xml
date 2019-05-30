@@ -31,18 +31,24 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:text="Check"
+                        android:id="@+id/answerCheckMarkId"
+                        android:src="@drawable/ic_check_black_24dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_check_black_24dp"/>
+                        android:paddingBottom="10dp"
+                        />
 
                     <ImageButton
                         android:text="upVote"
+                        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        />
 
                     <TextView
+                        android:id="@+id/answerScoreId"
                         android:text="score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -50,21 +56,43 @@
 
                     <ImageButton
                         android:text="downVote"
+                        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+                        android:layout_marginTop="10dp"
+                        />
 
                 </LinearLayout>
 
-                
-                <TextView
-                    android:id="@+id/answerItemTextViewId"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:inputType="textMultiLine"
-                    android:text="Lorem ipsum dolor amet tbh migas pickled pinterest vice farm-to-table bespoke gentrify shabby chic art party helvetica. Letterpress gluten-free tacos cardigan normcore. Mustache offal sustainable mumblecore kitsch mlkshk. Kitsch put a bird on it iPhone ethical locavore slow-carb tousled pour-over cardigan selfies. Vice migas hella, green juice stumptown vape adaptogen. Roof party tumeric distillery, seitan four dollar toast af fashion axe succulents meditation snackwave gochujang street art."
-                     />
+                    >
+
+
+                    <TextView
+                        android:id="@+id/answerItemTextViewId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:text="Lorem ipsum dolor amet tbh migas pickled pinterest vice farm-to-table bespoke gentrify shabby chic art party helvetica. Letterpress gluten-free tacos cardigan normcore. Mustache offal sustainable mumblecore kitsch mlkshk. Kitsch put a bird on it iPhone ethical locavore slow-carb tousled pour-over cardigan selfies. Vice migas hella, green juice stumptown vape adaptogen. Roof party tumeric distillery, seitan four dollar toast af fashion axe succulents meditation snackwave gochujang street art."
+                        />
+                    <TextView
+                        android:id="@+id/answerAuthorTextViewId"
+                        android:text="Author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:id="@+id/answerTimeStampTextViewId"
+                        android:text="TimeStamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

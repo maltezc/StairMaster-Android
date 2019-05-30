@@ -1,41 +1,27 @@
 package com.example.stairmaster.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.DocumentsContract;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.stairmaster.DashboardActivity;
 import com.example.stairmaster.QuestionProfileActivity;
 import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
-import com.example.stairmaster.models.User;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, QuestionAdapter.QuestionHolder> {
 
     private OnItemClickListener listener;
     private Context mContext;
-    FirebaseAuth mAuth;
-    FirebaseUser mAuthUser;
-    String mAuthUserId;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -49,11 +35,10 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull QuestionHolder holder, int position, @NonNull Question model) {
+    protected void onBindViewHolder(@NonNull QuestionHolder questionHolder, int position, @NonNull Question model) {
 
-        holder.textViewQuestion.setText(model.getQuestion());
-//        holder.textViewAnswer.setText(model.getAnswers());
-        holder.textViewPriority.setText(String.valueOf(model.getPriority()));
+        questionHolder.textViewQuestion.setText(model.getQuestion());
+        questionHolder.textViewPriority.setText(String.valueOf(model.getPriority()));
 
     }
 
@@ -89,7 +74,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     String questionString = textViewQuestion.toString();
-//                    String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName(); // this shouldnt be here. this passes curent user as author which is incorrect
 
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
