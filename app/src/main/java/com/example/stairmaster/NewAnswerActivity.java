@@ -58,7 +58,6 @@ public class NewAnswerActivity extends AppCompatActivity {
         uploadImageButton = findViewById(R.id.uploadImageButtonId);
         cancelAnswerButton = findViewById(R.id.cancelAnswerButtonId);
 
-
         mAuth = FirebaseAuth.getInstance();
 
         // add if else check
@@ -72,6 +71,8 @@ public class NewAnswerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveAnswer();
+
+                finish();
 
             }
         });
@@ -138,6 +139,7 @@ public class NewAnswerActivity extends AppCompatActivity {
     private void saveAnswer() {
         //TODO: Add answer to question.
 
+
         Date date = Calendar.getInstance().getTime();
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
         String datetimeString = formatter.format(date);
@@ -152,32 +154,33 @@ public class NewAnswerActivity extends AppCompatActivity {
 
         String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
 
+//        Log.d(TAG, "saveAnswer: clicked");
 
 
-        Log.d(TAG, "saveAnswer: clicked");
-
-
-        final Answer answerInfo = new Answer(answerString, answerAuthor, datetimeString, questionPathIDString);
+        final Answer answerInfo = new Answer(answerString,datetimeString, answerAuthor, questionPathIDString);
 
         //TODO: FIGURE OUT HOW TO SET ANSWER
 
+        // one method add answer firebase. then filter for answer's question's doc id
 
+        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
+        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
 
-        //code below is reference code
-//        questionRef.document().set(questionInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d(TAG, "onSuccess: QuestionRef.set executed");
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: questionRef.set failed");
-//            }
-//        });
+        final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
 
+        answerRef.add(answerInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d(TAG, "onSuccess: Answer was added");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: " + e.toString());
 
-
+            }
+        });
 
     }
 

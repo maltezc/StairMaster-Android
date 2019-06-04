@@ -134,7 +134,6 @@ public class NewQuestionActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String userNameString = documentSnapshot.getString("userName");
-
                 authorTextView.setText(userNameString);
             }
         });
@@ -155,20 +154,6 @@ public class NewQuestionActivity extends AppCompatActivity {
         final CollectionReference questionRef = FirebaseFirestore.getInstance().collection("Questions");
 
 
-//        questionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                queryDocumentSnapshots
-//
-//            }
-//        });
-
-//        String questionItemId = getSnapshots().getSnapshot(position).getId();
-
-
-
-
-
         //time stamp block
         Date date = Calendar.getInstance().getTime();
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
@@ -177,17 +162,13 @@ public class NewQuestionActivity extends AppCompatActivity {
         mDateTimeStampTextView.setText(datetimeString);
 
         // question doc ref id
-//         String questionUniqueId = questionRef.document().getId(); //// this is not getting the correct ID. need to get firebaseID
 
         final Question questionInfo = new Question(questionString, priority, tags, authorFirebase, datetimeString);
-
-
 
         questionRef.add(questionInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "onSuccess: questionRef.add executed");
-
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -196,34 +177,6 @@ public class NewQuestionActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: questionRef.add failed");
             }
         });
-
-//        questionRef.add(questionInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                documentReference.addSnapshotListener(new OnSuccessListener<>())
-//            }
-//        })
-
-
-
-
-
-        // OG code Below
-//        questionRef.document().set(questionInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d(TAG, "onSuccess: QuestionRef.set executed");
-//
-//                questionRef.document().getId();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: questionRef.set failed");
-//            }
-//        });
-        //End of OG code
-
 
 
         Toast.makeText(this, "Question Added", Toast.LENGTH_SHORT).show();

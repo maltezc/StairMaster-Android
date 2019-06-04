@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import com.example.stairmaster.databinding.ActivityDashboardBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -52,15 +50,15 @@ public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
 
     //Firebase Firestore
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference questionRef = db.collection("Questions");
+    private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+    private CollectionReference questionRef = firestoreDB.collection("Questions");
 
     // UI components
     private RecyclerView mRecyclerView; // m is prepended to global vaiables
 
     // vars
     private ArrayList<Question> mQuestions = new ArrayList<>();
-    private QuestionAdapter adapter;
+    private QuestionAdapter mQuestionAdapter;
 
     FirebaseAuth mAuth;
     FirebaseUser mAuthUser;
@@ -77,8 +75,6 @@ public class DashboardActivity extends AppCompatActivity {
 //        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
 
         Question questions = new Question();
-
-//        mRecyclerView = findViewById(R.id.questionRecyclerView);
 
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
         editTextTags = findViewById(R.id.edit_text_tags);
@@ -98,21 +94,21 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        setUpRecyclerView();
+        setUpQuestionRecyclerView();
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.startListening();
+        mQuestionAdapter.startListening();
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+        mQuestionAdapter.stopListening();
     }
 
     public void newQuestionButton(View view) {
@@ -153,18 +149,18 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-    private void setUpRecyclerView(){
+    private void setUpQuestionRecyclerView(){
         Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Question> options = new FirestoreRecyclerOptions.Builder<Question>()
                 .setQuery(query, Question.class)
                 .build();
 
-        adapter = new QuestionAdapter(options);
+        mQuestionAdapter = new QuestionAdapter(options);
 
-        RecyclerView recyclerView = findViewById(R.id.questionRecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        RecyclerView questionRecyclerView = findViewById(R.id.questionRecyclerView);
+        questionRecyclerView.setHasFixedSize(true);
+        questionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        questionRecyclerView.setAdapter(mQuestionAdapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -179,11 +175,11 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.deleteItem(viewHolder.getAdapterPosition());
+                mQuestionAdapter.deleteItem(viewHolder.getAdapterPosition());
             }
-        }).attachToRecyclerView(recyclerView);
+        }).attachToRecyclerView(questionRecyclerView);
 
-        adapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
+        mQuestionAdapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position, String itemId) {
                 Question question = documentSnapshot.toObject(Question.class);

@@ -31,7 +31,6 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="36dp"
-
             android:onClick="loadQuestions" />
         <!--android:textColor="@drawable/ic_edit_black_24dp"-->
 

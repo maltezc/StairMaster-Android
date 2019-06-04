@@ -64,7 +64,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
             mContext = itemView.getContext();
 
 
-            
+
         }
     }
 }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -22,8 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.stairmaster.adapters.AnswerAdapter;
 import com.example.stairmaster.logins.SignInActivity;
+import com.example.stairmaster.models.Answer;
 import com.example.stairmaster.models.Question;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +37,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class QuestionProfileActivity extends AppCompatActivity implements
         View.OnTouchListener,
@@ -72,10 +80,12 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private boolean mShowSaveIcon;
     private String mQuestionFirebaseId;
 
-    private FirebaseFirestore firestoreDB;
+    private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+    private CollectionReference answerRef = firestoreDB.collection("Answers");
+
     private String questionPathIDString;
-
-
+    private ArrayList<Answer>mAnswers = new ArrayList<>();
+    private AnswerAdapter mAnswerAdapter;
 
 
 
@@ -109,6 +119,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
 
 
+
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference questionsRef = rootRef.collection("Questions");
         //TODO: CREATE DOCUMENT REFERENCE. potentially create unique identifier for each question through creating firebaseinstance ID,
@@ -116,17 +127,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
 
         String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
-
-
-//        questionsRef.document().getId();
-
-//        questionsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                String datetimeStamp = queryDocumentSnapshots.getQuery()
-//
-//            }
-//        });
 
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
@@ -155,6 +155,42 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         });
 
         getIncomingIntent();
+
+        setUpAnswerRecyclerView();
+
+    }
+
+    private void setUpAnswerRecyclerView() {
+        Query query = answerRef.orderBy("score", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
+                .setQuery(query, Answer.class)
+                .build();
+
+        mAnswerAdapter = new AnswerAdapter(options);
+        RecyclerView answerRecyclerView = findViewById(R.id.answerRecyclerViewId);
+        answerRecyclerView.setHasFixedSize(true);
+        answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        answerRecyclerView.setAdapter(mAnswerAdapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return 0;
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+        }).attachToRecyclerView(answerRecyclerView);
+
+
+
     }
 
     private void postAnswerButtonClicked() {
