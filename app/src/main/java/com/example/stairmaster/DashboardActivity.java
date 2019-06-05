@@ -54,7 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
     private CollectionReference questionRef = firestoreDB.collection("Questions");
 
     // UI components
-    private RecyclerView mRecyclerView; // m is prepended to global vaiables
+    private RecyclerView mRecyclerView; // m is prepended to global variables
 
     // vars
     private ArrayList<Question> mQuestions = new ArrayList<>();
@@ -109,6 +109,11 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mQuestionAdapter.stopListening();
+
+//        super.onStop();
+//        if (mQuestionAdapter != null) {
+//            mQuestionAdapter.stopListening();
+//        }
     }
 
     public void newQuestionButton(View view) {
@@ -150,7 +155,7 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     private void setUpQuestionRecyclerView(){
-        Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING);
+        Query query = questionRef.orderBy("questionPriority", Query.Direction.DESCENDING); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
         FirestoreRecyclerOptions<Question> options = new FirestoreRecyclerOptions.Builder<Question>()
                 .setQuery(query, Question.class)
                 .build();
@@ -194,30 +199,30 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-//    public void loadQuestions(View v) {
-//        questionRef.get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        String data = "";
-//
-//                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-//                            Question question = documentSnapshot.toObject(Question.class);
-//                            question.setQuestionDocumentId(documentSnapshot.getId());
-//
-//                            String documentID = question.getQuestionDocumentId();
-//
-//                            data += "ID: " + documentID;
-//
-//                            for (String tag : question.getTags()) {
-//                                data += "\n-" + tag;
-//                            }
-//
-//                            data += "\n\n";
-//                            textViewData.setText(data);
-//
-//                        }
-//                    }
-//                });
-//    }
+    public void loadQuestions(View v) {
+        questionRef.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        String data = "";
+
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Question question = documentSnapshot.toObject(Question.class);
+                            question.setQuestionDocumentId(documentSnapshot.getId());
+
+                            String documentID = question.getQuestionDocumentId();
+
+                            data += "ID: " + documentID;
+
+                            for (String tag : question.getTags()) {
+                                data += "\n-" + tag;
+                            }
+
+                            data += "\n\n";
+                            textViewData.setText(data);
+
+                        }
+                    }
+                });
+    }
 }
