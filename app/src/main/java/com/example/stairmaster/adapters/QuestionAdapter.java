@@ -14,8 +14,6 @@ import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, QuestionAdapter.QuestionHolder> {
@@ -38,7 +36,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     protected void onBindViewHolder(@NonNull QuestionHolder questionHolder, int position, @NonNull Question model) {
 
         questionHolder.textViewQuestion.setText(model.getQuestion());
-        questionHolder.textViewPriority.setText(String.valueOf(model.getPriority()));
+        questionHolder.textViewPriority.setText(String.valueOf(model.getQuestionPriority()));
 
     }
 
@@ -51,6 +49,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
 
     public void deleteItem(int position) {
         getSnapshots().getSnapshot(position).getReference().delete();
+        notifyDataSetChanged();
     }
 
     class QuestionHolder extends RecyclerView.ViewHolder{

@@ -1,9 +1,5 @@
 package com.example.stairmaster.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.Date;
 import java.util.List;
 
 public class Question {
@@ -13,11 +9,11 @@ public class Question {
 //    private String answer; //TODO: Change answers to list
     List<Answer> answers;
     private String comment; // TODO: Change comments to list
-    private int priority;
-    private String timestamp; //TODO: add timestamp for when question was created and then revised.
+    private int questionPriority;
+    private String questionTimestamp; //TODO: add questionTimestamp for when question was created and then revised.
     List<String> tags;
-    private String documentID;
-    private String author;
+    private String questionDocumentId;
+    private String questionAuthor;
     private String questionFirebaseId;
 
 
@@ -25,14 +21,14 @@ public class Question {
         // public no-arg constructor needed
     }
 
-    public Question(String question, int priority, List<String> tags, String author, String timestamp){
-//    public Question(String question, List<Answer> answers, int priority, List<String> tags, String author){
+    public Question(String question, int questionPriority, List<String> tags, String questionAuthor, String questionTimestamp){
+//    public Question(String question, List<Answer> answers, int questionPriority, List<String> tags, String questionAuthor){
         this.question = question;
         this.answers = answers;
-        this.priority = priority;
+        this.questionPriority = questionPriority;
         this.tags = tags;
-        this.author = author;
-        this.timestamp = timestamp;
+        this.questionAuthor = questionAuthor;
+        this.questionTimestamp = questionTimestamp;
 //        this.questionFirebaseId = questionFirebaseId; //TODO: It would be nice to figure this out.
     }
 
@@ -45,20 +41,20 @@ public class Question {
     }
 
 
-    public void setDocumentID(String documentID) {
-        this.documentID = documentID;
+    public void setQuestionDocumentId(String questionDocumentId) {
+        this.questionDocumentId = questionDocumentId;
     }
 
-    public String getDocumentID() {
-        return documentID;
+    public String getQuestionDocumentId() {
+        return questionDocumentId;
     }
 
-    public String getAuthor() { // this is what appears in firebase!!!
-        return author;
+    public String getQuestionAuthor() { // this is what appears in firebase!!!
+        return questionAuthor;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setQuestionAuthor(String questionAuthor) {
+        this.questionAuthor = questionAuthor;
     }
 
 
@@ -81,23 +77,23 @@ public class Question {
         this.answers = answers;
     }
 
-    public int getPriority() {
+    public int getQuestionPriority() {
 
-        return priority;
+        return questionPriority;
     }
 
     public List<String> getTags() {
         return tags;
     }
 
-        public String getTimestamp() {
+        public String getQuestionTimestamp() {
 
-        return timestamp;
+        return questionTimestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setQuestionTimestamp(String questionTimestamp) {
 
-        this.timestamp = timestamp;
+        this.questionTimestamp = questionTimestamp;
     }
 
 }

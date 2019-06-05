@@ -152,7 +152,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/authorTextViewId"
+                        android:id="@+id/questionAuthorTextViewId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="username here"
@@ -184,6 +184,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Edit"/>
+
+                    <Button
+                        android:id="@+id/deleteQuestionButtonId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete"/>
 
 
                 </LinearLayout>

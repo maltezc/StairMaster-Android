@@ -186,6 +186,7 @@ public class NewQuestionActivity extends AppCompatActivity {
 
     public void submitQuestionButtonClicked(View view) {
         saveQuestion();
+        finish();
     }
 
 }
