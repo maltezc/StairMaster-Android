@@ -100,6 +100,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     public void setOnItemClickListener(OnItemClickListener listener) {
 
         this.listener = listener;
+
     }
 
 

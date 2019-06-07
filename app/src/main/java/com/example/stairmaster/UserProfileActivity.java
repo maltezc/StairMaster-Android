@@ -1,7 +1,6 @@
 package com.example.stairmaster;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,10 +26,8 @@ import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
 import com.example.stairmaster.models.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -38,8 +35,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -121,10 +116,9 @@ public class UserProfileActivity extends AppCompatActivity {
 //        });
 
 
-        setUpRecyclerView();
+        setUpQuestionRecyclerView();
         setTitle("Profile");
     }
-
 
 
     @Override
@@ -322,7 +316,7 @@ public class UserProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    private void setUpRecyclerView(){
+    private void setUpQuestionRecyclerView(){
 
         final String userName = mAuth.getCurrentUser().getDisplayName();
 
@@ -372,32 +366,6 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-//    public void loadQuestions(View v) {
-//        questionRef.get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        String data = "";
-//
-//                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-//                            Question question = documentSnapshot.toObject(Question.class);
-//                            question.setQuestionDocumentId(documentSnapshot.getId());
-//
-//                            String documentID = question.getQuestionDocumentId();
-//
-//                            data += "ID: " + documentID;
-//
-//                            for (String tag : question.getTags()) {
-//                                data += "\n-" + tag;
-//                            }
-//
-//                            data += "\n\n";
-//                            textViewData.setText(data);
-//
-//                        }
-//                    }
-//                });
-//    }
 
     private void showImageChooser() {
         Intent intent = new Intent();

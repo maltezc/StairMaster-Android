@@ -198,31 +198,4 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-
-    public void loadQuestions(View v) {
-        questionRef.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        String data = "";
-
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Question question = documentSnapshot.toObject(Question.class);
-                            question.setQuestionDocumentId(documentSnapshot.getId());
-
-                            String documentID = question.getQuestionDocumentId();
-
-                            data += "ID: " + documentID;
-
-                            for (String tag : question.getTags()) {
-                                data += "\n-" + tag;
-                            }
-
-                            data += "\n\n";
-                            textViewData.setText(data);
-
-                        }
-                    }
-                });
-    }
 }

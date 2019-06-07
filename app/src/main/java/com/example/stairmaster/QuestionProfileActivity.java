@@ -84,7 +84,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
     private String questionPathIDString;
     private ArrayList<Answer>mAnswers = new ArrayList<>();
-    private AnswerAdapter mAnswerAdapter;
+    private AnswerAdapter mAnswerRecyclerViewAdapter;
 
 
 
@@ -102,7 +102,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         setTitle("Question");
 
         mQuestionTextView = findViewById(R.id.questionTextViewId);
-//        mAnswerRecyclerView = findViewById(R.id.answerRecyclerViewId);
         mQuestionAnswerEditText = findViewById(R.id.answerEditTextId);
         mQuestionPriorityContent = findViewById(R.id.starTextViewId);
         mCheckContainer = findViewById(R.id.check_container);
@@ -148,15 +147,14 @@ public class QuestionProfileActivity extends AppCompatActivity implements
                 //TODO:  send user to new activity through intent.
                 //TODO: be able to upload photo
                 //TODO: look at preview
-                //TODO: save to firebase
                 postAnswerButtonClicked();
 
             }
         });
 
         getIncomingIntent();
-
         setUpAnswerRecyclerView();
+
 
         mDeleteQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +164,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
             }
         });
-
     }
+
 
     private void deleteQuestion() {
 
@@ -192,21 +190,24 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
     private void setUpAnswerRecyclerView() {
+        final String userName = mAuth.getCurrentUser().getDisplayName();
+        Query query = answerRef.whereEqualTo("author", userName);
 
-
-        Query query = answerRef.orderBy("score", Query.Direction.DESCENDING);
+//        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+//        Query query = answerRef.whereEqualTo("parentQuestionId", questionPathIDString);
+//        Query query = answerRef.orderBy("score", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
                 .setQuery(query, Answer.class)
                 .build();
 
-        mAnswerAdapter = new AnswerAdapter(options);
+        mAnswerRecyclerViewAdapter = new AnswerAdapter(options);
 
         RecyclerView answerRecyclerView = findViewById(R.id.answerRecyclerViewId);
         answerRecyclerView.setHasFixedSize(true);
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        answerRecyclerView.setAdapter(mAnswerAdapter);
+        answerRecyclerView.setAdapter(mAnswerRecyclerViewAdapter);
 
-        new ItemTouchHelper(new ItemTouchHelper.Callback() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 return 0;
@@ -220,6 +221,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
+                mAnswerRecyclerViewAdapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(answerRecyclerView);
 
@@ -230,8 +232,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
 
 
-        getIncomingIntent(); //TODO: pass variable from incoming intent to questionPathIdString
-//        String questionPathIDString = "";
+        getIncomingIntent();
 
         Intent intent = new Intent(QuestionProfileActivity.this, NewAnswerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -264,8 +265,13 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 //        final FirebaseUser firebaseUser = task.getResult().getUser();
+        mAnswerRecyclerViewAdapter.startListening();
+    }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAnswerRecyclerViewAdapter.stopListening();
     }
 
     private void getIncomingIntent() {

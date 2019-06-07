@@ -1,6 +1,7 @@
 package com.example.stairmaster.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -16,7 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> {
 
-
+    private QuestionAdapter.OnItemClickListener listener;
     private Context mContext;
 
     /**
@@ -37,14 +38,19 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerItemTextView.setText(model.getAnswer());
     }
 
-
     @NonNull
     @Override
-    public AnswerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public AnswerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.answer_item, viewGroup, false);
+        return new AnswerHolder(v);
     }
 
+    public void deleteItem(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+        notifyDataSetChanged();
+    }
     class AnswerHolder extends RecyclerView.ViewHolder{
+
 
         TextView answerItemTextView;
         TextView answerScoreId;
