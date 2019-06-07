@@ -61,6 +61,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private EditText mQuestionAnswerEditText;
     private TextView mQuestionPriorityContent;
     private TextView mQuestionAuthorTextView;
+    private TextView mDateTimeStampTextView;
 
     private RelativeLayout mCheckContainer, mBackArrowContainer;
     private ImageButton mCheck;
@@ -72,6 +73,8 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private Button mCommentButton;
     private ImageButton mSaveButton;
     private Button mDeleteQuestionButton;
+    private ImageButton mAnswerUpVoteButton;
+    private ImageButton mAnswerDownVoteButton;
 
 
     //vars
@@ -113,48 +116,28 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         mCommentButton = findViewById(R.id.commentButtonId);
         mDeleteQuestionButton = findViewById(R.id.deleteQuestionButtonId);
         mQuestionAuthorTextView = findViewById(R.id.questionAuthorTextViewId);
+        mDateTimeStampTextView = findViewById(R.id.dateTimeStampTextViewId);
+        mAnswerUpVoteButton = findViewById(R.id.answerUpVoteId);
+        mAnswerDownVoteButton = findViewById(R.id.answerDownVoteId);
+
 
         mAnswerRecyclerView = (RecyclerView) findViewById(R.id.answerRecyclerViewId);
-
-
-//        CollectionReference questionsRef = rootRef.collection("Questions"); <-- OG. unsure if this is best way to go for how to show answers
-        //TODO: CREATE DOCUMENT REFERENCE. potentially create unique identifier for each question through creating firebaseinstance ID,
-        //todo: set doc ref variable, then pull timestamp and other necessary info. similar approach is used for "users"
-
-        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
-
-
-        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-//        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users"); //TODO: THIS MIGHT LOAD ACTIVE USER INSTEAD OF AUTHOR OF QUESTION
-//        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!**** <----OG
-
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference answersRef = rootRef.collection("Answers");
-        DocumentReference docRef = answersRef.document(questionPathIDString); // <-- this works!****
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String questionUserNameString = documentSnapshot.getString("questionAuthor");//TODO: THIS MIGHT LOAD ACTIVE USER INSTEAD OF AUTHOR OF QUESTION
-//                String questionPathIDString = documentSnapshot.getString("parentQuestionId");
-
-                mQuestionAuthorTextView.setText(questionUserNameString);
-            }
-        });
-
-        mPostAnswerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO:  send user to new activity through intent.
-                //TODO: be able to upload photo
-                //TODO: look at preview
-                postAnswerButtonClicked();
-
-            }
-        });
 
         getIncomingIntent();
         setUpAnswerRecyclerView();
 
+
+
+        mPostAnswerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postAnswerButtonClicked();
+                //TODO:  send user to new activity through intent.
+                //TODO: be able to upload photo
+                //TODO: look at preview
+
+            }
+        });
 
         mDeleteQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,8 +147,35 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
             }
         });
+
+
+        mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upVoteClicked();
+            }
+        });
+
+
+        mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downVoteClicked();
+            }
+        });
     }
 
+    private void upVoteClicked() {
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference answersColRef = rootRef.collection("Answers");
+        DocumentReference docRef = answersColRef.document()
+        answersColRef.document()
+
+    }
+
+    private void downVoteClicked() {
+
+    }
 
     private void deleteQuestion() {
 
@@ -190,11 +200,11 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
     private void setUpAnswerRecyclerView() {
-        final String userName = mAuth.getCurrentUser().getDisplayName();
-        Query query = answerRef.whereEqualTo("author", userName);
+//        final String userName = mAuth.getCurrentUser().getDisplayName();
+//        Query query = answerRef.whereEqualTo("author", userName);
 
-//        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
-//        Query query = answerRef.whereEqualTo("parentQuestionId", questionPathIDString);
+        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+        Query query = answerRef.whereEqualTo("parentQuestionId", questionPathIDString);
 //        Query query = answerRef.orderBy("score", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
                 .setQuery(query, Answer.class)
@@ -229,10 +239,9 @@ public class QuestionProfileActivity extends AppCompatActivity implements
 
     private void postAnswerButtonClicked() {
 
-        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
-
-
         getIncomingIntent();
+
+        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
 
         Intent intent = new Intent(QuestionProfileActivity.this, NewAnswerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -240,27 +249,18 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         intent.putExtra("question_string", mQuestionTextView.getText());
         intent.putExtra("questionAuthor_string", mQuestionAuthorTextView.getText());
         intent.putExtra("questionID_string", questionPathIDString);
-//        String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
-
-
-//        intent.putExtra("questionAnswer_string", textViewAnswer.getText());
-//        intent.putExtra("questionPriority_string", textViewPriority.getText());
-//        intent.putExtra("questionID_string", questionItemId);
 
         startActivity(intent);
     }
 
 
     private void setListeners(){
-//        mAnswer.setOnTouchListener(this);
+
         mGestureDetector = new GestureDetector(this, this);
-//        mQuestionViewTitle.setOnClickListener(this);
-//        mCheck.setOnClickListener(this);
-//        mBackArrow.setOnClickListener(this);
     }
 
     @Override
-    public void onStart() {
+    public void onStart() {  // NEED THIS TO MAKE RECYCLER VIEW WORK **VERY IMPORTANT**
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -269,7 +269,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop() { // NEED THIS TO MAKE RECYCLER VIEW WORK **VERY IMPORTANT**
         super.onStop();
         mAnswerRecyclerViewAdapter.stopListening();
     }
@@ -285,13 +285,16 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             String questionAnswerString = (String) getIntent().getExtras().get("questionAnswer_string");
             String questionPriorityString = (String) getIntent().getExtras().get("questionPriority_string");
             String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+            String questionAuthorString = (String) getIntent().getExtras().get("questionAuthorString");
+            String questionDateTimeStamp = (String) getIntent().getExtras().get("questionTimestampString");
 
-            System.out.println(questionPathIDString);
-
+            mDateTimeStampTextView.setText(questionDateTimeStamp);
+            mQuestionAuthorTextView.setText(questionAuthorString);
             mQuestionTextView.setText(questionString);
-//            mQuestionAnswerTextView.setText(questionAnswerString);
             mQuestionPriorityContent.setText(questionPriorityString);
 
+
+            System.out.println(questionPathIDString);
         }
     }
 
@@ -461,8 +464,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
         final Question question = new Question();
         return question;
     };
-
-
 
     private void updateQuestionToCollection(Question question) {
         final String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");

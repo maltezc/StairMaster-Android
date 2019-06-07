@@ -36,6 +36,10 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     protected void onBindViewHolder(@NonNull AnswerAdapter.AnswerHolder answerHolder, int position, @NonNull Answer model) {
 
         answerHolder.answerItemTextView.setText(model.getAnswer());
+        answerHolder.answerAuthorTextView.setText(model.getAuthor());
+        answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
+        answerHolder.answerScoreId.setText(String.valueOf(model.getScore()));
+
     }
 
     @NonNull

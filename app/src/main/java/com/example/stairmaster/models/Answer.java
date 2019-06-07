@@ -17,11 +17,11 @@ public class Answer {
     private String parentQuestionId;
 
 
-    public Answer(String answer, String timeStamp, String author, String parentQuestionId) {
+    public Answer(String answer, String timeStamp, String author, String parentQuestionId, int score) {
 
         this.answer = answer;
         this.timestamp = timeStamp;
-//        this.score; //TODO: figure out how to add score.
+        this.score = score; //TODO: figure out how to add score.
         this.author = author;
         this.parentQuestionId = parentQuestionId;
 
