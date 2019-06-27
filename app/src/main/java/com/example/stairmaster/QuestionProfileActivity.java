@@ -148,7 +148,7 @@ public class QuestionProfileActivity extends AppCompatActivity implements
             }
         });
 
-
+        /*Cant do this because you need to split it up in to fragments
         mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,17 +163,16 @@ public class QuestionProfileActivity extends AppCompatActivity implements
                 downVoteClicked();
             }
         });
+        */
     }
 
     private void upVoteClicked() {
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference answersColRef = rootRef.collection("Answers");
-        DocumentReference docRef = answersColRef.document()
-        answersColRef.document()
+        Log.d(TAG, "upVoteClicked: Up Vote Clicked");
 
     }
 
     private void downVoteClicked() {
+        Log.d(TAG, "downVoteClicked: DownVote Clicked");
 
     }
 

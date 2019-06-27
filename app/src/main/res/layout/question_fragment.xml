@@ -1,31 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    tools:context=".QuestionProfileActivity">
-
-    <!--***this activity is no longer used. see activity_question_profile2.xml *** -->
-
-<!--TODO: INCORPORATE SCROLL VIEW -->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:gravity="center_horizontal"-->
-    <!-- for centering in middle. must set layout_width to center-->
-
-
-
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolBar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?attr/colorPrimary"-->
-        <!--&gt;-->
-        <!--&lt;!&ndash;app:layout_scrollFlags="scroll|enterAlways"&ndash;&gt;-->
-
-        <!--<include layout="@layout/layout_note_toolbar" />-->
-    <!--</android.support.v7.widget.Toolbar>-->
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,6 +49,41 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/questionAuthorTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20sp"
+            android:hint="username here" />
+
+        <TextView
+            android:id="@+id/dateTimeStampTextViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DateTime Stamp" />
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/questionEditTextId3"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_weight=".25"
+        android:background="@null"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:lines="4"
+        android:minLines="4"
+        android:text="questionEditText"
+        android:textSize="30sp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,14 +136,11 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,31 +152,13 @@
                     android:id="@+id/answerEditTextId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="10"
                     android:gravity="top"
+                    android:lines="10"
                     android:text="AnswerEditText"
                     android:textSize="20sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/questionAuthorTextViewId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="username here"
-                        android:layout_marginRight="20sp"/>
-
-                    <TextView
-                        android:id="@+id/dateTimeStampTextViewId"
-                        android:text="DateTime Stamp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
 
 
                 <LinearLayout
@@ -179,19 +171,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Comment"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                     <Button
                         android:id="@+id/editButtonId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit"/>
+                        android:text="Edit" />
 
                     <Button
                         android:id="@+id/deleteQuestionButtonId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Delete"/>
+                        android:text="Delete" />
 
 
                 </LinearLayout>
@@ -200,19 +192,12 @@
                     android:id="@+id/postAnswerButtonId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Post Answer"
                     android:layout_marginTop="10sp"
                     android:backgroundTint="@android:color/holo_green_light"
-                    android:visibility="visible"
-                    />
+                    android:text="Post Answer"
+                    android:visibility="visible" />
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/answerRecyclerViewId"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:orientation="vertical" />
 
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

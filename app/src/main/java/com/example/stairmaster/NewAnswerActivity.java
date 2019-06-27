@@ -137,13 +137,13 @@ public class NewAnswerActivity extends AppCompatActivity {
 
 
     private void saveAnswer() {
-        //TODO: Add answer to question.
-
 
         Date date = Calendar.getInstance().getTime();
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
         String datetimeString = formatter.format(date);
         System.out.println("Today : " + datetimeString);
+        int score = 0;
+        String scoreString = Integer.toString(score);
 
 //        String dateTime = getDateTime();
         String answerString = answerEditText.getText().toString();
@@ -157,7 +157,7 @@ public class NewAnswerActivity extends AppCompatActivity {
 //        Log.d(TAG, "saveAnswer: clicked");
 
 
-        final Answer answerInfo = new Answer(answerString,datetimeString, answerAuthor, questionPathIDString);
+        final Answer answerInfo = new Answer(answerString, datetimeString, answerAuthor, questionPathIDString, score);
 
         //TODO: FIGURE OUT HOW TO SET ANSWER
 
