@@ -67,7 +67,6 @@ public class QuestionProfileActivity extends AppCompatActivity implements
     private ImageButton mCheck;
     private ImageButton mBackArrow;
 
-//    private ImageButton mSaveButton;
     private ImageButton mEditButton;
     private Button mPostAnswerButton;
     private Button mCommentButton;

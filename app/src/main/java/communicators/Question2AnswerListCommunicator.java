@@ -1,4 +1,6 @@
 package communicators;
 
-public class Question2AnswerListCommunicator {
+public interface Question2AnswerListCommunicator {
+
+
 }

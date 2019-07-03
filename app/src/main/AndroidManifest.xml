@@ -15,6 +15,9 @@
         <activity
             android:name=".QuestionProfileActivity"
             android:parentActivityName=".DashboardActivity" />
+
+        <!--<activity android:name=""-->
+
         <activity android:name=".logins.SignInActivity"></activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".UserProfileActivity" />
@@ -51,6 +54,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".QuestionProfileActivity2" />
     </application>
 
 </manifest>

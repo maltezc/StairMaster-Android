@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.stairmaster.QuestionProfileActivity;
+import com.example.stairmaster.QuestionProfileActivity2;
 import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import fragments.QuestionFragment;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, QuestionAdapter.QuestionHolder> {
 
@@ -77,7 +80,8 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
 
-                        Intent intent = new Intent(mContext, QuestionProfileActivity.class);
+//                        Intent intent = new Intent(mContext, QuestionProfileActivity.class);
+                        Intent intent = new Intent(mContext, QuestionProfileActivity2.class);
                         intent.putExtra("question_string", textViewQuestion.getText());
                         intent.putExtra("questionAnswer_string", textViewAnswer.getText());
                         intent.putExtra("questionPriority_string", textViewPriority.getText());

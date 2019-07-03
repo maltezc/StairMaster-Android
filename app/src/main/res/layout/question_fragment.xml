@@ -10,42 +10,86 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/starTextViewId"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".25"
-            android:gravity="center"
-            android:text="##" />
+            android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/questionTextViewId"
+            <ImageButton
+                android:id="@+id/answerUpVoteId"
+                android:text="upVote"
+                android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
+
+            <TextView
+                android:id="@+id/answerScoreId"
+                android:text="0"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"/>
+
+            <ImageButton
+                android:id="@+id/answerDownVoteId"
+                android:text="downVote"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_weight=".25"
-            android:background="@null"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:lines="4"
-            android:minLines="4"
-            android:text="questionEditText"
-            android:textSize="30sp" />
-        <!-- android:background="@null"removes underline -->
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <EditText
-            android:id="@+id/questionEditTextId"
-            android:layout_width="wrap_content"
-            android:layout_height="100sp"
-            android:layout_weight=".25"
-            android:background="@null"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:lines="4"
-            android:minLines="4"
-            android:text="questionEditText"
-            android:textSize="30sp"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/starTextViewId"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"
+                android:gravity="center"
+                android:text="##" />
+
+            <TextView
+                android:id="@+id/questionTextViewId"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight=".25"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:lines="4"
+                android:minLines="4"
+                android:text="questionEditText"
+                android:textSize="30sp" />
+            <!-- android:background="@null"removes underline -->
+
+            <EditText
+                android:id="@+id/questionEditTextId"
+                android:layout_width="wrap_content"
+                android:layout_height="100sp"
+                android:layout_weight=".25"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:lines="4"
+                android:minLines="4"
+                android:text="questionEditText"
+                android:textSize="30sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
