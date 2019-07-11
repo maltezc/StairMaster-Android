@@ -14,6 +14,7 @@ import com.example.stairmaster.R;
 import com.example.stairmaster.models.Answer;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
 
 public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> {
 
@@ -32,8 +33,20 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         super(options);
     }
 
+    @NonNull
+    @Override
+    public AnswerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.answer_item, viewGroup, false);
+        return new AnswerHolder(v);
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull AnswerAdapter.AnswerHolder answerHolder, int position, @NonNull Answer model) {
+
+//        final AnswerHolder databaseReference = getItem(position);
+//        final AnswerHolder databaseReference = getItem(position);
+//        position = getItem(position);
+//        position = getAdapterPosition();
 
         answerHolder.answerItemTextView.setText(model.getAnswer());
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
@@ -42,18 +55,11 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
     }
 
-    @NonNull
-    @Override
-    public AnswerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.answer_item, viewGroup, false);
-        return new AnswerHolder(v);
-    }
-
     public void deleteItem(int position){
         getSnapshots().getSnapshot(position).getReference().delete();
         notifyDataSetChanged();
     }
-    class AnswerHolder extends RecyclerView.ViewHolder{
+    public class AnswerHolder extends RecyclerView.ViewHolder{
 
 
         TextView answerItemTextView;
