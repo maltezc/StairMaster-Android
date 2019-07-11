@@ -3,7 +3,7 @@ package fragments;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,10 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stairmaster.MyAnswersRecyclerViewAdapter;
 import com.example.stairmaster.R;
-import com.example.stairmaster.dummy.DummyContent;
-import com.example.stairmaster.dummy.DummyContent.DummyItem;
+import com.example.stairmaster.models.Answer;
 
 /**
  * A fragment representing a list of Items.
@@ -23,7 +21,7 @@ import com.example.stairmaster.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class AnswersFragment extends Fragment {
+public class AnswersFragment extends ListFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -71,7 +69,8 @@ public class AnswersFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyAnswersRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+//            recyclerView.setAdapter(new AnswerAdapter(new Answer(), mListener));
+//            recyclerView.setAdapter(new MyAnswersRecyclerViewAdapter(Answer.class.ITEMS, mListener));
         }
         return view;
     }
@@ -106,6 +105,7 @@ public class AnswersFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Answer answer);
+//        void onListFragmentInteraction(DummyItem item);
     }
 }

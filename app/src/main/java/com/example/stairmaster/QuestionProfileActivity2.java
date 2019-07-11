@@ -1,18 +1,20 @@
 package com.example.stairmaster;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.stairmaster.models.Answer;
+
+import fragments.AnswersFragment2;
 import fragments.QuestionFragment;
 
 
 public class QuestionProfileActivity2 extends AppCompatActivity {
+//public class QuestionProfileActivity2 extends AppCompatActivity implements AnswersFragment.OnListFragmentInteractionListener {
 
     private QuestionFragment questionFragment;
+    private AnswersFragment2 answersListFragment;
 
 
     //    @Override
@@ -40,11 +42,25 @@ public class QuestionProfileActivity2 extends AppCompatActivity {
 //        fragmentTransaction.commit();
 
         questionFragment  = new QuestionFragment();
+        answersListFragment = new AnswersFragment2();
+//        answersListFragment = new AnswersFragment();
+        getSupportFragmentManager().beginTransaction() // in use
+                .add(R.id.questionFragment, questionFragment); // in use
+//                .add(R.id.answersRecyclerViewID, answersListFragment);
+
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.questionFragment, questionFragment);
+                .add(R.id.answersRecyclerViewID, answersListFragment);
+
+
+
 
 
     }
 
 
+//    @Override
+    public void onListFragmentInteraction(Answer item) {
+//    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
 }

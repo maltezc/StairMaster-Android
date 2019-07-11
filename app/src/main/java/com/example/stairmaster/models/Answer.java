@@ -2,11 +2,18 @@ package com.example.stairmaster.models;
 
 import android.os.health.TimerStat;
 
+import com.example.stairmaster.dummy.DummyContent;
 import com.google.firebase.Timestamp;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Answer {
+
+//    public static final List<Answer> ITEMS = new ArrayList<DummyContent.DummyItem>();
+//    public static final List<DummyContent.DummyItem> ITEMS = new ArrayList<DummyContent.DummyItem>();
+
 
     private String answer; //TODO: Change answers to list
     private String comment; // TODO: Change comments to list

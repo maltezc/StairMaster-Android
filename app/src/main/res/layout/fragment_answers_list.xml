@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
     android:name="com.example.stairmaster.AnswersFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,10 +10,34 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="fragments.AnswersFragment"
+    android:background="@color/com_facebook_blue">
 
-    tools:listitem="@layout/fragment_answers"
-    />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/answersRecyclerViewID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+    <!--android:id="@+id/answerRecyclerViewId"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="400dp"-->
+    <!--android:orientation="vertical" />-->
+
 
     <!--tools:listitem="@layout/answer_item"-->
 
     <!--^implement - tools:listitem="@layout/answer_item"-->
+
+
+

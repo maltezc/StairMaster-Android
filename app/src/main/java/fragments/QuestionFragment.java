@@ -1,5 +1,6 @@
 package fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +11,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stairmaster.NewAnswerActivity;
 import com.example.stairmaster.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 public class QuestionFragment extends Fragment {
 
@@ -61,7 +62,6 @@ public class QuestionFragment extends Fragment {
         ImageButton mQuestionUpVoteButton;
         ImageButton mQuestionDownVoteButton;
 
-//        mQuestionTextView = getView().findViewById(R.id.questionTextViewId);
         mQuestionAnswerEditText = getActivity().findViewById(R.id.answerEditTextId);
 //        mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
         mCheckContainer = getActivity().findViewById(R.id.check_container);
@@ -95,6 +95,43 @@ public class QuestionFragment extends Fragment {
                 questionDownVote();
             }
         });
+
+        mCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Comment Button clicked");
+                Toast.makeText(getContext(), "comment button clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mPostAnswerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Answer Button Clicked");
+                Toast.makeText(getContext(), "Post Answer Button Clicked", Toast.LENGTH_SHORT).show();
+                goToNewAnswerActivity();
+            }
+        });
+
+    }
+
+    private void goToNewAnswerActivity() {
+
+        getIncomingIntent();
+
+        String questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
+        TextView mQuestionTextView = getView().findViewById(R.id.questionTextViewId);
+        TextView mQuestionAuthorTextView = getActivity().findViewById(R.id.questionAuthorTextViewId);
+
+
+        Intent intent = new Intent(getContext(), NewAnswerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        intent.putExtra("question_string", mQuestionTextView.getText());
+        intent.putExtra("questionAuthor_string", mQuestionAuthorTextView.getText());
+        intent.putExtra("questionID_string", questionPathIDString);
+
+        startActivity(intent);
 
     }
 

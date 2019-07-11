@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".NewAnswerActivity"></activity>
-        <activity
-            android:name=".QuestionProfileActivity"
-            android:parentActivityName=".DashboardActivity" />
 
         <!--<activity android:name=""-->
 

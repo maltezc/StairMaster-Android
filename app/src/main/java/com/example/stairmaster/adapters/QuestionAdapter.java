@@ -9,15 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.stairmaster.QuestionProfileActivity;
 import com.example.stairmaster.QuestionProfileActivity2;
 import com.example.stairmaster.R;
 import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import fragments.QuestionFragment;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, QuestionAdapter.QuestionHolder> {
 

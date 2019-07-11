@@ -29,7 +29,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
     public AnswerAdapter(@NonNull FirestoreRecyclerOptions<Answer> options) {
 
-       super(options);
+        super(options);
     }
 
     @Override
