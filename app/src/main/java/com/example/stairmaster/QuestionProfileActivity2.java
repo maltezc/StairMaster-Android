@@ -44,12 +44,14 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
         questionFragment  = new QuestionFragment();
         answersListFragment = new AnswersFragment2();
 //        answersListFragment = new AnswersFragment();
-//        getSupportFragmentManager().beginTransaction() // in use
-//                .add(R.id.questionFragment, questionFragment); // in use
+        getSupportFragmentManager().beginTransaction() // in use
+                .add(R.id.questionFragment, questionFragment); // in use
 //                .add(R.id.answersRecyclerViewID, answersListFragment);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.answersRecyclerViewID, answersListFragment);
+                .add(R.id.answersListFragment, answersListFragment);
+//                .add(list, answersListFragment);
+//                .add(R.id.answersRecyclerViewID, answersListFragment);
 
 
 

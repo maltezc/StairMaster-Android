@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.example.stairmaster.AnswersFragment"
+    android:name="com.example.stairmaster.AnswersFragment2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
@@ -13,10 +13,13 @@
     android:background="@color/com_facebook_blue">
 
     <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/answer_item">
     </ListView>
+
+
 
     <!--<androidx.recyclerview.widget.RecyclerView-->
         <!--android:id="@+id/answersRecyclerViewID"-->

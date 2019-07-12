@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stairmaster.MyAnswersRecyclerViewAdapter;
 import com.example.stairmaster.R;
 import com.example.stairmaster.adapters.AnswerAdapter;
 import com.example.stairmaster.models.Answer;
@@ -32,8 +30,10 @@ public class AnswersFragment2 extends ListFragment {
 
     private static final String TAG = "AnswersFragment2";
 
-    private View AnswersListView;
-    private RecyclerView answersListRecyclerView;
+    private View AnswersView;
+//    private RecyclerView answersListRecyclerView;
+//    private ListFragment answersListRecyclerView; // not sure what is supposd to go here
+    private ListView answersListView;
     private DatabaseReference mDatabase;
 
     private FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
@@ -51,12 +51,14 @@ public class AnswersFragment2 extends ListFragment {
         // Inflate the layout for this fragment
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View AnswersListView =  inflater.inflate(R.layout.fragment_answers_list, container, false);
-        answersListRecyclerView = (RecyclerView) AnswersListView.findViewById(R.id.answersRecyclerViewID); 
-        answersListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        View view =  inflater.inflate(R.layout.fragment_answers_list, container, false);
+//        answersListRecyclerView = (RecyclerView) view.findViewById(R.id.answersRecyclerViewID);
+//        answersListView.setLayoutManager(new LinearLayoutManager(getContext())); // may not need a layout manager for listview
+//        answersListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        answersListView = getListView(); //todo: FIGURE OUT  HOW TO FIX THIS
 
-        return AnswersListView;
+        return view;
 
     }
 
@@ -68,7 +70,7 @@ public class AnswersFragment2 extends ListFragment {
         mManager = new LinearLayoutManager(getActivity());
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
-        answersListRecyclerView.setLayoutManager(mManager);
+//        answersListRecyclerView.setLayoutManager(mManager); // not sure if we need layoutmanager for ListView
 
         //Firebase Firestore
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
@@ -122,10 +124,16 @@ public class AnswersFragment2 extends ListFragment {
 //        mAnswerAdapter = new MyAnswersRecyclerViewAdapter(options);
 
 
-        RecyclerView answerRecyclerView = AnswersListView.findViewById(R.id.answersRecyclerViewID);
-        answerRecyclerView.setHasFixedSize(true);
-        answerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        answerRecyclerView.setAdapter(mAnswerAdapter);
+        answersListView = getListView();
+//        answersListView = (ListView) AnswersView.findViewById(R.id.list);
+//        RecyclerView answerRecyclerView = AnswersView.findViewById(R.id.answersRecyclerViewID);
+
+//        answersListView.setHasFixedSize(true); // not sure if this is needed for ListView
+
+//        answersListView.setLayoutManager(new LinearLayoutManager(getContext())); // not sure if this is needed for ListView
+//        answersListView.setAdapter(mAnswerAdapter);
+//        answersListView.setListAdapter(getContext());
+        answersListView.setAdapter(getListAdapter());
 
 
     }
