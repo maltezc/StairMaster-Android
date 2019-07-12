@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".QuestionProfileActivity">
+    tools:context=".QuestionProfileActivity2">
 
     <!--***this activity is no longer used. see activity_question_profile2.xml *** -->
 
@@ -26,6 +26,7 @@
 
         <!--<include layout="@layout/layout_note_toolbar" />-->
     <!--</android.support.v7.widget.Toolbar>-->
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -196,6 +197,7 @@
 
                 </LinearLayout>
 
+
                 <Button
                     android:id="@+id/postAnswerButtonId"
                     android:layout_width="match_parent"
@@ -206,11 +208,14 @@
                     android:visibility="visible"
                     />
             </LinearLayout>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/answerRecyclerViewId"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:orientation="vertical" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:listitem="@layout/answer_item"/>
 
         </LinearLayout>
     </ScrollView>

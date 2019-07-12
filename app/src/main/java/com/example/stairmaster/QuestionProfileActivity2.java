@@ -10,8 +10,8 @@ import fragments.AnswersFragment2;
 import fragments.QuestionFragment;
 
 
-public class QuestionProfileActivity2 extends AppCompatActivity {
-//public class QuestionProfileActivity2 extends AppCompatActivity implements AnswersFragment.OnListFragmentInteractionListener {
+//public class QuestionProfileActivity2 extends AppCompatActivity {
+public class QuestionProfileActivity2 extends AppCompatActivity implements AnswersFragment2.OnListFragmentInteractionListener {
 
     private QuestionFragment questionFragment;
     private AnswersFragment2 answersListFragment;
@@ -44,8 +44,8 @@ public class QuestionProfileActivity2 extends AppCompatActivity {
         questionFragment  = new QuestionFragment();
         answersListFragment = new AnswersFragment2();
 //        answersListFragment = new AnswersFragment();
-        getSupportFragmentManager().beginTransaction() // in use
-                .add(R.id.questionFragment, questionFragment); // in use
+//        getSupportFragmentManager().beginTransaction() // in use
+//                .add(R.id.questionFragment, questionFragment); // in use
 //                .add(R.id.answersRecyclerViewID, answersListFragment);
 
         getSupportFragmentManager().beginTransaction()
@@ -58,9 +58,8 @@ public class QuestionProfileActivity2 extends AppCompatActivity {
     }
 
 
-//    @Override
-    public void onListFragmentInteraction(Answer item) {
-//    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    @Override
+    public void onListFragmentInteraction(Answer answer) {
 
     }
 }

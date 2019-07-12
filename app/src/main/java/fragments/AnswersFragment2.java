@@ -1,5 +1,6 @@
 package fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +28,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 
 
-public class AnswersFragment2 extends Fragment {
+public class AnswersFragment2 extends ListFragment {
 
     private static final String TAG = "AnswersFragment2";
 
@@ -36,6 +38,8 @@ public class AnswersFragment2 extends Fragment {
 
     private FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
     private LinearLayoutManager mManager;
+    private AnswersFragment2.OnListFragmentInteractionListener mListener;
+
 
 
     public AnswersFragment2() {
@@ -48,7 +52,7 @@ public class AnswersFragment2 extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View AnswersListView =  inflater.inflate(R.layout.fragment_answers_list, container, false);
-        answersListRecyclerView = (RecyclerView) AnswersListView.findViewById(R.id.answersRecyclerViewID);
+        answersListRecyclerView = (RecyclerView) AnswersListView.findViewById(R.id.answersRecyclerViewID); 
         answersListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -125,4 +129,34 @@ public class AnswersFragment2 extends Fragment {
 
 
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AnswersFragment2.OnListFragmentInteractionListener) {
+            mListener = (AnswersFragment2.OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
+    }
+
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnListFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onListFragmentInteraction(Answer answer);
+//        void onListFragmentInteraction(DummyItem item);
+    }
+
+
 }

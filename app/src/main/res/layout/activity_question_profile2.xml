@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".QuestionProfileActivity">
+    tools:context=".QuestionProfileActivity2">
 
     <fragment
         android:id="@+id/questionFragment"
@@ -14,11 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <fragment
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </fragment>
+
     <!--<fragment-->
         <!--android:id="@+id/answersRecyclerViewID"-->
-        <!--android:name="fragments.AnswersFragment"-->
+        <!--android:name="fragments.AnswersFragment2"-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+        <!--android:layout_height="match_parent" />-->
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+        <!--android:id="@+id/answerRecyclerViewId"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical"-->
+        <!--tools:listitem="@layout/answer_item"/>-->
 
     <!--<androidx.recyclerview.widget.RecyclerView-->
         <!--android:layout_width="match_parent"-->
@@ -30,7 +44,8 @@
     <!--<ListView-->
         <!--android:id="@android:id/list"-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+        <!--android:layout_height="wrap_content"-->
+        <!--tools:listitem="@layout/answer_item"/>-->
 
 
 </LinearLayout>

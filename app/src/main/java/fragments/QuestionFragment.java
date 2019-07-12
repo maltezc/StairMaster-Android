@@ -64,9 +64,9 @@ public class QuestionFragment extends Fragment {
 
         mQuestionAnswerEditText = getActivity().findViewById(R.id.answerEditTextId);
 //        mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
-        mCheckContainer = getActivity().findViewById(R.id.check_container);
-        mBackArrowContainer = getActivity().findViewById(R.id.back_arrow_container);
-        mCheck = getActivity().findViewById(R.id.toolbar_check);
+//        mCheckContainer = getActivity().findViewById(R.id.check_container);
+//        mBackArrowContainer = getActivity().findViewById(R.id.back_arrow_container);
+//        mCheck = getActivity().findViewById(R.id.toolbar_check);
         mEditButton = getActivity().findViewById(R.id.edit_question);
         mSaveButton = getActivity().findViewById(R.id.save_question);
         mPostAnswerButton = getActivity().findViewById(R.id.postAnswerButtonId);
