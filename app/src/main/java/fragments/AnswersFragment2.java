@@ -19,11 +19,14 @@ import com.example.stairmaster.adapters.AnswerListViewAdapter;
 import com.example.stairmaster.models.Answer;
 import com.firebase.ui.firestore.FirestoreArray;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -62,7 +65,7 @@ public class AnswersFragment2 extends ListFragment {
 //        answersListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 //        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.activity_list_item, answersListView);
-        mAnswerFirestoreArrayAdapter = new FirestoreArray<Answer>(getActivity(), android.R.layout.activity_list_item);
+//        mAnswerFirestoreArrayAdapter = new FirestoreArray<Answer>(getActivity(), android.R.layout.activity_list_item, mAnswerFirestoreArrayAdapter);
         //TODO: youtube firestore listview fragments!!!!
 
         return view;
@@ -100,6 +103,24 @@ public class AnswersFragment2 extends ListFragment {
 
 
         mAdapter = new AnswerListViewAdapter(getContext(), getId());
+
+//        questionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//
+//                //Firebase Firestore
+//                firestoreDB = FirebaseFirestore.getInstance();
+//                questionRef = firestoreDB.collection("Answers");
+//                Query query = questionRef.orderBy("score", Query.Direction.DESCENDING); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
+//                FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
+////        FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
+//                        .setQuery(query, Answer.class)
+//                        .build();
+//
+//            }
+//        });
+
+
 
 
 
@@ -155,10 +176,7 @@ public class AnswersFragment2 extends ListFragment {
         //Firebase Firestore
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
         CollectionReference questionRef = firestoreDB.collection("Answers");
-
         Query query = questionRef.orderBy("score", Query.Direction.DESCENDING); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
-
-
         FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
                 .setQuery(query, Answer.class)
                 .build();

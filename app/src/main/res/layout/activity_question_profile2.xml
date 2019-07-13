@@ -14,13 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <fragment
-        android:id="@+id/answersListFragment"
-        android:name="fragments.AnswersFragment2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<fragment-->
+        <!--android:id="@+id/answersListFragment"-->
+        <!--android:name="fragments.AnswersFragment2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-    </fragment>
+    <!--</fragment>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/answerRecyclerViewIdQP2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:listitem="@layout/answer_item"/>
 
     <!--<fragment-->
         <!--android:id="@+id/answersRecyclerViewID"-->
