@@ -1,4 +1,4 @@
-package com.example.stairmaster;
+package com.example.stairmaster.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import fragments.AnswersFragment.OnListFragmentInteractionListener;
+
+import com.example.stairmaster.R;
 import com.example.stairmaster.dummy.DummyContent.DummyItem;
 import com.example.stairmaster.models.Answer;
 

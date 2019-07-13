@@ -5,17 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stairmaster.R;
 import com.example.stairmaster.adapters.AnswerAdapter;
+import com.example.stairmaster.adapters.AnswerListViewAdapter;
 import com.example.stairmaster.models.Answer;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreArray;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,8 +37,11 @@ public class AnswersFragment2 extends ListFragment {
 //    private ListFragment answersListRecyclerView; // not sure what is supposd to go here
     private ListView answersListView;
     private DatabaseReference mDatabase;
+    private AnswerListViewAdapter mAdapter;
 
-    private FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
+    private FirestoreArray<Answer> mAnswerFirestoreArrayAdapter;
+    //    private Firestore<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
+//    private FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
     private LinearLayoutManager mManager;
     private AnswersFragment2.OnListFragmentInteractionListener mListener;
 
@@ -55,10 +60,22 @@ public class AnswersFragment2 extends ListFragment {
 //        answersListRecyclerView = (RecyclerView) view.findViewById(R.id.answersRecyclerViewID);
 //        answersListView.setLayoutManager(new LinearLayoutManager(getContext())); // may not need a layout manager for listview
 //        answersListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        answersListView = getListView(); //todo: FIGURE OUT  HOW TO FIX THIS
+
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.activity_list_item, answersListView);
+        mAnswerFirestoreArrayAdapter = new FirestoreArray<Answer>(getActivity(), android.R.layout.activity_list_item);
+        //TODO: youtube firestore listview fragments!!!!
 
         return view;
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        answersListView = getListView();
+
 
     }
 
@@ -76,24 +93,52 @@ public class AnswersFragment2 extends ListFragment {
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
         CollectionReference questionRef = firestoreDB.collection("Answers");
 
-        setUpQuestionRecyclerView();
+        setUpAnswerListView();
+
+
+        answersListView = (ListView) getListView();
+
+
+        mAdapter = new AnswerListViewAdapter(getContext(), getId());
+
+
+
+
+//        db.collection(COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                List<Missions> mMissionsList = new ArrayList<>();
+//                if(task.isSuccessful()){
+//                    for(QueryDocumentSnapshot document : task.getResult()) {
+//                        Missions miss = document.toObject(Missions.class);
+//                        mMissionsList.add(miss);
+//                    }
+//                    ListView mMissionsListView = (ListView) findViewById(R.id.missionList);
+//                    MissionsAdapter mMissionAdapter = new MissionsAdapter(this, mMissionsList);
+//                    mMissionsListView.setAdapter(mMissionAdapter);
+//                } else {
+//                    Log.d("MissionActivity", "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAnswerAdapter.startListening();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAnswerFirestoreArrayAdapter.startListening();
+//        mAnswerFirestoreArrayAdapter.
+//    }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        mAnswerAdapter.stopListening();
-    }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        mAnswerFirestoreArrayAdapter.stopListening();
+//    }
 
-    private void setUpQuestionRecyclerView() {
+    private void setUpAnswerListView() {
 
         // vars
         ArrayList<Answer> mAnswers = new ArrayList<>();
