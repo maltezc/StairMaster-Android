@@ -1,11 +1,13 @@
 package com.example.stairmaster.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
     private QuestionAdapter.OnItemClickListener listener;
     private Context mContext;
+    private static final String TAG = "AnswerAdapter";
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -53,6 +56,13 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
         answerHolder.answerScoreId.setText(String.valueOf(model.getScore()));
 
+//        answerHolder.answerItemTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+
     }
 
     public void deleteItem(int position){
@@ -67,17 +77,42 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         ImageButton answerCheckMark;
         TextView answerAuthorTextView;
         TextView answerTimeStampTextView;
+        ImageButton mAnswerUpVoteButton;
+        ImageButton mAnswerDownVoteButton;
 
 
-        public AnswerHolder(@NonNull View itemView) {
+
+        public AnswerHolder(@NonNull final View itemView) {
             super(itemView);
             answerItemTextView = itemView.findViewById(R.id.answerItemTextViewId);
             answerScoreId = itemView.findViewById(R.id.answerScoreId);
             answerCheckMark = itemView.findViewById(R.id.answerCheckMarkId);
             answerAuthorTextView = itemView.findViewById(R.id.answerAuthorTextViewId);
             answerTimeStampTextView = itemView.findViewById(R.id.answerTimeStampTextViewId);
+            mAnswerUpVoteButton = itemView.findViewById(R.id.answerUpVoteId);
+            mAnswerDownVoteButton = itemView.findViewById(R.id.answerDownVoteId);
+
 
             mContext = itemView.getContext();
+
+
+            //TODO: link to answer's firebaseid so you can upvote that one single answer.
+            //TODO: do same for questions for upvote/downvote functionality
+            mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), "Answer upvote Button clicked" + getItemId(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Answer UpVote Button clicked");
+                }
+            });
+
+            mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: Answer DownVote Button Clicked");
+                    Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked" + getSnapshots().get(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
 

@@ -55,12 +55,13 @@ public class QuestionFragment extends Fragment {
         Button mPostAnswerButton;
         Button mCommentButton;
         Button mDeleteQuestionButton;
+        Button mQuestionProfEditButton;
+        ImageButton mQuestionUpVoteButton;
+        ImageButton mQuestionDownVoteButton;
         RelativeLayout mCheckContainer, mBackArrowContainer;
         ImageButton mCheck;
         ImageButton mEditButton;
         ImageButton mSaveButton;
-        ImageButton mQuestionUpVoteButton;
-        ImageButton mQuestionDownVoteButton;
 
         mQuestionAnswerEditText = getActivity().findViewById(R.id.answerEditTextId);
 //        mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
@@ -68,6 +69,7 @@ public class QuestionFragment extends Fragment {
 //        mBackArrowContainer = getActivity().findViewById(R.id.back_arrow_container);
 //        mCheck = getActivity().findViewById(R.id.toolbar_check);
         mEditButton = getActivity().findViewById(R.id.edit_question);
+        mQuestionProfEditButton = getActivity().findViewById(R.id.questionEditButtonId);
         mSaveButton = getActivity().findViewById(R.id.save_question);
         mPostAnswerButton = getActivity().findViewById(R.id.postAnswerButtonId);
         mCommentButton = getActivity().findViewById(R.id.commentButtonId);
@@ -100,7 +102,22 @@ public class QuestionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Comment Button clicked");
-                Toast.makeText(getContext(), "comment button clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Comment Button Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mQuestionProfEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Edit Button Clicked");
+                Toast.makeText(getContext(), "Edit Button Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mDeleteQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Delete Button Clicked");
+                Toast.makeText(getContext(), "Delete Button Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -137,6 +154,7 @@ public class QuestionFragment extends Fragment {
 
     private void questionUpVote() {
         Log.d(TAG, "questionUpVote: clicked");
+        Toast.makeText(getContext(), "Question Up Vote Clicked", Toast.LENGTH_SHORT).show();
         // update UI score
         // update firebase score
 
@@ -144,6 +162,7 @@ public class QuestionFragment extends Fragment {
 
     private void questionDownVote() {
         Log.d(TAG, "questionDownVote: clicked");
+        Toast.makeText(getContext(), "Question DownVote Clicked", Toast.LENGTH_SHORT).show();
         // update UI score
         // update firebase score
     }
