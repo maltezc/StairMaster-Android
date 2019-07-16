@@ -3,6 +3,7 @@ package com.example.stairmaster;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stairmaster.adapters.AnswerAdapter;
+import com.example.stairmaster.adapters.QuestionAdapter;
 import com.example.stairmaster.models.Answer;
+import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -150,6 +154,34 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
                 mAnswerRecyclerViewAdapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(answerRecyclerView);
+
+
+        //TODO: Below does not work with upvote/downvote. Getting closer though.
+        mAnswerRecyclerViewAdapter.setOnItemClickListener(new AnswerAdapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String id) {
+
+                Answer answer = documentSnapshot.toObject(Answer.class);
+                String answerId = documentSnapshot.getId();
+                Log.d(TAG, "onItemClick: " + answerId);
+                Toast.makeText(QuestionProfileActivity2.this, "answerId" + answerId, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+/**
+        mQuestionAdapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String itemId) {
+                Question question = documentSnapshot.toObject(Question.class);
+                String id = documentSnapshot.getId();
+                Log.d(TAG, "onItemClick: " + id);
+
+                String path = documentSnapshot.getReference().getPath();
+
+                Toast.makeText(DashboardActivity.this, "Position: " + position + " ID:" + id, Toast.LENGTH_SHORT).show();
+            }
+        });
+ **/
 
     }
 

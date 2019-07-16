@@ -17,6 +17,7 @@ import com.example.stairmaster.models.Answer;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> {
 
@@ -69,17 +70,18 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         getSnapshots().getSnapshot(position).getReference().delete();
         notifyDataSetChanged();
     }
+
     public class AnswerHolder extends RecyclerView.ViewHolder{
 
 
         TextView answerItemTextView;
+
         TextView answerScoreId;
         ImageButton answerCheckMark;
         TextView answerAuthorTextView;
         TextView answerTimeStampTextView;
         ImageButton mAnswerUpVoteButton;
         ImageButton mAnswerDownVoteButton;
-
 
 
         public AnswerHolder(@NonNull final View itemView) {
@@ -95,27 +97,97 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
             mContext = itemView.getContext();
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            //TODO: link to answer's firebaseid so you can upvote that one single answer.
-            //TODO: do same for questions for upvote/downvote functionality
+                    final int position = getAdapterPosition();
+
+
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
+
+                        final String answerAuthorString = getSnapshots().getSnapshot(position).getString("author");
+//                        String questionTimestamp = getSnapshots().getSnapshot(position).getString("questionTimestamp");
+
+
+                        //TODO: link to answer's firebaseid so you can upvote that one single answer.
+                        //TODO: do same for questions for upvote/downvote functionality
+                        mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(itemView.getContext(), "Answer upvote Button clicked" + answerAuthorString, Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onClick: Answer UpVote Button clicked");
+
+                            }
+                        });
+
+                        mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d(TAG, "onClick: Answer DownVote Button Clicked");
+                                Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked" + getSnapshots().getSnapshot(position).getId(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                     }
+
+
+//                    mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(itemView.getContext(), "Answer upvote Button clicked from inside of listener" + getItemId(), Toast.LENGTH_SHORT).show();
+//                            Log.d(TAG, "onClick: Answer UpVote Button clicked from inside of listener");
+//                        }
+//                    });
+//
+//                    mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked from inside of listener" + getSnapshots().getSnapshot(position).getId(), Toast.LENGTH_SHORT).show();
+//                            Log.d(TAG, "onClick: Answer DownVote Button Clicked from inside of listener");
+//                        }
+//                    });
+
+
+                };
+            });
+
+            /**
             mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Answer upvote Button clicked" + getItemId(), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onClick: Answer UpVote Button clicked");
+                    Toast.makeText(itemView.getContext(), "Answer upvote Button clicked from outside of listener" + getItemId(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Answer UpVote Button clicked from outside of listener");
+//                    itemView.getContext().
                 }
             });
 
             mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick: Answer DownVote Button Clicked");
-                    Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked" + getSnapshots().get(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked from outside of listener" + getItemId(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Answer DownVote Button Clicked from outside of listener");
                 }
             });
-
-
-
+            **/
         }
+
     }
+    public interface OnItemClickListener {
+
+        void onItemClick(DocumentSnapshot documentSnapshot, int position, String id);
+    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.listener = listener;
+
+    }
+
+//    public void setOnItemClickListener(AnswerAdapter.OnItemClickListener listener) {
+//        this.listener = listener;
+//    }
+
+    // Model below
+//    public void setOnItemClickListener(QuestionAdapter.OnItemClickListener listener) {
+//        this.listener = listener;
+//    }
 }

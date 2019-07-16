@@ -102,13 +102,10 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     }
     public interface OnItemClickListener {
         void onItemClick(DocumentSnapshot documentSnapshot, int position, String id);
-
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
-
         this.listener = listener;
-
     }
 
 
