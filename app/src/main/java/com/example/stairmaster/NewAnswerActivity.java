@@ -148,6 +148,7 @@ public class NewAnswerActivity extends AppCompatActivity {
 //        String dateTime = getDateTime();
         String answerString = answerEditText.getText().toString();
         String answerAuthor = answerAuthorTextView.getText().toString();
+
         dateTimeStampTextView.setText(datetimeString);
 
         loadQuestionContent();
@@ -159,13 +160,21 @@ public class NewAnswerActivity extends AppCompatActivity {
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
         DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
-
         final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
+
+
+        // TODO: 2019-07-17 see stackoverflow for reference on how to set. 
+
 
         answerRef.add(answerInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "onSuccess: Answer was added");
+                // TODO: 2019-07-17 save answerID here after oncomplete
+
+                documentReference.getId();
+                documentReference.getPath();
+//                documentReference.update("answerFirebaseId", )
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

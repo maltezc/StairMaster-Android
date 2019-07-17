@@ -16,6 +16,8 @@ import com.example.stairmaster.R;
 import com.example.stairmaster.models.Answer;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -75,9 +77,26 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
                 Toast.makeText(mContext, "upvote button clicked " + answerScoreTest, Toast.LENGTH_SHORT).show();
 
                 final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
-                final DocumentReference answerDocRef = answerRef.document();/// TODO: 2019-07-16 figure this out
-                answerDocRef.update(); // TODO: 2019-07-16 figure this out too and it should work. 
 
+//                DocumentSnapshot documentSnapshot  = answerRef.getFirestore().document();
+//                DocumentSnapshot documentSnapshot  = // try gettying path to current item
+//                DocumentSnapshot documentSnapshot  = answerRef.getId();
+                // TODO: 2019-07-17 look at getting docRef by pulling Firebase id from answermodel
+
+//                final DocumentReference answerDocRef = answerRef.document(getSnapshots().getSnapshot(position).getId());
+//                answerDocRef.update(answerDocRef); // TODO: 2019-07-16 figure this out too and it should work.
+
+                answerRef.document().update("score", answerScoreTest).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
 
             }
         });
