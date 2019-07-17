@@ -156,19 +156,20 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
         }).attachToRecyclerView(answerRecyclerView);
 
 
-        //TODO: Below does not work with upvote/downvote. Getting closer though.
-        mAnswerRecyclerViewAdapter.setOnItemClickListener(new AnswerAdapter.OnItemClickListener(){
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String id) {
-
-                Answer answer = documentSnapshot.toObject(Answer.class);
-                String answerId = documentSnapshot.getId();
-                Log.d(TAG, "onItemClick: " + answerId);
-                Toast.makeText(QuestionProfileActivity2.this, "answerId" + answerId, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        //TODO: Below does not work with upvote/downvote. Getting closer though.
+//        mAnswerRecyclerViewAdapter.setOnItemClickListener(new AnswerAdapter.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String id) {
+//
+//                Answer answer = documentSnapshot.toObject(Answer.class);
+//                String answerId = documentSnapshot.getId();
+//                Log.d(TAG, "onItemClick: " + answerId);
+//                Toast.makeText(QuestionProfileActivity2.this, "answerId" + answerId, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 /**
+ *question example for reference below
         mQuestionAdapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position, String itemId) {

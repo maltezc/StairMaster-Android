@@ -17,10 +17,15 @@ import com.example.stairmaster.models.Answer;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> {
 
+
+//    public AnswerAdapater onClickListener;
     private QuestionAdapter.OnItemClickListener listener;
     private Context mContext;
     private static final String TAG = "AnswerAdapter";
@@ -45,7 +50,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AnswerAdapter.AnswerHolder answerHolder, int position, @NonNull Answer model) {
+    protected void onBindViewHolder(@NonNull AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull Answer model) {
 
 //        final AnswerHolder databaseReference = getItem(position);
 //        final AnswerHolder databaseReference = getItem(position);
@@ -63,6 +68,19 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 //
 //            }
 //        });
+        answerHolder.mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String answerScoreTest = getSnapshots().getSnapshot(position).get("score").toString();
+                Toast.makeText(mContext, "upvote button clicked " + answerScoreTest, Toast.LENGTH_SHORT).show();
+
+                final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
+                final DocumentReference answerDocRef = answerRef.document();/// TODO: 2019-07-16 figure this out
+                answerDocRef.update(); // TODO: 2019-07-16 figure this out too and it should work. 
+
+
+            }
+        });
 
     }
 
@@ -97,39 +115,39 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
             mContext = itemView.getContext();
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    final int position = getAdapterPosition();
+//
+//
+//                    if (position != RecyclerView.NO_POSITION && listener != null) {
+//                        listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
+//
+//                        final String answerAuthorString = getSnapshots().getSnapshot(position).getString("author");
+////                        String questionTimestamp = getSnapshots().getSnapshot(position).getString("questionTimestamp");
 
-                    final int position = getAdapterPosition();
 
-
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
-
-                        final String answerAuthorString = getSnapshots().getSnapshot(position).getString("author");
-//                        String questionTimestamp = getSnapshots().getSnapshot(position).getString("questionTimestamp");
-
-
-                        //TODO: link to answer's firebaseid so you can upvote that one single answer.
-                        //TODO: do same for questions for upvote/downvote functionality
-                        mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(itemView.getContext(), "Answer upvote Button clicked" + answerAuthorString, Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "onClick: Answer UpVote Button clicked");
-
-                            }
-                        });
-
-                        mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.d(TAG, "onClick: Answer DownVote Button Clicked");
-                                Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked" + getSnapshots().getSnapshot(position).getId(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                     }
+//                        //TODO: link to answer's firebaseid so you can upvote that one single answer.
+//                        //TODO: do same for questions for upvote/downvote functionality
+//                        mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Toast.makeText(itemView.getContext(), "Answer upvote Button clicked" + answerAuthorString, Toast.LENGTH_SHORT).show();
+//                                Log.d(TAG, "onClick: Answer UpVote Button clicked");
+//
+//                            }
+//                        });
+//
+//                        mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Log.d(TAG, "onClick: Answer DownVote Button Clicked");
+//                                Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked" + getSnapshots().getSnapshot(position).getId(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                     }
 
 
 //                    mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
@@ -149,8 +167,8 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 //                    });
 
 
-                };
-            });
+//                };
+//            });
 
             /**
             mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
@@ -176,11 +194,21 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     public interface OnItemClickListener {
 
         void onItemClick(DocumentSnapshot documentSnapshot, int position, String id);
-    }
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.listener = listener;
+
+
 
     }
+
+
+
+
+
+//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+//        this.listener = listener;
+//
+//    }
+
+//    public interface AnswerAdapater
 
 //    public void setOnItemClickListener(AnswerAdapter.OnItemClickListener listener) {
 //        this.listener = listener;

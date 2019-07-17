@@ -154,14 +154,7 @@ public class NewAnswerActivity extends AppCompatActivity {
 
         String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
 
-//        Log.d(TAG, "saveAnswer: clicked");
-
-
         final Answer answerInfo = new Answer(answerString, datetimeString, answerAuthor, questionPathIDString, score);
-
-        //TODO: FIGURE OUT HOW TO SET ANSWER
-
-        // one method add answer firebase. then filter for answer's question's doc id
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");

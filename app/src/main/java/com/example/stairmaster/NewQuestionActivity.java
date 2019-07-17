@@ -138,6 +138,7 @@ public class NewQuestionActivity extends AppCompatActivity {
             }
         });
 
+
         int priority = numberPickerPriority.getValue();
         String tagInput = editTextTags.getText().toString();
         String[] tagArray = tagInput.split("\\s*, \\s*");
