@@ -170,6 +170,19 @@ public class NewQuestionActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "onSuccess: questionRef.add executed");
+                String questionIdRef = documentReference.getId();
+                documentReference.update("questionFirebaseId", questionIdRef).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: questionId added to firebase");
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: questionId could not be added to firebase");
+                    }
+                });
 
             }
         }).addOnFailureListener(new OnFailureListener() {

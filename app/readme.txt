@@ -31,6 +31,9 @@ adding to drawable
 Go to:
 New --> Vector Asset --> Click on icon --> choose
 
+go to next bug during debug:
+fn+option+F9
+
 Recycler view Notes
 https://guides.codepath.com/android/using-the-recyclerview
 

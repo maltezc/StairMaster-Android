@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.stairmaster.models.Answer;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -157,24 +155,40 @@ public class NewAnswerActivity extends AppCompatActivity {
 
         final Answer answerInfo = new Answer(answerString, datetimeString, answerAuthor, questionPathIDString, score);
 
-        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+        final String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+        final CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("Users");
+        final DocumentReference userDocRef = usersCollectionRef.document(userFirebaseEmail); // <-- this works!****
+        final String userDocRefId = usersCollectionRef.document(userFirebaseEmail).getId(); // <-- this works!****
         final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
 
 
-        // TODO: 2019-07-17 see stackoverflow for reference on how to set. 
+
+//        String AnswerIdRef = answerRef.document(userDocRef).collection(answerRef).document().getId();
+
+
+//          for reference below
+//        String id = mWhammyUsersCollection.document(mCurrentUserId).collection("my-chats")
+//                .document().getId();
+//        mWhammyUsersCollection.document(mCurrentUserId).collection("my-chats")
+//                .document(id).set(myChatFields)
+//                .addOnSuccessListener(/* ... */);
+
+
+
 
 
         answerRef.add(answerInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "onSuccess: Answer was added");
-                // TODO: 2019-07-17 save answerID here after oncomplete
 
-                documentReference.getId();
-                documentReference.getPath();
-//                documentReference.update("answerFirebaseId", )
+                String answerIdRef  = documentReference.getId();
+                documentReference.update("answerFirebaseId", answerIdRef).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: answerFirebaseId added to database");
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
