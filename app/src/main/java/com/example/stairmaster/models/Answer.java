@@ -1,14 +1,5 @@
 package com.example.stairmaster.models;
 
-import android.os.health.TimerStat;
-
-import com.example.stairmaster.dummy.DummyContent;
-import com.google.firebase.Timestamp;
-
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Answer {
 
 //    public static final List<Answer> ITEMS = new ArrayList<DummyContent.DummyItem>();
@@ -18,17 +9,17 @@ public class Answer {
     private String answer; //TODO: Change answers to list
     private String comment; // TODO: Change comments to list
     private String timestamp;
-    private int score;
+    private int answerScore;
     private String author;
     private String answerFirebaseId; // not sure if this is necessary;
     private String parentQuestionId;
 
 
-    public Answer(String answer, String timeStamp, String author, String parentQuestionId, int score) {
+    public Answer(String answer, String timeStamp, String author, String parentQuestionId, int answerScore) {
 
         this.answer = answer;
         this.timestamp = timeStamp;
-        this.score = score; //TODO: figure out how to add score.
+        this.answerScore = answerScore; //TODO: figure out how to add answerScore.
         this.author = author;
         this.parentQuestionId = parentQuestionId;
 
@@ -71,12 +62,12 @@ public class Answer {
         this.timestamp = timestamp;
     }
 
-    public int getScore() {
-        return score;
+    public int getAnswerScore() {
+        return answerScore;
     }
 
-    public void setScore(int score) {
-        score = score;
+    public void setAnswerScore(int answerScore) {
+        answerScore = answerScore;
     }
 
     public String getAuthor() {

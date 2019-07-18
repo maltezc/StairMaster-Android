@@ -176,7 +176,7 @@ public class AnswersFragment2 extends ListFragment {
         //Firebase Firestore
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
         CollectionReference questionRef = firestoreDB.collection("Answers");
-        Query query = questionRef.orderBy("score", Query.Direction.DESCENDING); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
+        Query query = questionRef.orderBy("answerScore", Query.Direction.DESCENDING); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
         FirestoreRecyclerOptions<Answer> options = new FirestoreRecyclerOptions.Builder<Answer>()
                 .setQuery(query, Answer.class)
                 .build();

@@ -18,10 +18,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> {
@@ -52,7 +52,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull Answer model) {
+    protected void onBindViewHolder(@NonNull final AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull final Answer model) {
 
 //        final AnswerHolder databaseReference = getItem(position);
 //        final AnswerHolder databaseReference = getItem(position);
@@ -62,7 +62,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerItemTextView.setText(model.getAnswer());
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
         answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
-        answerHolder.answerScoreId.setText(String.valueOf(model.getScore()));
+        answerHolder.answerScoreId.setText(String.valueOf(model.getAnswerScore()));
 
 //        answerHolder.answerItemTextView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -73,27 +73,28 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String answerScoreTest = getSnapshots().getSnapshot(position).get("score").toString();
-                Toast.makeText(mContext, "upvote button clicked " + answerScoreTest, Toast.LENGTH_SHORT).show();
+                String answerScoreTestString = getSnapshots().getSnapshot(position).get("answerScore").toString();
+                String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+                Toast.makeText(mContext, "upvote button clicked " + answerScoreTestString, Toast.LENGTH_SHORT).show();
 
-                final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
 
-//                DocumentSnapshot documentSnapshot  = answerRef.getFirestore().document();
-//                DocumentSnapshot documentSnapshot  = // try gettying path to current item
-//                DocumentSnapshot documentSnapshot  = answerRef.getId();
-                // TODO: 2019-07-17 look at getting docRef by pulling Firebase id from answermodel
+                final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+                final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
 
-//                final DocumentReference answerDocRef = answerRef.document(getSnapshots().getSnapshot(position).getId());
-//                answerDocRef.update(answerDocRef); // TODO: 2019-07-16 figure this out too and it should work.
-
-                answerRef.document().update("score", answerScoreTest).addOnSuccessListener(new OnSuccessListener<Void>() {
+                answerDocRef.update("answerScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: answerScore incremented");
+//                        answerDocRef.get("answerScore");
+                        answerHolder.answerScoreId.setText(model.getAnswerScore()); // TODO: 2019-07-18 how to update score on screen! almost there! 
+                        answerHolder.answerScoreId.setText(String.valueOf(model.getAnswerScore()));
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
 
                     }
                 });
