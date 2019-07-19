@@ -62,7 +62,8 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerItemTextView.setText(model.getAnswer());
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
         answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
-        answerHolder.answerScoreId.setText(String.valueOf(model.getAnswerScore()));
+//        answerHolder.answerScoreTextView.setText(String.valueOf(model.getAnswerScore()));
+        answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
 
 //        answerHolder.answerItemTextView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -70,12 +71,17 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 //
 //            }
 //        });
+
+//        String answerScoreFBValue2 = getSnapshots().getSnapshot(position).getString("answerScore");
+
+
+
         answerHolder.mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String answerScoreTestString = getSnapshots().getSnapshot(position).get("answerScore").toString();
-                String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-                Toast.makeText(mContext, "upvote button clicked " + answerScoreTestString, Toast.LENGTH_SHORT).show();
+                final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
+                final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+                Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
 
 
                 final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
@@ -87,8 +93,10 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: answerScore incremented");
 //                        answerDocRef.get("answerScore");
-                        answerHolder.answerScoreId.setText(model.getAnswerScore()); // TODO: 2019-07-18 how to update score on screen! almost there! 
-                        answerHolder.answerScoreId.setText(String.valueOf(model.getAnswerScore()));
+                        answerHolder.answerScoreTextView.setText("testing");
+//                        answerHolder.answerScoreTextView.setText(answerScoreFBValue);
+//                        answerHolder.answerScoreTextView.seText(model.getAnswerScore()); // TODO: 2019-07-18 how to update score on screen! almost there!
+//                        answerHolder.answerScoreTextView.setText(String.valueOf(model.getAnswerScore()));
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -114,7 +122,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
         TextView answerItemTextView;
 
-        TextView answerScoreId;
+        TextView answerScoreTextView;
         ImageButton answerCheckMark;
         TextView answerAuthorTextView;
         TextView answerTimeStampTextView;
@@ -125,7 +133,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         public AnswerHolder(@NonNull final View itemView) {
             super(itemView);
             answerItemTextView = itemView.findViewById(R.id.answerItemTextViewId);
-            answerScoreId = itemView.findViewById(R.id.answerScoreId);
+            answerScoreTextView = itemView.findViewById(R.id.answerScoreId);
             answerCheckMark = itemView.findViewById(R.id.answerCheckMarkId);
             answerAuthorTextView = itemView.findViewById(R.id.answerAuthorTextViewId);
             answerTimeStampTextView = itemView.findViewById(R.id.answerTimeStampTextViewId);
@@ -134,6 +142,8 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
 
             mContext = itemView.getContext();
+
+
 
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override

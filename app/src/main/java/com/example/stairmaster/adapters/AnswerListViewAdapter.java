@@ -42,7 +42,7 @@ public class AnswerListViewAdapter extends ArrayAdapter<Answer> {
 //        answerHolder.answerItemTextView.setText(model.getAnswer());
 //        answerHolder.answerAuthorTextView.setText(model.getAuthor());
 //        answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
-//        answerHolder.answerScoreId.setText(String.valueOf(model.getAnswerScore()));
+//        answerHolder.answerScoreTextView.setText(String.valueOf(model.getAnswerScore()));
 
         return convertView;
     }
