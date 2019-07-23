@@ -20,7 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stairmaster.NewAnswerActivity;
 import com.example.stairmaster.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class QuestionFragment extends Fragment {
@@ -38,10 +44,30 @@ public class QuestionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //firebase
-        FirebaseAuth mAuth;
-        FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
-        String questionPathIDString;
+
+//        public void onClick(View v) {
+//            final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
+//            final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+//            Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
+//            final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+//            final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
+//
+//            answerDocRef.update("answerScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                @Override
+//                public void onSuccess(Void aVoid) {
+//                    Log.d(TAG, "onSuccess: answerScore incremented");
+//                    answerHolder.answerScoreTextView.setText("testing");
+//
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
+//                }
+//            });
+//        }
+
 
 
         EditText mQuestionEditText;
@@ -155,8 +181,38 @@ public class QuestionFragment extends Fragment {
     private void questionUpVote() {
         Log.d(TAG, "questionUpVote: clicked");
         Toast.makeText(getContext(), "Question Up Vote Clicked", Toast.LENGTH_SHORT).show();
+        // get questionID from get extra intent
+        String questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
+        //firebase
+        FirebaseAuth mAuth;
+        // get db
+        FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+        // set collection reference
+        CollectionReference questionColRef = firestoreDB.collection("Questions");
+        // set doc reference
+        DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
+        // get score
+        questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                // TODO: 2019-07-23 : getscore
+                // TODO: 2019-07-23 : update Score
+            }
+        });
+        //check toast
+        // update
+
         // update UI score
         // update firebase score
+
+        //reference below
+//        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                String userNameString = documentSnapshot.getString("userName");
+//                authorTextView.setText(userNameString);
+//            }
+//        });
 
     }
 

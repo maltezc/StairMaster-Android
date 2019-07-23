@@ -36,7 +36,9 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     protected void onBindViewHolder(@NonNull QuestionHolder questionHolder, int position, @NonNull Question model) {
 
         questionHolder.textViewQuestion.setText(model.getQuestion());
-        questionHolder.textViewPriority.setText(String.valueOf(model.getQuestionPriority()));
+        questionHolder.textViewPriority.setText(String.valueOf(model.getQuestionScore()));
+
+
 
     }
 

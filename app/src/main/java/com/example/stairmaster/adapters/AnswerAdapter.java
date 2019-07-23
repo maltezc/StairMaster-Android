@@ -65,15 +65,6 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 //        answerHolder.answerScoreTextView.setText(String.valueOf(model.getAnswerScore()));
         answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
 
-//        answerHolder.answerItemTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
-//        String answerScoreFBValue2 = getSnapshots().getSnapshot(position).getString("answerScore");
-
 
 
         answerHolder.mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +73,6 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
                 final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
                 final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
                 Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
-
-
                 final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
                 final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
 
@@ -92,21 +81,41 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: answerScore incremented");
-//                        answerDocRef.get("answerScore");
                         answerHolder.answerScoreTextView.setText("testing");
-//                        answerHolder.answerScoreTextView.setText(answerScoreFBValue);
-//                        answerHolder.answerScoreTextView.seText(model.getAnswerScore()); // TODO: 2019-07-18 how to update score on screen! almost there!
-//                        answerHolder.answerScoreTextView.setText(String.valueOf(model.getAnswerScore()));
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
-
                     }
                 });
+            }
+        });
 
+
+        answerHolder.mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
+                final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+                final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+                final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
+                Toast.makeText(mContext, "downvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
+
+                answerDocRef.update("answerScore", FieldValue.increment(-1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: answerScore incremented");
+                        answerHolder.answerScoreTextView.setText("testing");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
+                    }
+                });
             }
         });
 
@@ -140,84 +149,9 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
             mAnswerUpVoteButton = itemView.findViewById(R.id.answerUpVoteId);
             mAnswerDownVoteButton = itemView.findViewById(R.id.answerDownVoteId);
 
-
             mContext = itemView.getContext();
 
 
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    final int position = getAdapterPosition();
-//
-//
-//                    if (position != RecyclerView.NO_POSITION && listener != null) {
-//                        listener.onItemClick(getSnapshots().getSnapshot(position), position, getSnapshots().getSnapshot(position).getId());
-//
-//                        final String answerAuthorString = getSnapshots().getSnapshot(position).getString("author");
-////                        String questionTimestamp = getSnapshots().getSnapshot(position).getString("questionTimestamp");
-
-
-//                        //TODO: link to answer's firebaseid so you can upvote that one single answer.
-//                        //TODO: do same for questions for upvote/downvote functionality
-//                        mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Toast.makeText(itemView.getContext(), "Answer upvote Button clicked" + answerAuthorString, Toast.LENGTH_SHORT).show();
-//                                Log.d(TAG, "onClick: Answer UpVote Button clicked");
-//
-//                            }
-//                        });
-//
-//                        mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Log.d(TAG, "onClick: Answer DownVote Button Clicked");
-//                                Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked" + getSnapshots().getSnapshot(position).getId(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                     }
-
-
-//                    mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(itemView.getContext(), "Answer upvote Button clicked from inside of listener" + getItemId(), Toast.LENGTH_SHORT).show();
-//                            Log.d(TAG, "onClick: Answer UpVote Button clicked from inside of listener");
-//                        }
-//                    });
-//
-//                    mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked from inside of listener" + getSnapshots().getSnapshot(position).getId(), Toast.LENGTH_SHORT).show();
-//                            Log.d(TAG, "onClick: Answer DownVote Button Clicked from inside of listener");
-//                        }
-//                    });
-
-
-//                };
-//            });
-
-            /**
-            mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Answer upvote Button clicked from outside of listener" + getItemId(), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onClick: Answer UpVote Button clicked from outside of listener");
-//                    itemView.getContext().
-                }
-            });
-
-            mAnswerDownVoteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Answer DownVote Button Clicked from outside of listener" + getItemId(), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onClick: Answer DownVote Button Clicked from outside of listener");
-                }
-            });
-            **/
         }
 
     }
@@ -230,22 +164,4 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     }
 
 
-
-
-
-//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-//        this.listener = listener;
-//
-//    }
-
-//    public interface AnswerAdapater
-
-//    public void setOnItemClickListener(AnswerAdapter.OnItemClickListener listener) {
-//        this.listener = listener;
-//    }
-
-    // Model below
-//    public void setOnItemClickListener(QuestionAdapter.OnItemClickListener listener) {
-//        this.listener = listener;
-//    }
 }

@@ -9,7 +9,7 @@ public class Question {
 //    private String answer; //TODO: Change answers to list
     List<Answer> answers;
     private String comment; // TODO: Change comments to list
-    private int questionPriority;
+    private int questionScore;
     private String questionTimestamp; //TODO: add questionTimestamp for when question was created and then revised.
     List<String> tags;
     private String questionDocumentId;
@@ -21,11 +21,11 @@ public class Question {
         // public no-arg constructor needed
     }
 
-    public Question(String question, int questionPriority, List<String> tags, String questionAuthor, String questionTimestamp){
-//    public Question(String question, List<Answer> answers, int questionPriority, List<String> tags, String questionAuthor){
+    public Question(String question, int questionScore, List<String> tags, String questionAuthor, String questionTimestamp){
+//    public Question(String question, List<Answer> answers, int questionScore, List<String> tags, String questionAuthor){
         this.question = question;
         this.answers = answers;
-        this.questionPriority = questionPriority;
+        this.questionScore = questionScore;
         this.tags = tags;
         this.questionAuthor = questionAuthor;
         this.questionTimestamp = questionTimestamp;
@@ -77,9 +77,9 @@ public class Question {
         this.answers = answers;
     }
 
-    public int getQuestionPriority() {
+    public int getQuestionScore() {
 
-        return questionPriority;
+        return questionScore;
     }
 
     public List<String> getTags() {
