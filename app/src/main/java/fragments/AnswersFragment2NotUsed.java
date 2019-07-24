@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -19,21 +18,18 @@ import com.example.stairmaster.adapters.AnswerListViewAdapter;
 import com.example.stairmaster.models.Answer;
 import com.firebase.ui.firestore.FirestoreArray;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 
-public class AnswersFragment2 extends ListFragment {
+public class AnswersFragment2NotUsed extends ListFragment {
 
-    private static final String TAG = "AnswersFragment2";
+    private static final String TAG = "AnswersFragment2NotUsed";
 
     private View AnswersView;
 //    private RecyclerView answersListRecyclerView;
@@ -46,11 +42,11 @@ public class AnswersFragment2 extends ListFragment {
     //    private Firestore<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
 //    private FirestoreRecyclerAdapter<Answer, AnswerAdapter.AnswerHolder> mAnswerAdapter;
     private LinearLayoutManager mManager;
-    private AnswersFragment2.OnListFragmentInteractionListener mListener;
+    private AnswersFragment2NotUsed.OnListFragmentInteractionListener mListener;
 
 
 
-    public AnswersFragment2() {
+    public AnswersFragment2NotUsed() {
         // Requred empty constructor
     }
 
@@ -165,7 +161,7 @@ public class AnswersFragment2 extends ListFragment {
         ArrayList<Answer> mAnswers = new ArrayList<>();
         AnswerAdapter mAnswerAdapter;
 //        MyAnswersRecyclerViewAdapter mAnswerAdapter;
-//        AnswersFragment.OnListFragmentInteractionListener listener = new AnswersFragment.OnListFragmentInteractionListener() {
+//        AnswersFragmentNotUsed.OnListFragmentInteractionListener listener = new AnswersFragmentNotUsed.OnListFragmentInteractionListener() {
 //            @Override
 //            public void onListFragmentInteraction(Answer answer) {
 //
@@ -204,8 +200,8 @@ public class AnswersFragment2 extends ListFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof AnswersFragment2.OnListFragmentInteractionListener) {
-            mListener = (AnswersFragment2.OnListFragmentInteractionListener) context;
+        if (context instanceof AnswersFragment2NotUsed.OnListFragmentInteractionListener) {
+            mListener = (AnswersFragment2NotUsed.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");

@@ -9,7 +9,7 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="fragments.AnswersFragment2"
+    tools:context="fragments.AnswersFragment2NotUsed"
     android:background="@color/com_facebook_blue">
 
     <ListView

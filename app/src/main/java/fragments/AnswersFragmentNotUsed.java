@@ -21,7 +21,7 @@ import com.example.stairmaster.models.Answer;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class AnswersFragment extends ListFragment {
+public class AnswersFragmentNotUsed extends ListFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -33,13 +33,13 @@ public class AnswersFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public AnswersFragment() {
+    public AnswersFragmentNotUsed() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static AnswersFragment newInstance(int columnCount) {
-        AnswersFragment fragment = new AnswersFragment();
+    public static AnswersFragmentNotUsed newInstance(int columnCount) {
+        AnswersFragmentNotUsed fragment = new AnswersFragmentNotUsed();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

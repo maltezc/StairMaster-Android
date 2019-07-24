@@ -21,13 +21,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.stairmaster.NewAnswerActivity;
 import com.example.stairmaster.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.StructuredQuery;
 
 public class QuestionFragment extends Fragment {
 
@@ -43,6 +46,7 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
 
 
 //        public void onClick(View v) {
@@ -72,11 +76,12 @@ public class QuestionFragment extends Fragment {
 
         EditText mQuestionEditText;
 //        TextView mQuestionTextView;
-        RecyclerView mAnswerRecyclerView;
+        final RecyclerView mAnswerRecyclerView;
         EditText mQuestionAnswerEditText;
-//        TextView mQuestionPriorityContent;
+        TextView mQuestionPriorityContent;
 //        TextView mQuestionAuthorTextView;
         TextView mDateTimeStampTextView;
+        TextView mQuestionScoreIdTextView;
 
         Button mPostAnswerButton;
         Button mCommentButton;
@@ -90,7 +95,7 @@ public class QuestionFragment extends Fragment {
         ImageButton mSaveButton;
 
         mQuestionAnswerEditText = getActivity().findViewById(R.id.answerEditTextId);
-//        mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
+        mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
 //        mCheckContainer = getActivity().findViewById(R.id.check_container);
 //        mBackArrowContainer = getActivity().findViewById(R.id.back_arrow_container);
 //        mCheck = getActivity().findViewById(R.id.toolbar_check);
@@ -104,16 +109,30 @@ public class QuestionFragment extends Fragment {
         mDateTimeStampTextView = getActivity().findViewById(R.id.dateTimeStampTextViewId);
         mQuestionUpVoteButton = getActivity().findViewById(R.id.answerUpVoteId);
         mQuestionDownVoteButton = getActivity().findViewById(R.id.answerDownVoteId);
+        mQuestionScoreIdTextView = getActivity().findViewById(R.id.answerScoreId);
 
         getIncomingIntent();
 
         // set question score to firebase score
+        String questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
+        FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+        CollectionReference questionColRef = firestoreDB.collection("Questions");
+        DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
+        mQuestionScoreIdTextView = getActivity().findViewById(R.id.answerScoreId);
+//
 
 
         mQuestionUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 questionUpVote();
+//                mQuestionScoreIdTextView.setText(questionDocRef.get("questionScore"));
+//                mQuestionScoreIdTextView.setText(questionDocRef.get("questionScore").toString());
+
+
+
+
             }
         });
 
@@ -191,12 +210,60 @@ public class QuestionFragment extends Fragment {
         CollectionReference questionColRef = firestoreDB.collection("Questions");
         // set doc reference
         DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
+//        test = (String) questionDocRef.get("questionScore").toString();
+
+
+//        questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
+//                Log.d(TAG, "onSuccess: question score is ");
+//                TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
+//                mQuestionScore.setText(mFirebaseScoreString);
+//            }
+//        });
         // get score
+//        questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                // TODO: 2019-07-23 : getscore
+//
+//                Long questionScore = documentSnapshot.getLong("quesitonScore");
+//                // TODO: 2019-07-23 : update Score
+//                documentSnapshot.
+//            }
+//        });
+
+        questionDocRef.update("questionScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: question was upvoted");
+
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: question was not upvoted");
+            }
+        });
+
+        questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
+        firestoreDB = FirebaseFirestore.getInstance();
+        questionColRef = firestoreDB.collection("Questions");
+        questionDocRef = questionColRef.document(questionPathIDString);
+        TextView mQuestionScoreIdTextView = getActivity().findViewById(R.id.answerScoreId);
+
+
         questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                // TODO: 2019-07-23 : getscore
-                // TODO: 2019-07-23 : update Score
+                String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
+                Log.d(TAG, "onSuccess: question score is ");
+                TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
+                mQuestionScore.setText(mFirebaseScoreString);
             }
         });
         //check toast
@@ -230,15 +297,15 @@ public class QuestionFragment extends Fragment {
         TextView mDateTimeStampTextView = getActivity().findViewById(R.id.dateTimeStampTextViewId);
         TextView mQuestionAuthorTextView = getActivity().findViewById(R.id.questionAuthorTextViewId);
         TextView mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
-
-
+        TextView mQuestionScoreContent = getActivity().findViewById(R.id.answerScoreId);
 
         if (getActivity().getIntent().hasExtra("question_string")) {
 
             Log.d(TAG, "getIncomingIntent: " + mQuestionTextView.toString());
             String questionString = (String) getActivity().getIntent().getExtras().get("question_string");
 //            String questionAnswerString = (String) getIntent().getExtras().get("questionAnswer_string");
-            String questionPriorityString = (String) getActivity().getIntent().getExtras().get("questionPriority_string");
+//            String questionPriorityString = (String) getActivity().getIntent().getExtras().get("questionScore_string");
+            String questionScoreString = (String) getActivity().getIntent().getExtras().get("questionScore_string");
             String questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
             String questionAuthorString = (String) getActivity().getIntent().getExtras().get("questionAuthorString");
             String questionDateTimeStamp = (String) getActivity().getIntent().getExtras().get("questionTimestampString");
@@ -246,8 +313,8 @@ public class QuestionFragment extends Fragment {
             mDateTimeStampTextView.setText(questionDateTimeStamp);
             mQuestionAuthorTextView.setText(questionAuthorString);
             mQuestionTextView.setText(questionString);
-            mQuestionPriorityContent.setText(questionPriorityString);
-
+//            mQuestionPriorityContent.setText(questionPriorityString);
+            mQuestionScoreContent.setText(questionScoreString);
 
             System.out.println(questionPathIDString);
         }

@@ -3,7 +3,6 @@ package com.example.stairmaster;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,30 +11,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stairmaster.adapters.AnswerAdapter;
-import com.example.stairmaster.adapters.QuestionAdapter;
 import com.example.stairmaster.models.Answer;
-import com.example.stairmaster.models.Question;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
-import fragments.AnswersFragment2;
+import fragments.AnswersFragment2NotUsed;
 import fragments.QuestionFragment;
 
 
 //public class QuestionProfileActivity2 extends AppCompatActivity {
-public class QuestionProfileActivity2 extends AppCompatActivity implements AnswersFragment2.OnListFragmentInteractionListener {
+public class QuestionProfileActivity2 extends AppCompatActivity implements AnswersFragment2NotUsed.OnListFragmentInteractionListener {
 
     //firebase
     FirebaseAuth mAuth;
 
     private QuestionFragment questionFragment;
-//    private AnswersFragment2 answersListFragment;
+//    private AnswersFragment2NotUsed answersListFragment;
     private ImageButton mCheck;
     private ImageButton mBackArrow;
     private ImageButton mAnswerUpVoteButton;
@@ -86,8 +82,8 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
 //        fragmentTransaction.commit();
 
         questionFragment  = new QuestionFragment(); // IN USE
-//        answersListFragment = new AnswersFragment2();
-//        answersListFragment = new AnswersFragment();
+//        answersListFragment = new AnswersFragment2NotUsed();
+//        answersListFragment = new AnswersFragmentNotUsed();
         getSupportFragmentManager().beginTransaction() // in use
                 .add(R.id.questionFragment, questionFragment); // in use
 //                .add(R.id.answersRecyclerViewID, answersListFragment);

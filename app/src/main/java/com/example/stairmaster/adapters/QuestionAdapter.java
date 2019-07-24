@@ -36,7 +36,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     protected void onBindViewHolder(@NonNull QuestionHolder questionHolder, int position, @NonNull Question model) {
 
         questionHolder.textViewQuestion.setText(model.getQuestion());
-        questionHolder.textViewPriority.setText(String.valueOf(model.getQuestionScore()));
+        questionHolder.textViewScore.setText(String.valueOf(model.getQuestionScore()));
 
 
 
@@ -58,14 +58,14 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
 
         TextView textViewQuestion;
         TextView textViewAnswer;
-        TextView textViewPriority;
+        TextView textViewScore;
 
 
         public QuestionHolder(@NonNull View itemView) {
             super(itemView);
             textViewQuestion = itemView.findViewById(R.id.text_view_title);
             textViewAnswer = itemView.findViewById(R.id.text_view_description);
-            textViewPriority = itemView.findViewById(R.id.text_view_priority);
+            textViewScore = itemView.findViewById(R.id.text_view_score);
 
             mContext = itemView.getContext();
 
@@ -83,7 +83,11 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                         Intent intent = new Intent(mContext, QuestionProfileActivity2.class);
                         intent.putExtra("question_string", textViewQuestion.getText());
                         intent.putExtra("questionAnswer_string", textViewAnswer.getText());
-                        intent.putExtra("questionPriority_string", textViewPriority.getText());
+                        intent.putExtra("questionScore_string", textViewScore.getText());
+//                        intent.putExtra("questionPriority_string", textViewScore.getText());
+
+                        Object questionScoreInt = getSnapshots().getSnapshot(position).get("questionScore").toString();
+//                        intent.putExtra("questionScore", questionScoreInt);
 
                         String questionItemId = getSnapshots().getSnapshot(position).getId();
                         intent.putExtra("questionID_string", questionItemId);

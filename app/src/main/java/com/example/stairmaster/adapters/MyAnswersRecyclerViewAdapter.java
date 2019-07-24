@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import fragments.AnswersFragment.OnListFragmentInteractionListener;
+import fragments.AnswersFragmentNotUsed.OnListFragmentInteractionListener;
 
 import com.example.stairmaster.R;
 import com.example.stairmaster.dummy.DummyContent.DummyItem;
