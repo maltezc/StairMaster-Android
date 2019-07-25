@@ -1,6 +1,7 @@
 package fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,32 +47,6 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
-
-//        public void onClick(View v) {
-//            final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
-//            final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-//            Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
-//            final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
-//            final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
-//
-//            answerDocRef.update("answerScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                @Override
-//                public void onSuccess(Void aVoid) {
-//                    Log.d(TAG, "onSuccess: answerScore incremented");
-//                    answerHolder.answerScoreTextView.setText("testing");
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
-//                }
-//            });
-//        }
-
 
 
         EditText mQuestionEditText;
@@ -127,10 +102,7 @@ public class QuestionFragment extends Fragment {
             public void onClick(View v) {
 
                 questionUpVote();
-//                mQuestionScoreIdTextView.setText(questionDocRef.get("questionScore"));
-//                mQuestionScoreIdTextView.setText(questionDocRef.get("questionScore").toString());
-
-
+//                mQuestionUpVoteButton.setBackgroundColor(Color.blue(3));
 
 
             }
@@ -200,48 +172,20 @@ public class QuestionFragment extends Fragment {
     private void questionUpVote() {
         Log.d(TAG, "questionUpVote: clicked");
         Toast.makeText(getContext(), "Question Up Vote Clicked", Toast.LENGTH_SHORT).show();
-        // get questionID from get extra intent
+
+
         String questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
-        //firebase
         FirebaseAuth mAuth;
-        // get db
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
-        // set collection reference
         CollectionReference questionColRef = firestoreDB.collection("Questions");
-        // set doc reference
         DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
-//        test = (String) questionDocRef.get("questionScore").toString();
 
 
-//        questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
-//                Log.d(TAG, "onSuccess: question score is ");
-//                TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
-//                mQuestionScore.setText(mFirebaseScoreString);
-//            }
-//        });
-        // get score
-//        questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                // TODO: 2019-07-23 : getscore
-//
-//                Long questionScore = documentSnapshot.getLong("quesitonScore");
-//                // TODO: 2019-07-23 : update Score
-//                documentSnapshot.
-//            }
-//        });
 
         questionDocRef.update("questionScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "onSuccess: question was upvoted");
-
-
-
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -250,36 +194,16 @@ public class QuestionFragment extends Fragment {
             }
         });
 
-        questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
-        firestoreDB = FirebaseFirestore.getInstance();
-        questionColRef = firestoreDB.collection("Questions");
-        questionDocRef = questionColRef.document(questionPathIDString);
-        TextView mQuestionScoreIdTextView = getActivity().findViewById(R.id.answerScoreId);
-
-
         questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
-                Log.d(TAG, "onSuccess: question score is ");
+//                Log.d(TAG, "onSuccess: question score is ");
                 TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
                 mQuestionScore.setText(mFirebaseScoreString);
             }
         });
-        //check toast
-        // update
 
-        // update UI score
-        // update firebase score
-
-        //reference below
-//        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                String userNameString = documentSnapshot.getString("userName");
-//                authorTextView.setText(userNameString);
-//            }
-//        });
 
     }
 
@@ -288,6 +212,34 @@ public class QuestionFragment extends Fragment {
         Toast.makeText(getContext(), "Question DownVote Clicked", Toast.LENGTH_SHORT).show();
         // update UI score
         // update firebase score
+        String questionPathIDString = (String) getActivity().getIntent().getExtras().get("questionID_string");
+        FirebaseAuth mAuth;
+        FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+        CollectionReference questionColRef = firestoreDB.collection("Questions");
+        DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
+
+
+        questionDocRef.update("questionScore", FieldValue.increment(-1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: question was downvoted");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: question was not downvoted");
+            }
+        });
+
+        questionDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
+//                Log.d(TAG, "onSuccess: question score is ");
+                TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
+                mQuestionScore.setText(mFirebaseScoreString);
+            }
+        });
     }
 
     public void getIncomingIntent() {

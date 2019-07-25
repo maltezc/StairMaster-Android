@@ -15,6 +15,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/vote_up_button_selectors"
+                />
+
 
             <ImageButton
                 android:id="@+id/answerUpVoteId"
@@ -24,7 +32,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                />
+                android:background="@drawable/vote_up_button_selectors"
+                    />
+
+
+
 
             <TextView
                 android:id="@+id/answerScoreId"
@@ -41,6 +53,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/vote_down_button_selectors"
+
+                />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/vote_down_button_selectors"
                 />
 
         </LinearLayout>
