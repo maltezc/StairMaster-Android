@@ -55,67 +55,19 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     @Override
     protected void onBindViewHolder(@NonNull final AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull final Answer model) {
 
-//        final AnswerHolder databaseReference = getItem(position);
-//        final AnswerHolder databaseReference = getItem(position);
-//        position = getItem(position);
-//        position = getAdapterPosition();
-
         answerHolder.answerItemTextView.setText(model.getAnswer());
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
         answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
-//        answerHolder.answerScoreTextView.setText(String.valueOf(model.getAnswerScore()));
         answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
-
-
 
         answerHolder.mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (answerHolder.mAnswerUpVoteButton.isChecked()){
 
-                    //upvote
-                    final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
-                    final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-                    Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
-                    final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
-                    final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
-                    answerDocRef.update("answerScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "onSuccess: answerScore incremented");
-                            answerHolder.answerScoreTextView.setText("testing");
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
-                        }
-                    });
+                    answerUpVote(answerHolder, position, model);
                 } else {
-
-                    //downvote
-                    final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
-                    final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-                    final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
-                    final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
-                    Toast.makeText(mContext, "downvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
-
-                    answerDocRef.update("answerScore", FieldValue.increment(-1)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "onSuccess: answerScore incremented");
-                            answerHolder.answerScoreTextView.setText("testing");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
-                        }
-                    });
-
+                    answerDownVote(answerHolder, position, model);
                 }
             }
         });
@@ -125,62 +77,19 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
             @Override
             public void onClick(View v) {
 
-
                 if (answerHolder.mAnswerDownVoteButton.isChecked()) {
 
-                    //downvote
-                    final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
-                    final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-                    final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
-                    final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
-                    Toast.makeText(mContext, "downvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
-
-                    answerDocRef.update("answerScore", FieldValue.increment(-1)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "onSuccess: answerScore incremented");
-                            answerHolder.answerScoreTextView.setText("testing");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "onFailure: answerScore was not incremented", e);
-                        }
-                    });
+//                    answerDownVote(answerHolder, position, model);
                 } else {
 
-                    //upvote
-                    final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
-                    final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-                    Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
-                    final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
-                    final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
-
-                    answerDocRef.update("answerScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "onSuccess: answerScore incremented");
-                            answerHolder.answerScoreTextView.setText("testing");
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
-                        }
-                    });
+//                    answerUpVote(answerHolder, position, model);
 
                 }
-
             }
-
-
-
         });
 
     }
+
 
     public void deleteItem(int position){
         getSnapshots().getSnapshot(position).getReference().delete();
@@ -188,7 +97,6 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
     }
 
     public class AnswerHolder extends RecyclerView.ViewHolder{
-
 
         TextView answerItemTextView;
         TextView answerScoreTextView;
@@ -211,7 +119,6 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
             mContext = itemView.getContext();
 
-
         }
 
     }
@@ -221,7 +128,52 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
     }
 
+    private void answerUpVote(@NonNull final AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull final Answer model) {
+        final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
+        final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+//        Toast.makeText(mContext, "upvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
+        final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+        final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
 
+
+        answerDocRef.update("answerScore", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: answerScore incremented");
+                answerHolder.answerScoreTextView.setText("testing");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: answerScore was not incremented", e);
+            }
+        });
+    }
+
+    private void answerDownVote(@NonNull final AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull final Answer model) {
+        final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
+        final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+        final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+        final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
+        Toast.makeText(mContext, "downvote button clicked " + answerScoreFBValue, Toast.LENGTH_SHORT).show();
+
+        answerDocRef.update("answerScore", FieldValue.increment(-1)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            //                answerRef.document().update("answerscore", answerScoreTestInt).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: answerScore incremented");
+                answerHolder.answerScoreTextView.setText("testing");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: answerScore was not incrememnted", e);
+            }
+        });
+
+    }
 
 
 }
