@@ -3,6 +3,7 @@ package com.example.stairmaster;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,8 +35,8 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
 //    private AnswersFragment2NotUsed answersListFragment;
     private ImageButton mCheck;
     private ImageButton mBackArrow;
-    private ImageButton mAnswerUpVoteButton;
-    private ImageButton mAnswerDownVoteButton;
+    private ToggleButton mAnswerUpVoteButton;
+    private ToggleButton mAnswerDownVoteButton;
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
     private CollectionReference answerRef = firestoreDB.collection("Answers");
     private ArrayList<Answer>mAnswers = new ArrayList<>();
@@ -55,8 +56,8 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
         mAuth = FirebaseAuth.getInstance();
 
         mAnswerRecyclerView = (RecyclerView) findViewById(R.id.answerRecyclerViewIdQP2);
-        mAnswerUpVoteButton = findViewById(R.id.answerUpVoteId);
-        mAnswerDownVoteButton = findViewById(R.id.answerDownVoteId);
+        mAnswerUpVoteButton = findViewById(R.id.questionUpVoteId);
+        mAnswerDownVoteButton = findViewById(R.id.questionDownVoteId);
 
 //        getIncomingIntent();
         setUpAnswerRecyclerView();

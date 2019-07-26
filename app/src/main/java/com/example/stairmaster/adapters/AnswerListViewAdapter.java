@@ -30,7 +30,7 @@ public class AnswerListViewAdapter extends ArrayAdapter<Answer> {
         TextView answerItemTextView = (TextView) convertView.findViewById(R.id.answerItemTextViewId);
         TextView answerAuthorTextView = (TextView) convertView.findViewById(R.id.answerAuthorTextViewId);
         TextView answerTimeStampTextView = (TextView) convertView.findViewById(R.id.answerTimeStampTextViewId);
-        TextView answerScore = (TextView) convertView.findViewById(R.id.answerScoreId);
+        TextView answerScore = (TextView) convertView.findViewById(R.id.questionScoreId);
 
         Answer answer = getItem(position);
 

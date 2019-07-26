@@ -1,7 +1,6 @@
 package fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,17 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stairmaster.NewAnswerActivity;
 import com.example.stairmaster.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.StructuredQuery;
 
 public class QuestionFragment extends Fragment {
 
@@ -62,8 +59,8 @@ public class QuestionFragment extends Fragment {
         Button mCommentButton;
         Button mDeleteQuestionButton;
         Button mQuestionProfEditButton;
-        ImageButton mQuestionUpVoteButton;
-        ImageButton mQuestionDownVoteButton;
+        final ToggleButton mQuestionUpVoteButton;
+        final ToggleButton mQuestionDownVoteButton;
         RelativeLayout mCheckContainer, mBackArrowContainer;
         ImageButton mCheck;
         ImageButton mEditButton;
@@ -82,9 +79,9 @@ public class QuestionFragment extends Fragment {
         mDeleteQuestionButton = getActivity().findViewById(R.id.deleteQuestionButtonId);
 //        mQuestionAuthorTextView = getActivity().findViewById(R.id.questionAuthorTextViewId);
         mDateTimeStampTextView = getActivity().findViewById(R.id.dateTimeStampTextViewId);
-        mQuestionUpVoteButton = getActivity().findViewById(R.id.answerUpVoteId);
-        mQuestionDownVoteButton = getActivity().findViewById(R.id.answerDownVoteId);
-        mQuestionScoreIdTextView = getActivity().findViewById(R.id.answerScoreId);
+        mQuestionUpVoteButton = getActivity().findViewById(R.id.questionUpVoteId);
+        mQuestionDownVoteButton = getActivity().findViewById(R.id.questionDownVoteId);
+        mQuestionScoreIdTextView = getActivity().findViewById(R.id.questionScoreId);
 
         getIncomingIntent();
 
@@ -93,7 +90,7 @@ public class QuestionFragment extends Fragment {
         FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
         CollectionReference questionColRef = firestoreDB.collection("Questions");
         DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
-        mQuestionScoreIdTextView = getActivity().findViewById(R.id.answerScoreId);
+        mQuestionScoreIdTextView = getActivity().findViewById(R.id.questionScoreId);
 //
 
 
@@ -101,17 +98,22 @@ public class QuestionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                questionUpVote();
-//                mQuestionUpVoteButton.setBackgroundColor(Color.blue(3));
-
-
+                if (mQuestionUpVoteButton.isChecked()) {
+                    questionUpVote();
+                } else {
+                    questionDownVote();
+                }
             }
         });
 
         mQuestionDownVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionDownVote();
+                if (mQuestionDownVoteButton.isChecked()) {
+                    questionDownVote();
+                } else {
+                    questionUpVote();
+                }
             }
         });
 
@@ -199,7 +201,7 @@ public class QuestionFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
 //                Log.d(TAG, "onSuccess: question score is ");
-                TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
+                TextView mQuestionScore = getActivity().findViewById(R.id.questionScoreId);
                 mQuestionScore.setText(mFirebaseScoreString);
             }
         });
@@ -236,7 +238,7 @@ public class QuestionFragment extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String mFirebaseScoreString = documentSnapshot.get("questionScore").toString();
 //                Log.d(TAG, "onSuccess: question score is ");
-                TextView mQuestionScore = getActivity().findViewById(R.id.answerScoreId);
+                TextView mQuestionScore = getActivity().findViewById(R.id.questionScoreId);
                 mQuestionScore.setText(mFirebaseScoreString);
             }
         });
@@ -249,7 +251,7 @@ public class QuestionFragment extends Fragment {
         TextView mDateTimeStampTextView = getActivity().findViewById(R.id.dateTimeStampTextViewId);
         TextView mQuestionAuthorTextView = getActivity().findViewById(R.id.questionAuthorTextViewId);
         TextView mQuestionPriorityContent = getActivity().findViewById(R.id.starTextViewId);
-        TextView mQuestionScoreContent = getActivity().findViewById(R.id.answerScoreId);
+        TextView mQuestionScoreContent = getActivity().findViewById(R.id.questionScoreId);
 
         if (getActivity().getIntent().hasExtra("question_string")) {
 
