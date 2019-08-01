@@ -91,6 +91,7 @@ public class QuestionFragment extends Fragment {
         CollectionReference questionColRef = firestoreDB.collection("Questions");
         DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
         mQuestionScoreIdTextView = getActivity().findViewById(R.id.questionScoreId);
+
 //
 
 

@@ -60,14 +60,23 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
         answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
 
+        // grab user
+        // set votemax = 1
+        //if user has clicked up or downvote
+            //keep arrow color gold
+
+
+
         answerHolder.mAnswerUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: 2019-07-26 check order of operations. seems to go through upvote and then also through downvote unchecking state
                 if (answerHolder.mAnswerUpVoteButton.isChecked()){
 
                     answerUpVote(answerHolder, position, model);
+
                 } else {
-                    answerDownVote(answerHolder, position, model);
+//                    answerDownVote(answerHolder, position, model);
                 }
             }
         });
@@ -79,7 +88,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
                 if (answerHolder.mAnswerDownVoteButton.isChecked()) {
 
-//                    answerDownVote(answerHolder, position, model);
+                    answerDownVote(answerHolder, position, model);
                 } else {
 
 //                    answerUpVote(answerHolder, position, model);
@@ -119,6 +128,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
             mContext = itemView.getContext();
 
+
         }
 
     }
@@ -141,7 +151,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "onSuccess: answerScore incremented");
-                answerHolder.answerScoreTextView.setText("testing");
+//                answerHolder.answerScoreTextView.setText("testing");
 
             }
         }).addOnFailureListener(new OnFailureListener() {

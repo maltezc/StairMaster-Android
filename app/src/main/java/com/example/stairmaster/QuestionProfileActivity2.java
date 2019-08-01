@@ -59,6 +59,8 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
         mAnswerUpVoteButton = findViewById(R.id.questionUpVoteId);
         mAnswerDownVoteButton = findViewById(R.id.questionDownVoteId);
 
+
+
 //        getIncomingIntent();
         setUpAnswerRecyclerView();
 

@@ -82,6 +82,20 @@
                         android:background="@drawable/vote_down_button_selectors"
                         />
 
+
+                    <ToggleButton
+                        android:id="@+id/answerFlagId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textOn=""
+                        android:textOff=""
+                        />
+                    <!--need to add selectors for flag button-->
+                    <!--android:background="@drawable/vote_down_button_selectors"-->
+
+
+
                     <!--<ImageButton-->
                         <!--android:id="@+id/answerDownVoteId"-->
                         <!--android:text="downVote"-->
@@ -145,6 +159,8 @@
                     android:id="@+id/answerItemDeleteTextViewId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+
             </LinearLayout>
 
         </LinearLayout>

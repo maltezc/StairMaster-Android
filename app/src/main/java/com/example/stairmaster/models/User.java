@@ -9,7 +9,7 @@ import androidx.databinding.BaseObservable;
 public class User extends BaseObservable {
 
 
-    public int id;
+    public String userFirebaseId;
     private String firstName;
     private String lastName;
     private String userName;
@@ -17,9 +17,10 @@ public class User extends BaseObservable {
     private List<Question> questions;
     private Uri userImageURI;
     private int reputationPoints;
+    private List<String> actionHistory; // compiled of question, answers, and eventually comment IDs.
 
 
-    public User(String firstName, String lastName, String userName, String email) {
+    public User(String firstName, String lastName, String userName, String email, String userFirebaseId) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,6 +28,8 @@ public class User extends BaseObservable {
         this.email = email;
         this.questions = questions;
         this.userImageURI = userImageURI;
+        this.actionHistory = actionHistory;
+        this.userFirebaseId = userFirebaseId;
     }
 
 
@@ -92,7 +95,22 @@ public class User extends BaseObservable {
         this.questions = questions;
     }
 
-//    public Uri getUserImageURI() {
+    public List<String> getActionHistory() {return actionHistory;}
+
+    public void setActionHistory(List<String> actionHistory) {this.actionHistory = actionHistory;}
+
+
+//    thismightworkbelowhere
+    public String getUserFirebaseId(String userFirebaseId) { return userFirebaseId; }
+
+    public void setUserFirebaseId(String userFirebaseId) {
+        this.userFirebaseId = userFirebaseId;
+    }
+
+
+
+
+    //    public Uri getUserImageURI() {
 //        return userImageURI;
 //    }
 

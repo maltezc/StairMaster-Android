@@ -30,7 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firestore.v1.StructuredQuery;
 
@@ -52,6 +54,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private DatabaseReference databaseReference;
     private FirebaseFirestore rootRef;
+    String mAuthUserId;
+
 
 
     @Override
@@ -70,6 +74,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
         rootRef = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -82,6 +87,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        mAuthUserId = FirebaseAuth.getInstance().getUid();
 
             }
         };
@@ -154,18 +161,44 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
 
 
+            // reference below for adding userID to firebase
+//        answerRef.add(answerInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//            @Override
+//            public void onSuccess(DocumentReference documentReference) {
+//                Log.d(TAG, "onSuccess: Answer was added");
+//
+//                String answerIdRef  = documentReference.getId();
+//                documentReference.update("answerFirebaseId", answerIdRef).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "onSuccess: answerFirebaseId added to database");
+//                    }
+//                });
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "onFailure: " + e.toString());
+//
+//            }
+//        });
 
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
 
-        final User userInfo = new User(firstName, lastName, userName, userEmail);
+
+        final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
+
+        final User userInfo = new User(firstName, lastName, userName, userEmail, mAuthUserId);
 
         // block below sets user docid in database to be registered email instead of randomized code of strings.
+        // TODO: 2019-07-31 set user's id here onaction complete. See answersetId for similar relationship.
         rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
+//            public void onSuccess(DocumentReference documentReference) {
             public void onSuccess(Void aVoid) {
-                Log.d(TAG, "onSuccess: user created");
-
+                Log.d(TAG, "onSuccess: user was created");
             }
+
+
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -173,82 +206,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-//        usersRef.add(userInfo);
-
-
-//        mAuth.createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                progressBar.setVisibility(View.GONE);
-//                if (task.isSuccessful()) {
-
-
-//                    CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-//                    usersRef.add(new User(userName, firstName, lastName, userEmail));
-                    // block below sets user docid in database to be registered email instead of randomized code of strings.
-//                    rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//                            Log.d(TAG, "onSuccess: user created");
-//
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.d(TAG, "onFailure: " + e.toString());
-//                        }
-//                    });
-
-                    FirebaseUser user = mAuth.getCurrentUser();
-
-//                    mAuthListener = new FirebaseAuth.AuthStateListener() {
-//                        @Override
-//                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                            FirebaseUser user = firebaseAuth.getCurrentUser();
-//                            if (user != null) {
-//                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-//                                        .setDisplayName(userName).build();
-//                                user.updateProfile(profileChangeRequest);
-//
-//                            }
-//                        }
-//                    };
-//
-//                    mAuth.addAuthStateListener(mAuthListener); // need this to change info on Firebase Firestore
-
-//                    String usernameTest = user.getDisplayName();
-
-
-
-                    Toast.makeText(SignUpActivity.this, "info saved hopefully", Toast.LENGTH_SHORT).show();
-
-//
-                    // sets user's document ID in Firebase to be email. Otherwise would be randomly generated series of strings.
-//                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                            .setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            Toast.makeText(SignUpActivity.this, "Registration success!", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-                    
-
-//                    finish();
-//                    startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
-//
-//
-//                } else {
-//
-//                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-//                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
-//
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            }
-//        });
-                            startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+        FirebaseUser user = mAuth.getCurrentUser();
+        startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
 
     }
 

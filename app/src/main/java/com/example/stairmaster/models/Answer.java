@@ -2,16 +2,12 @@ package com.example.stairmaster.models;
 
 public class Answer {
 
-//    public static final List<Answer> ITEMS = new ArrayList<DummyContent.DummyItem>();
-//    public static final List<DummyContent.DummyItem> ITEMS = new ArrayList<DummyContent.DummyItem>();
-
-
-    private String answer; //TODO: Change answers to list
+    private String answer; //
     private String comment; // TODO: Change comments to list
     private String timestamp;
     private int answerScore;
     private String author;
-    private String answerFirebaseId; // not sure if this is necessary;
+    private String answerFirebaseId;
     private String parentQuestionId;
 
 
@@ -19,7 +15,7 @@ public class Answer {
 
         this.answer = answer;
         this.timestamp = timeStamp;
-        this.answerScore = answerScore; //TODO: figure out how to add answerScore.
+        this.answerScore = answerScore;
         this.author = author;
         this.parentQuestionId = parentQuestionId;
 

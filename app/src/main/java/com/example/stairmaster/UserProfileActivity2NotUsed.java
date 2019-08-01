@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 //import com.example.stairmaster.databinding.ActivityUserProfileBinding;
@@ -36,7 +35,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
-public class UserProfileActivity2 extends AppCompatActivity {
+public class UserProfileActivity2NotUsed extends AppCompatActivity {
 
     private static final int CHOOSE_IMAGE = 101;
 
@@ -121,7 +120,7 @@ public class UserProfileActivity2 extends AppCompatActivity {
                         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(UserProfileActivity2.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserProfileActivity2NotUsed.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -154,7 +153,7 @@ public class UserProfileActivity2 extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(UserProfileActivity2.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserProfileActivity2NotUsed.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -198,7 +197,7 @@ public class UserProfileActivity2 extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(UserProfileActivity2.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserProfileActivity2NotUsed.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }

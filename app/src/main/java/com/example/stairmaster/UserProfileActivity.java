@@ -94,7 +94,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mAuthUser = FirebaseAuth.getInstance().getCurrentUser();
-        mAuthUserId = FirebaseAuth.getInstance().getUid();
+        mAuthUserId = FirebaseAuth.getInstance().getUid(); // TODO: 2019-07-31 store user id in firebase
         textViewData = findViewById(R.id.text_view_data);
         userProfilePhoto = (ImageView) findViewById(R.id.userProfileImageView);
 
@@ -115,7 +115,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //            }
 //        });
 
-
+        
         setUpQuestionRecyclerView();
         setTitle("Profile");
     }
@@ -161,6 +161,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
             if (documentSnapshot.exists()) {
 
+
                 String firstNameString = documentSnapshot.getString("firstName");
                 String lastNameString = documentSnapshot.getString("lastName");
                 String userNameString = documentSnapshot.getString("userName");
@@ -170,6 +171,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 lastNameEditText.setText(lastNameString);
                 lastNameTextView.setText(lastNameString);
                 userNameTextView.setText(userNameString);
+
+
+
 
 
 
@@ -276,6 +280,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private void updateUserToCollection(User user) {
 
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+
         final String userName = mAuth.getCurrentUser().getDisplayName();
         final String userNameUpdated = userNameEditText.getText().toString().trim();
         final String firstNameUpdated = firstNameEditText.getText().toString().trim();
@@ -309,6 +314,17 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "onFailure: it failed because of: " + e.toString());
+            }
+        });
+        docRef.update("userFirebaseId", mAuthUserId).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: FirebaseUserId added");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: FirebaseUserId was not added" + e);
             }
         });
 
