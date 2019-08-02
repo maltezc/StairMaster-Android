@@ -3,7 +3,7 @@ package com.example.stairmaster.logins;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
+
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;

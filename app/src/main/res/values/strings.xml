@@ -17,10 +17,10 @@
     <!--<string name="desc_twitter_login">Use a Twitter Login credential to authenticate with Firebase.</string>-->
 
     <string name="label_emailpassword">Email/Password Authentication</string>
-    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="desc_emailpassword">Use an userEmail and password to authenticate with Firebase.</string>
 
     <string name="label_passwordless">Passwordless Authentication</string>
-    <string name="desc_passwordless">Use only an email to authenticate with Firebase.</string>
+    <string name="desc_passwordless">Use only an userEmail to authenticate with Firebase.</string>
 
     <string name="label_phone_auth">Phone Number Authentication</string>
     <string name="desc_phone_auth">Use a phone number to authenticate with Firebase.</string>
@@ -76,9 +76,9 @@
 
     <string name="passwordless_status_fmt">Email User: %1$s (verified: %2$b)</string>
     <string name="passwordless_title_text">Passwordless Sign In</string>
-    <string name="status_email_not_sent">Send link to your email to get started.</string>
-    <string name="status_email_sent">Link sent, check your email to continue.</string>
-    <string name="status_link_found">Link received, enter email to sign in.</string>
+    <string name="status_email_not_sent">Send link to your userEmail to get started.</string>
+    <string name="status_email_sent">Link sent, check your userEmail to continue.</string>
+    <string name="status_link_found">Link received, enter userEmail to sign in.</string>
 
     <string name="phone_title_text">Phone Number</string>
 

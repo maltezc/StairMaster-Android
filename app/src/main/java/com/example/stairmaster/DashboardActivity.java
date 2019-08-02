@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.example.stairmaster.models.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -95,13 +97,37 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         setUpQuestionRecyclerView();
+
+//        addUserIdtoFirebase();
     }
+
+
+    /*
+    // TODO: 2019-08-01 figure out how to add user id to firebase DB 
+    private void addUserIdtoFirebase() {
+        if (mAuth.getCurrentUser() != null) {
+            String userEmail = mAuth.getCurrentUser().getEmail();
+            final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
+            final DocumentReference userDocRef = usersColRef.document(userEmail);
+            userDocRef.update("userEmail", userEmail);
+        } else {
+            Log.d(TAG, "onCreate: no one is logged in");
+
+        }
+    }
+
+     */
+
 
 
     @Override
     protected void onStart() {
         super.onStart();
         mQuestionAdapter.startListening();
+
+
+
+
 
     }
 

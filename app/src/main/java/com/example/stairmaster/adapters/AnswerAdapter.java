@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -57,7 +56,7 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
         answerHolder.answerItemTextView.setText(model.getAnswer());
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
-        answerHolder.answerTimeStampTextView.setText(model.getTimestamp());
+        answerHolder.answerTimeStampTextView.setText(model.getAnswerCreatedTimestamp());
         answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
 
         // grab user

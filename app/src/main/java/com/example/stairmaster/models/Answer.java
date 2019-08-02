@@ -4,17 +4,17 @@ public class Answer {
 
     private String answer; //
     private String comment; // TODO: Change comments to list
-    private String timestamp;
+    private String answerCreatedTimestamp;
     private int answerScore;
     private String author;
     private String answerFirebaseId;
     private String parentQuestionId;
 
 
-    public Answer(String answer, String timeStamp, String author, String parentQuestionId, int answerScore) {
+    public Answer(String answer, String answerCreatedTimestamp, String author, String parentQuestionId, int answerScore) {
 
         this.answer = answer;
-        this.timestamp = timeStamp;
+        this.answerCreatedTimestamp = answerCreatedTimestamp;
         this.answerScore = answerScore;
         this.author = author;
         this.parentQuestionId = parentQuestionId;
@@ -50,12 +50,12 @@ public class Answer {
         this.comment = comment;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getAnswerCreatedTimestamp() {
+        return answerCreatedTimestamp;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setAnswerCreatedTimestamp(String answerCreatedTimestamp) {
+        this.answerCreatedTimestamp = answerCreatedTimestamp;
     }
 
     public int getAnswerScore() {

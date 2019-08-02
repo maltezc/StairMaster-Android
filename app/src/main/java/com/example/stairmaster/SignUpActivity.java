@@ -3,6 +3,7 @@ package com.example.stairmaster;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,8 +37,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firestore.v1.StructuredQuery;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -74,7 +80,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
         rootRef = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -88,7 +93,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        mAuthUserId = FirebaseAuth.getInstance().getUid();
 
             }
         };
@@ -183,31 +187,66 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //            }
 //        });
 
+        /*
+        //time stamp block
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
+        String datetimeString = formatter.format(date);
+        System.out.println("Today : " + datetimeString);
+        mDateTimeStampTextView.setText(datetimeString);
+         */
+
 
 
         final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
 
+
+//        final User userInfo = new User();
         final User userInfo = new User(firstName, lastName, userName, userEmail, mAuthUserId);
+//        final User userInfo = new User(firstName, lastName, userName, userEmail, mAuthUserId);
 
         // block below sets user docid in database to be registered email instead of randomized code of strings.
         // TODO: 2019-07-31 set user's id here onaction complete. See answersetId for similar relationship.
-        rootRef.collection("Users").document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+        final DocumentReference userDocRef = usersColRef.document(userEmail);
+
+
+
+        userDocRef.set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        usersColRef.document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-//            public void onSuccess(DocumentReference documentReference) {
             public void onSuccess(Void aVoid) {
+
+                mAuthUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                userDocRef.update(
+                        "firstname", firstName,
+                        "lastname", lastName,
+                        "userEmail", userEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: userinfo was created");
+                    }
+                });
+
+
+
                 Log.d(TAG, "onSuccess: user was created");
+
             }
-
-
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: " + e.toString());
+                Log.d(TAG, "onFailure: failed to create user in signup" + e);
             }
         });
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+
+
+        Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+//                Intent intent = new Intent(SignUpActivity.this, QuestionProfileActivity2.class);
+        intent.putExtra(userName,"userNameString");
+
+        startActivity(intent);
+
 
     }
 

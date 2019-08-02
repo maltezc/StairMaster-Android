@@ -34,6 +34,11 @@ New --> Vector Asset --> Click on icon --> choose
 go to next bug during debug:
 fn+option+F9
 
+java block of code
+/*
+stuff inside here
+*/
+
 Recycler view Notes
 https://guides.codepath.com/android/using-the-recyclerview
 

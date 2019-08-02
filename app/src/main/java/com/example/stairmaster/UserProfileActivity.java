@@ -94,7 +94,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mAuthUser = FirebaseAuth.getInstance().getCurrentUser();
-        mAuthUserId = FirebaseAuth.getInstance().getUid(); // TODO: 2019-07-31 store user id in firebase
+//        mAuthUserId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // TODO: 2019-07-31 have signup send you to profile and be able to put in profile stuff
         textViewData = findViewById(R.id.text_view_data);
         userProfilePhoto = (ImageView) findViewById(R.id.userProfileImageView);
 
@@ -115,7 +115,8 @@ public class UserProfileActivity extends AppCompatActivity {
 //            }
 //        });
 
-        
+
+        getIncomingIntent();
         setUpQuestionRecyclerView();
         setTitle("Profile");
     }
@@ -130,6 +131,7 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             mQuestionRecyclerViewAdapter.startListening();
             loadUserInformation();
+
         }
     }
 
@@ -140,6 +142,16 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserInformation() {
+
+        /*
+        if (userFirebaseEmail != null) {
+            emailTextView.setText(userFirebaseEmail);
+        }
+         */
+
+
+        mAuthUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -279,6 +291,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void updateUserToCollection(User user) {
 
+
         String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
 
         final String userName = mAuth.getCurrentUser().getDisplayName();
@@ -333,8 +346,25 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void setUpQuestionRecyclerView(){
+        getIncomingIntent();
 
-        final String userName = mAuth.getCurrentUser().getDisplayName();
+
+
+        if(getIntent().hasExtra("userNameString")) {
+            String userName = (String) getIntent().getExtras().get("userNameString").toString();
+
+        } else if (mAuth.getCurrentUser() != null){
+            final String userName = mAuth.getCurrentUser().getDisplayName();
+        } else {
+            String userName = "Please enter a username";
+        }
+
+
+
+
+
+        final String userName = mAuth.getCurrentUser().getDisplayName(); // TODO: 2019-08-01 user get to pull username field from firebaseDB
+//        String userName = (String) getIntent().getExtras().get("userNameString").toString();
 
         Query query = questionRef.whereEqualTo("author", userName);
 //        Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING); // <---original
@@ -388,6 +418,27 @@ public class UserProfileActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
+    }
+
+    private void getIncomingIntent(){
+
+        if(getIntent().hasExtra("userNameString")) {
+            String userName = (String) getIntent().getExtras().get("userNameString").toString();
+
+        }
+
+
+        /*
+        if (getIntent().hasExtra("question_string")) {
+
+            String questionString = (String) getIntent().getExtras().get("question_string").toString();
+            String questionAuthorString = (String) getIntent().getExtras().get("questionAuthor_string").toString();
+            String questionPathIDString = (String) getIntent().getExtras().get("questionID_string");
+
+            questionContentTextView.setText(questionString);
+            questionAuthorTextView.setText(questionAuthorString);
+        }
+         */
     }
 
 }
