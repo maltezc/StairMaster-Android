@@ -134,7 +134,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         final String firstName = "default firstName";
         final String lastName = "default lastName";
 //        final Uri userProfilePicture = "";
-        //TODO: SET POINTS TO 0
 
 
 
@@ -165,70 +164,33 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
 
 
-            // reference below for adding userID to firebase
-//        answerRef.add(answerInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                Log.d(TAG, "onSuccess: Answer was added");
-//
-//                String answerIdRef  = documentReference.getId();
-//                documentReference.update("answerFirebaseId", answerIdRef).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "onSuccess: answerFirebaseId added to database");
-//                    }
-//                });
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d(TAG, "onFailure: " + e.toString());
-//
-//            }
-//        });
-
-        /*
-        //time stamp block
-        Date date = Calendar.getInstance().getTime();
-        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
-        String datetimeString = formatter.format(date);
-        System.out.println("Today : " + datetimeString);
-        mDateTimeStampTextView.setText(datetimeString);
-         */
-
-
-
         final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
-
-
-//        final User userInfo = new User();
         final User userInfo = new User(firstName, lastName, userName, userEmail, mAuthUserId);
-//        final User userInfo = new User(firstName, lastName, userName, userEmail, mAuthUserId);
 
         // block below sets user docid in database to be registered email instead of randomized code of strings.
-        // TODO: 2019-07-31 set user's id here onaction complete. See answersetId for similar relationship.
         final DocumentReference userDocRef = usersColRef.document(userEmail);
-
-
 
         userDocRef.set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
 //        usersColRef.document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
-                mAuthUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                //time stamp block
+                Date date = Calendar.getInstance().getTime();
+                DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
+                String userCreatedTimestamp = formatter.format(date);
+                System.out.println("Today : " + userCreatedTimestamp);
+
                 userDocRef.update(
                         "firstname", firstName,
                         "lastname", lastName,
-                        "userEmail", userEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        "userEmail", userEmail,
+                        "userCreatedTimestamp", userCreatedTimestamp).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: userinfo was created");
                     }
                 });
-
-
-
                 Log.d(TAG, "onSuccess: user was created");
 
             }

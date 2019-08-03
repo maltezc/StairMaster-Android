@@ -102,21 +102,22 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-    /*
-    // TODO: 2019-08-01 figure out how to add user id to firebase DB 
+
+    // TODO: 2019-08-01 figure out how to add user id to firebase DB
     private void addUserIdtoFirebase() {
         if (mAuth.getCurrentUser() != null) {
             String userEmail = mAuth.getCurrentUser().getEmail();
             final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
             final DocumentReference userDocRef = usersColRef.document(userEmail);
             userDocRef.update("userEmail", userEmail);
-        } else {
-            Log.d(TAG, "onCreate: no one is logged in");
-
         }
+//        else {
+//            Log.d(TAG, "onCreate: no one is logged in");
+//
+//        }
     }
 
-     */
+
 
 
 

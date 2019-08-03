@@ -50,6 +50,7 @@ public class UserProfileActivity extends AppCompatActivity {
     EditText lastNameEditText;
     TextView emailTextView;
     EditText emailEditText;
+    TextView memberCreatedTimestampTextView;
     RecyclerView questionListView;
     private QuestionAdapter mQuestionRecyclerViewAdapter;
     private TextView textViewData;
@@ -84,11 +85,12 @@ public class UserProfileActivity extends AppCompatActivity {
         userNameTextView = findViewById(R.id.userNameTextViewID);
         userNameEditText = findViewById(R.id.userNameEditTextID);
         firstNameTextView = findViewById(R.id.firstNameTextViewID);
-        firstNameEditText= findViewById(R.id.firstNameEditTextID);
-        lastNameTextView= findViewById(R.id.lastNameTextViewID);
-        lastNameEditText= findViewById(R.id.lastNameEditTextID);
-        emailTextView= findViewById(R.id.emailTextViewID);
-        emailEditText= findViewById(R.id.emailEditTextID);
+        firstNameEditText = findViewById(R.id.firstNameEditTextID);
+        lastNameTextView = findViewById(R.id.lastNameTextViewID);
+        lastNameEditText = findViewById(R.id.lastNameEditTextID);
+        emailTextView = findViewById(R.id.emailTextViewID);
+        emailEditText = findViewById(R.id.emailEditTextID);
+        memberCreatedTimestampTextView = findViewById(R.id.memberCreatedTimestampID);
 
         questionListView = (RecyclerView) findViewById(R.id.questionRecyclerView);
 
@@ -108,17 +110,36 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-//        userProfilePhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showImageChooser();
-//            }
-//        });
+        if (mAuth.getCurrentUser() != null) {
+            getIncomingIntent();
+            setUpQuestionRecyclerView();
+            setTitle("Profile");
+            setUserId();
+        } else {
+            finish();
+            startActivity(new Intent(UserProfileActivity.this, SignInActivity.class));
+            Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show();
+        }
 
+    }
 
-        getIncomingIntent();
-        setUpQuestionRecyclerView();
-        setTitle("Profile");
+    private void setUserId() {
+        final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
+        String userEmail = mAuth.getCurrentUser().getEmail();
+        final String userFirebaseId = mAuth.getCurrentUser().getUid();
+
+        final DocumentReference userDocRef = usersColRef.document(userEmail);
+        userDocRef.update("userFirebaseId", userFirebaseId).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: userFirebaseId added to firebase database");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: failed to create user in signup" + e);
+            }
+        });
     }
 
 
@@ -142,12 +163,6 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserInformation() {
-
-        /*
-        if (userFirebaseEmail != null) {
-            emailTextView.setText(userFirebaseEmail);
-        }
-         */
 
 
         mAuthUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -177,17 +192,14 @@ public class UserProfileActivity extends AppCompatActivity {
                 String firstNameString = documentSnapshot.getString("firstName");
                 String lastNameString = documentSnapshot.getString("lastName");
                 String userNameString = documentSnapshot.getString("userName");
+                String memberTimestamp = documentSnapshot.getString("userCreatedTimestamp");
 
                 firstNameEditText.setText(firstNameString);
                 firstNameTextView.setText(firstNameString);
                 lastNameEditText.setText(lastNameString);
                 lastNameTextView.setText(lastNameString);
                 userNameTextView.setText(userNameString);
-
-
-
-
-
+                memberCreatedTimestampTextView.setText((memberTimestamp));
 
 //                if (user.getPhotoUrl() != null) {
 //
@@ -348,8 +360,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private void setUpQuestionRecyclerView(){
         getIncomingIntent();
 
-
-
         if(getIntent().hasExtra("userNameString")) {
             String userName = (String) getIntent().getExtras().get("userNameString").toString();
 
@@ -358,9 +368,6 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             String userName = "Please enter a username";
         }
-
-
-
 
 
         final String userName = mAuth.getCurrentUser().getDisplayName(); // TODO: 2019-08-01 user get to pull username field from firebaseDB
