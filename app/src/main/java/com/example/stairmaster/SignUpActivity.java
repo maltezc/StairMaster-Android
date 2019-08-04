@@ -72,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         editTextUserName = (EditText) findViewById(R.id.editTextUserNameID);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+//        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
@@ -129,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         final String userEmail = editTextEmail.getText().toString().trim();
         final String userName = editTextUserName.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
         final List<Question> questionsList = new ArrayList<>();
         final String firstName = "default firstName";
         final String lastName = "default lastName";
@@ -170,45 +170,53 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         // block below sets user docid in database to be registered email instead of randomized code of strings.
         final DocumentReference userDocRef = usersColRef.document(userEmail);
 
-        userDocRef.set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-//        usersColRef.document(userEmail).set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+        mAuth.createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+                    finish();
+                    userDocRef.set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
 
-                //time stamp block
-                Date date = Calendar.getInstance().getTime();
-                DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
-                String userCreatedTimestamp = formatter.format(date);
-                System.out.println("Today : " + userCreatedTimestamp);
+                            //time stamp block
+                            Date date = Calendar.getInstance().getTime();
+                            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
+                            String userCreatedTimestamp = formatter.format(date);
+                            System.out.println("Today : " + userCreatedTimestamp);
 
-                userDocRef.update(
-                        "firstname", firstName,
-                        "lastname", lastName,
-                        "userEmail", userEmail,
-                        "userCreatedTimestamp", userCreatedTimestamp).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "onSuccess: userinfo was created");
+                            userDocRef.update(
+                                    "firstName", firstName,
+                                    "lastName", lastName,
+                                    "userEmail", userEmail,
+                                    "userCreatedTimestamp", userCreatedTimestamp).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "onSuccess: userinfo was created");
+                                }
+                            });
+                            Log.d(TAG, "onSuccess: user was created");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignUpActivity.this, "user could not be created", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                            startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+                } else {
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "userDocRef.set" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "onComplete: userDocRef.set" + task.getException().getMessage());
                     }
-                });
-                Log.d(TAG, "onSuccess: user was created");
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: failed to create user in signup" + e);
+                }
             }
         });
-
-
-
-        Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
-//                Intent intent = new Intent(SignUpActivity.this, QuestionProfileActivity2.class);
-        intent.putExtra(userName,"userNameString");
-
-        startActivity(intent);
-
 
     }
 
@@ -217,6 +225,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.buttonSignUp:
                 registerUser();
+//                userLogin();
                 break;
 
             case R.id.textViewLogin:
@@ -225,5 +234,58 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
+
+   /*
+
+    private void userLogin() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email is required");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Please enter a valid email");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            editTextPassword.setError("Password is required");
+            editTextPassword.requestFocus();
+            return;
+        }
+
+        if (password.length() < 6) {
+            editTextPassword.setError("Minimum length of password should be 6");
+            editTextPassword.requestFocus();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+                    finish();
+                    Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    Log.i("info","going to Dashboard");
+                } else {
+                    Toast.makeText(getApplicationContext(), "mAuth.SignInWithEmailandPassword " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onComplete: mAuth.SignInWithEmailandPassword    " + task.getException().getMessage());
+                }
+            }
+        });
+    }
+*/
+
+
 }
 
