@@ -9,6 +9,7 @@ public class Answer {
     private String author;
     private String answerFirebaseId;
     private String parentQuestionId;
+    private String collectionType;
 
 
     public Answer(String answer, String answerCreatedTimestamp, String author, String parentQuestionId, int answerScore) {
@@ -18,6 +19,8 @@ public class Answer {
         this.answerScore = answerScore;
         this.author = author;
         this.parentQuestionId = parentQuestionId;
+        this.collectionType = collectionType;
+
 
 
     }

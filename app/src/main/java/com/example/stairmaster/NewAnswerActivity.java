@@ -136,6 +136,8 @@ public class NewAnswerActivity extends AppCompatActivity {
 
     private void saveAnswer() {
 
+        /// TODO: 2019-08-05 user must be logged in to provide an answer
+
         Date date = Calendar.getInstance().getTime();
         DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.US);
         String datetimeString = formatter.format(date);
@@ -162,28 +164,16 @@ public class NewAnswerActivity extends AppCompatActivity {
         final CollectionReference answerRef = FirebaseFirestore.getInstance().collection("Answers");
 
 
-
-//        String AnswerIdRef = answerRef.document(userDocRef).collection(answerRef).document().getId();
-
-
-//          for reference below
-//        String id = mWhammyUsersCollection.document(mCurrentUserId).collection("my-chats")
-//                .document().getId();
-//        mWhammyUsersCollection.document(mCurrentUserId).collection("my-chats")
-//                .document(id).set(myChatFields)
-//                .addOnSuccessListener(/* ... */);
-
-
-
-
-
         answerRef.add(answerInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "onSuccess: Answer was added");
+                String collectionType = "Answer";
 
                 String answerIdRef  = documentReference.getId();
-                documentReference.update("answerFirebaseId", answerIdRef).addOnSuccessListener(new OnSuccessListener<Void>() {
+                documentReference.update(
+                        "answerFirebaseId", answerIdRef,
+                        "collectionType", collectionType).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: answerFirebaseId added to database");

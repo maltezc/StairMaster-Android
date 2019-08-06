@@ -98,7 +98,6 @@ public class QuestionFragment extends Fragment {
         mQuestionUpVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (mQuestionUpVoteButton.isChecked()) {
                     questionUpVote();
                 } else {

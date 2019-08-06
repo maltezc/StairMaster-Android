@@ -15,6 +15,7 @@ public class Question {
     private String questionDocumentId;
     private String questionAuthor;
     private String questionFirebaseId;
+    private String collectionType;
 
 
     public Question() {
@@ -29,7 +30,7 @@ public class Question {
         this.tags = tags;
         this.questionAuthor = questionAuthor;
         this.questionTimestamp = questionTimestamp;
-//        this.questionFirebaseId = questionFirebaseId; //TODO: It would be nice to figure this out.
+        this.collectionType = collectionType;
     }
 
     public String getQuestionFirebaseId() {
@@ -96,4 +97,7 @@ public class Question {
         this.questionTimestamp = questionTimestamp;
     }
 
+    public String getCollectionType() {
+        return collectionType;
+    }
 }

@@ -117,7 +117,10 @@ public class NewQuestionActivity extends AppCompatActivity {
 
 
     private void saveQuestion(){
+
+        // TODO: 2019-08-05 user must be signed in to create a question
         String questionString = questionEditText.getText().toString();
+
 //        List<Answer> questionAnswerString;
 //        Answer questionAnswerString = answerEditText.getText().toString();
         String authorFirebase = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
@@ -129,14 +132,18 @@ public class NewQuestionActivity extends AppCompatActivity {
         // .update will update some of the fields without overwriting the entiredocument
 
         CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+        final DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String userNameString = documentSnapshot.getString("userName");
                 authorTextView.setText(userNameString);
+//                .update("questionAuthor", mUserNameString).addOnSuccessListener()
+                mUserNameString = userNameString;
             }
         });
+//        Log.d(TAG, "saveQuestion: " + mUserNameString);
+//        mUserNameString = userNameString;
 
 
         int priority = numberPickerPriority.getValue();
@@ -170,8 +177,14 @@ public class NewQuestionActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d(TAG, "onSuccess: questionRef.add executed");
+//                docRef.get().addOnSuccessListener()
+                String collectionType = "Question";
                 String questionIdRef = documentReference.getId();
-                documentReference.update("questionFirebaseId", questionIdRef).addOnSuccessListener(new OnSuccessListener<Void>() {
+                documentReference.update(
+                        "questionAuthor", authorTextView.getText(),
+                        "questionFirebaseId", questionIdRef,
+                        "collectionType", collectionType
+                ).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: questionId added to firebase");

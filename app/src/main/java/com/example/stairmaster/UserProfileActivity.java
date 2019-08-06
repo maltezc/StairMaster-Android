@@ -360,20 +360,35 @@ public class UserProfileActivity extends AppCompatActivity {
     private void setUpQuestionRecyclerView(){
         getIncomingIntent();
 
-        if(getIntent().hasExtra("userNameString")) {
-            String userName = (String) getIntent().getExtras().get("userNameString").toString();
-
-        } else if (mAuth.getCurrentUser() != null){
-            final String userName = mAuth.getCurrentUser().getDisplayName();
-        } else {
-            String userName = "Please enter a username";
-        }
+//        if(getIntent().hasExtra("userNameString")) {
+//            String userName = (String) getIntent().getExtras().get("userNameString").toString();
+//
+//        } else if (mAuth.getCurrentUser() != null){
+//            final String userName = mAuth.getCurrentUser().getDisplayName();
+//        } else {
+//            String userName = "Please enter a username";
+//        }
 
 
         final String userName = mAuth.getCurrentUser().getDisplayName(); // TODO: 2019-08-01 user get to pull username field from firebaseDB
+//        final String userName =
 //        String userName = (String) getIntent().getExtras().get("userNameString").toString();
+        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        final CollectionReference usersRef = rootRef.collection("Users");
+        DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+//        String userName = (String) userNameTextView.getText();
 
-        Query query = questionRef.whereEqualTo("author", userName);
+//        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                String userName = documentSnapshot.get("userName").toString();
+//            }
+//        });
+
+//        Query query = questionRef.whereEqualTo("userEmail", userFirebaseEmail);
+//        Query query = questionRef.whereEqualTo("userEmail", mAuth.getCurrentUser().getEmail());
+        Query query = questionRef.whereEqualTo("questionAuthor", userName);
 //        Query query = questionRef.orderBy("priority", Query.Direction.DESCENDING); // <---original
 
 
@@ -448,5 +463,18 @@ public class UserProfileActivity extends AppCompatActivity {
          */
     }
 
+
+    private void getUserActionHistory() {
+
+        // TODO: 2019-08-03 be able to reach into firebase and get id's of items listed regardless of collection.
+        //  if collection type is an issue, then figure it out
+
+        /*
+            FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance().document();
+            CollectionReference questionColRef = firestoreDB.collection("Questions");
+            DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
+         */
+
+    }
 }
 

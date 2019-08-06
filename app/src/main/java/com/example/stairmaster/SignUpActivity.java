@@ -177,6 +177,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     finish();
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(userName)
+                            .build();
+                    user.updateProfile(profile);
+
                     userDocRef.set(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -191,6 +198,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     "firstName", firstName,
                                     "lastName", lastName,
                                     "userEmail", userEmail,
+                                    "userName", userName,
                                     "userCreatedTimestamp", userCreatedTimestamp).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
