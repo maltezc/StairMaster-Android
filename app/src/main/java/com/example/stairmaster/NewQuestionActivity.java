@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -131,8 +132,8 @@ public class NewQuestionActivity extends AppCompatActivity {
         // .set will create or overwrite.
         // .update will update some of the fields without overwriting the entiredocument
 
-        CollectionReference usersRef = FirebaseFirestore.getInstance().collection("Users");
-        final DocumentReference docRef = usersRef.document(userFirebaseEmail); // <-- this works!****
+        final CollectionReference usersColRef = FirebaseFirestore.getInstance().collection("Users");
+        final DocumentReference docRef = usersColRef.document(userFirebaseEmail); // <-- this works!****
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -149,7 +150,7 @@ public class NewQuestionActivity extends AppCompatActivity {
         int priority = numberPickerPriority.getValue();
         String tagInput = editTextTags.getText().toString();
         String[] tagArray = tagInput.split("\\s*, \\s*");
-        List<String> tags = Arrays.asList(tagArray);
+        List<String> questionTags = Arrays.asList(tagArray);
         if (questionString.trim().isEmpty() ) {
             //TODO: DO MORE CHECK FOR SIM OR DUPLICATE
 
@@ -159,7 +160,7 @@ public class NewQuestionActivity extends AppCompatActivity {
             return;
         }
 
-        final CollectionReference questionRef = FirebaseFirestore.getInstance().collection("Questions");
+        final CollectionReference questionColRef = FirebaseFirestore.getInstance().collection("Questions");
 
 
         //time stamp block
@@ -171,18 +172,34 @@ public class NewQuestionActivity extends AppCompatActivity {
 
         // question doc ref id
 
-        final Question questionInfo = new Question(questionString, priority, tags, authorFirebase, datetimeString);
+        final Question questionInfo = new Question(questionString, priority, questionTags, authorFirebase, datetimeString);
 
-        questionRef.add(questionInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        questionColRef.add(questionInfo).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "onSuccess: questionRef.add executed");
+                Log.d(TAG, "onSuccess: questionColRef.add executed");
 //                docRef.get().addOnSuccessListener()
+
+                String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+                DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userFirebaseEmail);
+                String questionRefId = documentReference.getId();
+                userDocRef.update("actionHistory", FieldValue.arrayUnion(questionRefId)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: actionHistory update succeeded");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: actionhistory update Failed" + e);
+                    }
+                });
+
+
                 String collectionType = "Question";
-                String questionIdRef = documentReference.getId();
                 documentReference.update(
                         "questionAuthor", authorTextView.getText(),
-                        "questionFirebaseId", questionIdRef,
+                        "questionFirebaseId", questionRefId,
                         "collectionType", collectionType
                 ).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -197,11 +214,12 @@ public class NewQuestionActivity extends AppCompatActivity {
                     }
                 });
 
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: questionRef.add failed");
+                Log.d(TAG, "onFailure: questionColRef.add failed");
             }
         });
 

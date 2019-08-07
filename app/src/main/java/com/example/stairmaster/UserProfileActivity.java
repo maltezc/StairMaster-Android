@@ -37,6 +37,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -115,6 +118,7 @@ public class UserProfileActivity extends AppCompatActivity {
             setUpQuestionRecyclerView();
             setTitle("Profile");
             setUserId();
+            getUserActionHistory();
         } else {
             finish();
             startActivity(new Intent(UserProfileActivity.this, SignInActivity.class));
@@ -466,14 +470,70 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void getUserActionHistory() {
 
-        // TODO: 2019-08-03 be able to reach into firebase and get id's of items listed regardless of collection.
-        //  if collection type is an issue, then figure it out
+        // TODO: 2019-08-03 be able to reach into firebase and get id's of items listed regardless of collection. <--action history list created
+        // TODO: 2019-08-06 if collection type is an issue, then figure it out
+
+
+        // TODO: 2019-08-06 make add elementId to userActionHistoryList <-- DONE
+            //upvote,
+            // downvote,
+            // comments,
+            // questions, TODO: DONE
+            // answers, TODO: DONE
+            // checked answers
+
+        //pull user
+        String userEmail = mAuth.getCurrentUser().getEmail();
+        DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userEmail);
+        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d(TAG, "onSuccess: able to pull action history from user");
+                documentSnapshot.get("actionHistory").toString();
+                List<String> list = new ArrayList<>();
+                Map<String, Object> map = documentSnapshot.getData();
+                for (Map.Entry<String, Object>entry: map.entrySet()){
+                    list.add(entry.getKey());
+                    Log.d(TAG, "onSuccess: actionHistoryItem is: " + entry.getKey());
+//                    Log.d(TAG, "onSuccess: action histry list created" + Map.Entry<String, Object>);
+//                    for (x : list) {
+//                        Log.d(TAG, "onSuccess: " );
+//                    }
+                }
+
+                /*
+                if (task.isSuccessful()) {
+                List<String> list = new ArrayList<>();
+                Map<String, Object> map = task.getResult().getData();
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                list.add(entry.getKey());
+                Log.d("TAG", entry.getKey());
+            }
+                 */
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: wasnt able to pull action history");
+            }
+        });
+        //pull userActionHistoryElementIdList
+        //pull elementId
+        //pull collectionType
+        //use recycler view. put in chronological order.
+
 
         /*
-            FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance().document();
+            DocumentSnapshot documentSnapshot =
+            FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
+            FirebaseFirestore actionItemRef = FirebaseFirestore.getInstance().document()
             CollectionReference questionColRef = firestoreDB.collection("Questions");
             DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
+//            DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
          */
+
+
 
     }
 }

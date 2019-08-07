@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
@@ -170,13 +171,31 @@ public class NewAnswerActivity extends AppCompatActivity {
                 Log.d(TAG, "onSuccess: Answer was added");
                 String collectionType = "Answer";
 
-                String answerIdRef  = documentReference.getId();
+                final String answerRefId  = documentReference.getId();
                 documentReference.update(
-                        "answerFirebaseId", answerIdRef,
+                        "answerFirebaseId", answerRefId,
                         "collectionType", collectionType).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: answerFirebaseId added to database");
+
+                        String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
+                        DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userFirebaseEmail);
+//                        String answer = documentReference.getId();
+//                        answerRefId
+                        userDocRef.update("actionHistory", FieldValue.arrayUnion(answerRefId)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "onSuccess: actionHistory update succeeded");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: actionhistory update Failed" + e);
+                            }
+                        });
+
+
                     }
                 });
             }

@@ -86,7 +86,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
                         intent.putExtra("questionScore_string", textViewScore.getText());
 //                        intent.putExtra("questionPriority_string", textViewScore.getText());
 
-                        Object questionScoreInt = getSnapshots().getSnapshot(position).get("questionScore").toString();
+//                        Object questionScoreInt = getSnapshots().getSnapshot(position).get("questionScore").toString();
 //                        intent.putExtra("questionScore", questionScoreInt);
 
                         String questionItemId = getSnapshots().getSnapshot(position).getId();

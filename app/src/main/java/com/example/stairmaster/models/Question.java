@@ -11,7 +11,7 @@ public class Question {
     private String comment; // TODO: Change comments to list
     private int questionScore;
     private String questionTimestamp; //TODO: add questionTimestamp for when question was created and then revised.
-    List<String> tags;
+    List<String> questionTags;
     private String questionDocumentId;
     private String questionAuthor;
     private String questionFirebaseId;
@@ -22,12 +22,12 @@ public class Question {
         // public no-arg constructor needed
     }
 
-    public Question(String question, int questionScore, List<String> tags, String questionAuthor, String questionTimestamp){
-//    public Question(String question, List<Answer> answers, int questionScore, List<String> tags, String questionAuthor){
+    public Question(String question, int questionScore, List<String> questionTags, String questionAuthor, String questionTimestamp){
+//    public Question(String question, List<Answer> answers, int questionScore, List<String> questionTags, String questionAuthor){
         this.question = question;
         this.answers = answers;
         this.questionScore = questionScore;
-        this.tags = tags;
+        this.questionTags = questionTags;
         this.questionAuthor = questionAuthor;
         this.questionTimestamp = questionTimestamp;
         this.collectionType = collectionType;
@@ -83,8 +83,8 @@ public class Question {
         return questionScore;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public List<String> getQuestionTags() {
+        return questionTags;
     }
 
         public String getQuestionTimestamp() {
