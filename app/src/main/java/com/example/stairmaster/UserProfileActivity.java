@@ -26,8 +26,10 @@ import com.example.stairmaster.logins.SignInActivity;
 import com.example.stairmaster.models.Question;
 import com.example.stairmaster.models.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -485,23 +487,46 @@ public class UserProfileActivity extends AppCompatActivity {
         //pull user
         String userEmail = mAuth.getCurrentUser().getEmail();
         DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userEmail);
-        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Log.d(TAG, "onSuccess: able to pull action history from user");
-                documentSnapshot.get("actionHistory").toString();
-                List<String> list = new ArrayList<>();
-                Map<String, Object> map = documentSnapshot.getData();
-                for (Map.Entry<String, Object>entry: map.entrySet()){
-                    list.add(entry.getKey());
-                    Log.d(TAG, "onSuccess: actionHistoryItem is: " + entry.getKey());
-//                    Log.d(TAG, "onSuccess: action histry list created" + Map.Entry<String, Object>);
-//                    for (x : list) {
-//                        Log.d(TAG, "onSuccess: " );
-//                    }
-                }
 
-                /*
+
+        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.contains("actionHistory")) {
+
+                        List<String> group = (List<String>) documentSnapshot.get("actionHistory");
+                        Log.d(TAG, "onComplete: Listing user's actionHistory "+ group);
+                    } else {
+                        Log.d(TAG, "onComplete: user has no action History");
+                    }
+
+
+
+//                    Cannot resolve constructor 'ArrayList(java.util.Collection<java.lang.Object>)'
+                    /*
+                    List<Object> allowedData = new ArrayList<>(task.getResult().getData().values());
+                    Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData().values());
+
+                    for(Object item : task.getResult().getData().values()) {
+                        allowedData.add(item);
+
+//                    if (documentSnapshot != null) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
+//                        List<Object> allowedData = new ArrayList<Object>(task.getResult().getData().values());
+//                        for(Object item : task.getResult().getData().values()) {
+//                            allowedData.add(item);
+//                            allowedData.add(item.toString());
+//                        }
+                    }
+                     */
+
+                }
+            }
+        });
+
+        /* for reference
                 if (task.isSuccessful()) {
                 List<String> list = new ArrayList<>();
                 Map<String, Object> map = task.getResult().getData();
@@ -511,6 +536,31 @@ public class UserProfileActivity extends AppCompatActivity {
             }
                  */
 
+        /*
+
+        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Log.d(TAG, "onSuccess: able to pull action history from user");
+//                documentSnapshot.get("actionHistory").toString();
+
+                List<String> list = new ArrayList<>();
+                Map<String,Object> map = documentSnapshot.getData(); // TODO: 2019-08-06 start editing from this line.
+//                Map<String, Object> map = documentSnapshot.get("actionHistory"); // TODO: 2019-08-06 start editing from this line.
+//                Map<String, Object> map = documentSnapshot.getData(); // TODO: 2019-08-06 start editing from this line.
+                for (Map.Entry<String, Object>entry: map.entrySet()){
+//                for (Map.Entry<String, Object>entry: map.entrySet()){
+                    list.add(entry.getKey());
+                    Log.d(TAG, "onSuccess: actionHistoryItem is: " + entry.getKey());
+//                    Log.d(TAG, "onSuccess: action histry list created" + Map.Entry<String, Object>);
+//                    for (x : list) {
+//                        Log.d(TAG, "onSuccess: " );
+//                    }
+                }
+
+
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -518,6 +568,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: wasnt able to pull action history");
             }
         });
+
+         */
+
+
+
+
         //pull userActionHistoryElementIdList
         //pull elementId
         //pull collectionType
