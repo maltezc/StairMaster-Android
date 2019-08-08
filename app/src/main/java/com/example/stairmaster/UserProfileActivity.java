@@ -472,7 +472,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void getUserActionHistory() {
 
-        // TODO: 2019-08-03 be able to reach into firebase and get id's of items listed regardless of collection. <--action history list created
+        // TODO: 2019-08-03 be able to reach into firebase and get id's of items listed regardless of collection. <--action history list created <-- DONE
+
         // TODO: 2019-08-06 if collection type is an issue, then figure it out
 
 
@@ -495,100 +496,33 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.contains("actionHistory")) {
-
                         List<String> group = (List<String>) documentSnapshot.get("actionHistory");
-                        Log.d(TAG, "onComplete: Listing user's actionHistory "+ group);
+                        Log.d(TAG, "onComplete: Listing user's actionHistory " + group);
+
+//                        split action history into values x and y
+//                        for x,y in action history list
+//                              if x = collection and y = refId
+//                                    retrieve y collection in x
+//                                         create card in recycler view
+
+//                        DocumentReference actionHistoryDocRef = FirebaseFirestore.getInstance().document("vv6I9Z4wcY0um5j8y2Ry");
+//                        Log.d(TAG, "onComplete: action history has " + actionHistoryDocRef);
+
+
+
+
+
                     } else {
                         Log.d(TAG, "onComplete: user has no action History");
                     }
 
 
 
-//                    Cannot resolve constructor 'ArrayList(java.util.Collection<java.lang.Object>)'
-                    /*
-                    List<Object> allowedData = new ArrayList<>(task.getResult().getData().values());
-                    Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData().values());
 
-                    for(Object item : task.getResult().getData().values()) {
-                        allowedData.add(item);
-
-//                    if (documentSnapshot != null) {
-//                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-//                        List<Object> allowedData = new ArrayList<Object>(task.getResult().getData().values());
-//                        for(Object item : task.getResult().getData().values()) {
-//                            allowedData.add(item);
-//                            allowedData.add(item.toString());
-//                        }
-                    }
-                     */
 
                 }
             }
         });
-
-        /* for reference
-                if (task.isSuccessful()) {
-                List<String> list = new ArrayList<>();
-                Map<String, Object> map = task.getResult().getData();
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                list.add(entry.getKey());
-                Log.d("TAG", entry.getKey());
-            }
-                 */
-
-        /*
-
-        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                Log.d(TAG, "onSuccess: able to pull action history from user");
-//                documentSnapshot.get("actionHistory").toString();
-
-                List<String> list = new ArrayList<>();
-                Map<String,Object> map = documentSnapshot.getData(); // TODO: 2019-08-06 start editing from this line.
-//                Map<String, Object> map = documentSnapshot.get("actionHistory"); // TODO: 2019-08-06 start editing from this line.
-//                Map<String, Object> map = documentSnapshot.getData(); // TODO: 2019-08-06 start editing from this line.
-                for (Map.Entry<String, Object>entry: map.entrySet()){
-//                for (Map.Entry<String, Object>entry: map.entrySet()){
-                    list.add(entry.getKey());
-                    Log.d(TAG, "onSuccess: actionHistoryItem is: " + entry.getKey());
-//                    Log.d(TAG, "onSuccess: action histry list created" + Map.Entry<String, Object>);
-//                    for (x : list) {
-//                        Log.d(TAG, "onSuccess: " );
-//                    }
-                }
-
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: wasnt able to pull action history");
-            }
-        });
-
-         */
-
-
-
-
-        //pull userActionHistoryElementIdList
-        //pull elementId
-        //pull collectionType
-        //use recycler view. put in chronological order.
-
-
-        /*
-            DocumentSnapshot documentSnapshot =
-            FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
-            FirebaseFirestore actionItemRef = FirebaseFirestore.getInstance().document()
-            CollectionReference questionColRef = firestoreDB.collection("Questions");
-            DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
-//            DocumentReference questionDocRef = questionColRef.document(questionPathIDString);
-         */
-
 
 
     }

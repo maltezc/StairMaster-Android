@@ -183,7 +183,7 @@ public class NewQuestionActivity extends AppCompatActivity {
                 String userFirebaseEmail = mAuth.getCurrentUser().getEmail();
                 DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(userFirebaseEmail);
                 String questionRefId = documentReference.getId();
-                userDocRef.update("actionHistory", FieldValue.arrayUnion(questionRefId)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                userDocRef.update("actionHistory", FieldValue.arrayUnion("Question : " + questionRefId)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "onSuccess: actionHistory update succeeded");
