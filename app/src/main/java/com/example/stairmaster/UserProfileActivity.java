@@ -38,6 +38,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -494,7 +495,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
+                    final DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.contains("actionHistory")) {
                         List<String> group = (List<String>) documentSnapshot.get("actionHistory");
                         Log.d(TAG, "onComplete: Listing user's actionHistory " + group);
@@ -502,14 +503,32 @@ public class UserProfileActivity extends AppCompatActivity {
 //                        split action history into values x and y
 //                        for x,y in action history list
 //                              if x = collection and y = refId
-//                                    retrieve y collection in x
+//                                    retrieve y collection in x (either use document reference or query
 //                                         create card in recycler view
 
-//                        DocumentReference actionHistoryDocRef = FirebaseFirestore.getInstance().document("vv6I9Z4wcY0um5j8y2Ry");
-//                        Log.d(TAG, "onComplete: action history has " + actionHistoryDocRef);
+
+                        StringBuilder parts = new StringBuilder();
+                        for (int i = 0; i < group.size(); i++) {
+                            String[] indivString = group.get(i).split(":");
+                            String colTypeString = indivString[0];
+                            String refIdString = indivString[1];
+                            Log.d(TAG, "onComplete: coltype " + colTypeString);
+                            Log.d(TAG, "onComplete: refId " + refIdString);
+
+                            // rename answer and question fields of Answer and Question to be "content" to circumvent field conditional.
+
+                            DocumentReference indivUserProfRef = FirebaseFirestore.getInstance().collection(colTypeString).document(refIdString);
+                            indivUserProfRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    documentSnapshot.get("");
+                                }
+                            });
 
 
 
+
+                        }
 
 
                     } else {
