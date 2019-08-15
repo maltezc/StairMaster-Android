@@ -93,6 +93,7 @@
 
 
     <string name="KEY_QUESTION_STRING">Question</string>
+    <string name="title_activity_quiz">quiz</string>
 
 
 </resources>

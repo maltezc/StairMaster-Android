@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import com.example.stairmaster.models.User;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,8 +30,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -85,14 +81,22 @@ public class DashboardActivity extends AppCompatActivity {
         setTitle("Dashboard");
         Log.i("info","Dashboard started");
 
-        findViewById(R.id.fab);
+        findViewById(R.id.fabNewQuestion);
 
-        FloatingActionButton buttonAddQuestion = findViewById(R.id.fab);
+        FloatingActionButton buttonAddQuestion = findViewById(R.id.fabNewQuestion);
         buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 startActivity(new Intent(DashboardActivity.this, NewQuestionActivity.class));
+            }
+        });
+
+        final FloatingActionButton buttonBeginQuiz = findViewById(R.id.fabBeginQuiz);
+        buttonBeginQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashboardActivity.this, QuizActivity.class));
             }
         });
 

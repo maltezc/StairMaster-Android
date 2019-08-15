@@ -52,7 +52,7 @@
         <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fabNewQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
@@ -62,6 +62,17 @@
 
             />
         <!--app:fabSize="auto". auto is automatically set-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabBeginQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:onClick="beginQuiz"
+            android:src="@drawable/ic_add_black_24dp"
+
+            />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

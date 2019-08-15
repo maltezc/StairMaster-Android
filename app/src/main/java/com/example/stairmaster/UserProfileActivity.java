@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.stairmaster.adapters.QuestionAdapter;
 import com.example.stairmaster.logins.SignInActivity;
+import com.example.stairmaster.models.Answer;
 import com.example.stairmaster.models.Question;
 import com.example.stairmaster.models.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -510,18 +511,32 @@ public class UserProfileActivity extends AppCompatActivity {
                         StringBuilder parts = new StringBuilder();
                         for (int i = 0; i < group.size(); i++) {
                             String[] indivString = group.get(i).split(":");
-                            String colTypeString = indivString[0];
+                            final String colTypeString = indivString[0].trim();
                             String refIdString = indivString[1];
                             Log.d(TAG, "onComplete: coltype " + colTypeString);
                             Log.d(TAG, "onComplete: refId " + refIdString);
 
                             // rename answer and question fields of Answer and Question to be "content" to circumvent field conditional.
+                            //try usings if/else or case
+                            // TODO: 2019-08-09 create clickable link for item in action history
 
                             DocumentReference indivUserProfRef = FirebaseFirestore.getInstance().collection(colTypeString).document(refIdString);
                             indivUserProfRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    documentSnapshot.get("");
+                                    if (colTypeString.equals("Answers")) {
+                                        String content = documentSnapshot.get("answer").toString();
+                                        Log.d(TAG, "onComplete: Answer content = " + content);
+
+
+                                    } else if (colTypeString.equals("Question")) {
+//                                    } else if (colTypeString.equals("Questions")) {
+                                        String content = documentSnapshot.get("question").toString();
+                                        Log.d(TAG, "onComplete: Question content = " + content);
+                                    } else {
+
+                                        Log.d(TAG, "onComplete: hello");
+                                    }
                                 }
                             });
 
