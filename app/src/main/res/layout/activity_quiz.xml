@@ -8,23 +8,64 @@
     tools:context=".QuizActivity"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/quizQuestionCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Question: 0 / QQ"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/quizClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="20sp"
+            android:gravity="end"
+            android:layout_alignEnd="@id/quizQuestionCount"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@id/quizQuestionCount" />
+
+
+
+    </RelativeLayout>
+
+
 
     <TextView
-        android:id="@+id/questionId"
-        android:text="here is the orginal question. dont freak out"
-        android:textSize="32dp"
+        android:id="@+id/quizScoreId"
+        android:text="0 / XX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:textSize="20sp"
         />
+
+    <TextView
+        android:id="@+id/questionTextId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/quizQuestionCount"
+        android:layout_margin="20dp"
+        android:text="here is the orginal question. dont freak out"
+        android:textSize="32dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="138dp" />
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="20dp"
-        >
+        android:layout_marginTop="320dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/questionTextId"
+        tools:layout_editor_absoluteX="16dp">
 
         <RadioGroup
             android:id="@+id/option1"
@@ -33,101 +74,104 @@
             android:layout_marginVertical="20dp">
 
             <RadioButton
+                android:id="@+id/option1RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="option 1"
-                android:layout_marginLeft="20dp"
-                />
-        </RadioGroup>
-
-
-
-        <RadioGroup
-            android:id="@+id/option2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp">
+                android:textSize="20dp" />
 
             <RadioButton
+                android:id="@+id/option2RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="option 2"
-                android:layout_marginLeft="20dp"
-                />
-        </RadioGroup>
-
-
-        <RadioGroup
-            android:id="@+id/option3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp">
+                android:textSize="20dp" />
 
             <RadioButton
+                android:id="@+id/option3RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="option 3"
-                android:layout_marginLeft="20dp"
-                />
-        </RadioGroup>
-
-
-        <RadioGroup
-            android:id="@+id/option4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp">
+                android:textSize="20dp" />
 
             <RadioButton
+                android:id="@+id/option4RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="option 4"
-                android:layout_marginLeft="20dp"
-                />
-        </RadioGroup>
-
-        <RadioGroup
-            android:id="@+id/option5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp">
+                android:textSize="20dp" />
 
             <RadioButton
+                android:id="@+id/option5RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="option 5"
-                android:layout_marginLeft="20dp"
-                />
-        </RadioGroup>
-
-        <RadioGroup
-            android:id="@+id/option6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp">
+                android:textSize="20dp" />
 
             <RadioButton
+                android:id="@+id/option6RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="option 6"
                 android:layout_marginLeft="20dp"
-                />
+                android:text="option 6"
+                android:textSize="20dp" />
         </RadioGroup>
+
+        <Button
+            android:id="@+id/quizAnswerSubmitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_marginBottom="30sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/quizHelpButtonId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hints"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/quizFlagButtonId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flag"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/quizContributeButtonId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contribution"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+
+        <!--<Button-->
+        <!--android:id="@+id/quizHelpButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Help"-->
+        <!--android:textSize="20sp"-->
+
+        <!--/>-->
 
 
     </LinearLayout>
-
-
-
-
-
-
 
 
 

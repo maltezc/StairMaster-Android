@@ -82,6 +82,7 @@ public class DashboardActivity extends AppCompatActivity {
         Log.i("info","Dashboard started");
 
         findViewById(R.id.fabNewQuestion);
+        findViewById(R.id.fabBeginQuiz);
 
         FloatingActionButton buttonAddQuestion = findViewById(R.id.fabNewQuestion);
         buttonAddQuestion.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        final FloatingActionButton buttonBeginQuiz = findViewById(R.id.fabBeginQuiz);
+        FloatingActionButton buttonBeginQuiz = findViewById(R.id.fabBeginQuiz);
         buttonBeginQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
