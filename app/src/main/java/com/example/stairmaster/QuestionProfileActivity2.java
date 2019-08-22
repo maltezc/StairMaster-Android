@@ -59,46 +59,12 @@ public class QuestionProfileActivity2 extends AppCompatActivity implements Answe
         mAnswerUpVoteButton = findViewById(R.id.questionUpVoteId);
         mAnswerDownVoteButton = findViewById(R.id.questionDownVoteId);
 
-
-
-//        getIncomingIntent();
         setUpAnswerRecyclerView();
 
-
-//        FragmentManager fm = getFragmentManager();
-//
-//        fragment = fm.findFragmentById(R.id.questionFragment);
-//        if (fragment == null) {
-//            fragment = new MyFragment();
-//
-//            FragmentTransaction ft = fm.beginTransaction();
-//            ft.add(R.id.questionFragment, fragment, "myfragment");
-//            ft.commit();
-//        }
-
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        ExampleFragment fragment = new ExampleFragment();
-//        fragmentTransaction.add(R.id.questionFragment, fragment);
-//        fragmentTransaction.commit();
-
         questionFragment  = new QuestionFragment(); // IN USE
-//        answersListFragment = new AnswersFragment2NotUsed();
-//        answersListFragment = new AnswersFragmentNotUsed();
+
         getSupportFragmentManager().beginTransaction() // in use
                 .add(R.id.questionFragment, questionFragment); // in use
-//                .add(R.id.answersRecyclerViewID, answersListFragment);
-
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.answersListFragment, answersListFragment);
-//                .add(list, answersListFragment);
-//                .add(R.id.answersRecyclerViewID, answersListFragment);
-
-
-
-
 
     }
 
