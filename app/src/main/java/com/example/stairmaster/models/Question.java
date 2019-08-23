@@ -6,7 +6,6 @@ public class Question {
 
 //    private String title;
     private String question;
-//    private String answer; //TODO: Change answers to list
     List<Answer> answers;
     private String comment; // TODO: Change comments to list
     private int questionScore;

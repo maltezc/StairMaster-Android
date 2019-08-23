@@ -5,15 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -29,7 +32,7 @@ public class QuizActivity extends AppCompatActivity {
     TextView quizQuestionCountTextView;
     TextView quizClockTextView;
     TextView quizScoreTextView;
-    TextView questionTextTextview;
+    TextView questionTextTextView;
     RadioButton option1RadioButton;
     RadioButton option2RadioButton;
     RadioButton option3RadioButton;
@@ -43,10 +46,13 @@ public class QuizActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
+    private int mCounter = 1;
     private int mScore = 0;
     private int mQuestionNumber = 0;
+    private int mCorrectAnswer = 0;
     private String mAnswer;
     private String mQuestion;
+    final List<String> questionList = new ArrayList<>();
 
     //Firebase Firestore
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
@@ -60,6 +66,7 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         quizQuestionCountTextView = findViewById(R.id.quizQuestionCount);
+        questionTextTextView = findViewById(R.id.questionTextId);
         quizClockTextView = findViewById(R.id.quizClock);
         quizScoreTextView = findViewById(R.id.questionTextId);
         option1RadioButton = findViewById(R.id.option1RadioButton);
@@ -73,11 +80,7 @@ public class QuizActivity extends AppCompatActivity {
         flagButtonButton = findViewById(R.id.quizFlagButtonId);
         contributeButton = findViewById(R.id.quizContributeButtonId);
 
-        quizScoreTextView.setText("0 /" );
-
-
-
-
+        quizScoreTextView.setText(mCorrectAnswer + " / " + mQuestionNumber);
 
 
         // TODO: 2019-08-16 start quiz
@@ -88,10 +91,8 @@ public class QuizActivity extends AppCompatActivity {
         // TODO: 2019-08-21 grab all questions
         loadQuestionSet();
 
-        // TODO: 2019-08-16 grab a question from firebase
 
-        nextQuestion();
-
+        // TODO: 2019-08-16 grab a question from quesitions grabbed
 
         // TODO: 2019-08-16 if answer exists, grab answer and other potential answers from firebase
 
@@ -108,70 +109,129 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    private void nextQuestion() {
-        // get next question in query
-        //update score
-    }
+
+
 
     private void loadQuestionSet() {
-        Query query = questionColRef.orderBy("questionScore"); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
-//        FirestoreRecyclerOptions<Question> options = new FirestoreRecyclerOptions.Builder<Question>()
-//                .setQuery(query, Question.class)
-//                .build();
 
-        questionColRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//        Query first = questionColRef.orderBy("questionScore");
+        Query first = questionColRef.orderBy("questionScore").limit(10);
+
+
+        first.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<String> questionList = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String questionString = document.get("question").toString();
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                final int counter = 1;
+                DocumentSnapshot lastVisible = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() - 1);
+                questionTextTextView.setText(lastVisible.get("question").toString());
+                Log.d(TAG, "onSuccess: loadQuestionSet size " + queryDocumentSnapshots.size());
 
-                        questionList.add(document.get("question").toString());
-
-//                        for(int i = 0; questionList.size() < 20 ; i++ ) {
-//                            Log.d(TAG, "onComplete: " + questionList);
-//
-//
-//                        }
+//                Query next = questionColRef.orderBy("questionScore").startAfter(lastVisible).limit(20);
 
 
+//                final Query next = questionColRef.orderBy("questionScore").startAfter(lastVisible);
+                final Query next = questionColRef.orderBy("questionScore").startAfter(lastVisible).limit(20);
+                quizAnswerSubmitButton.setOnClickListener(new View.OnClickListener() {
 
-//                        questionTextTextview.setText(questionString);
-
-                        /*
-                        for(int i = 0; i < stringArray.length; i++){
-                            String thisString = stringArray[i];
-                            ButtonView thisButton = buttonArray[i];
-                            if(thisString.equals(null)){
-                                thisButton.setVisibility(View.INVISIBLE);
-                            }else{
-                                thisButton.setVisibility(View.VISIBLE);
-                                thisButton.setText(thisString);
+                    @Override
+                    public void onClick(View v) {
+                        next.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                DocumentSnapshot lastVisible = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() - mCounter);
+                                questionTextTextView.setText(lastVisible.get("question").toString());
+                                Log.d(TAG, "onSuccess: loadQuestionSet size " + queryDocumentSnapshots.size());
+                                mCounter++;
                             }
-                        }
-                        */
+                        });
                     }
-                    Log.d(TAG, "onComplete: " + questionList);
-                    // TODO: 2019-08-21 figure out how to cycle through questions
-                    // perhaps grab a batch of questions
+                });
 
 
-//                    for (int i = 0; i < questionList.size(); i++){
-//                        questionTextTextview.setText(i);
-//                    }
 
-//                    Log.d(TAG, questionList.toString());
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: was not able to get a list of questions for Quiz activity");
             }
         });
+
+//
+//        Query query = questionColRef.orderBy("questionScore"); // field questionPriority is VERY IMPORTANT. if it doesnt match the models category, no items will be displayed.
+//
+////        final List<String> questionList = new ArrayList<>();
+//
+//        questionColRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        String questionString = document.get("question").toString();
+////                        questionTextTextView.setText(document.get("question").toString());
+//
+//                        loadQuestion();
+//
+//                        /*
+//                        quizAnswerSubmitButton.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                loadQuestion();
+//                            }
+//                        });
+//
+//                         */
+//
+////                        int counter = 0;
+//                        questionList.add(document.get("question").toString());
+////                        questionTextTextView.setText(questionList.get(0)); // sets text to first question in list
+////                        questionTextTextView.setText(questionList.get(mCounter)); // sets text to first question in list
+////                        questionTextTextView.setText(questionList.listIterator().nextIndex()); // sets text to first question in list
+//
+//
+//                    }
+//
+//
+//                    questionTextTextView.setText(questionList.get(mCounter-1)); // sets text to second question in list
+//
+//                    quizAnswerSubmitButton.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mCounter++;
+//                            questionTextTextView.setText(questionList.get(mCounter));
+//                        }
+//                    });
+//                    Log.d(TAG, "onComplete: " + questionList);
+//                    // TODO: 2019-08-21 figure out how to cycle through questions
+//
+//
+//
+////                    for (int i = 0; i < questionList.size(); i++){
+////                        questionTextTextView.setText(i);
+////                    }
+//
+////                    Log.d(TAG, questionList.toString());
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "onFailure: was not able to get a list of questions for Quiz activity");
+//            }
+//        });
+//
+//        Log.d(TAG, "loadQuestionSet: " + questionList);
+
+    }
+
+    private void loadQuestion() {
+        // get next question in query
+        //update score
+        Log.d(TAG, "loadQuestion: " + questionList.toString());
+        mCounter ++;
+//        questionList.get(mCounter);
+
+
+
+
 
     }
 
