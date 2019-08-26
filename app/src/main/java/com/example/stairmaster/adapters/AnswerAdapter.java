@@ -57,6 +57,13 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerItemTextView.setText(model.getAnswer());
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
         answerHolder.answerTimeStampTextView.setText(model.getAnswerCreatedTimestamp());
+
+        // TODO: 2019-08-25 check for firestore value. if answer. is checked, set state to show green, else checkmark is blank
+        //another note: since question poser isnt the only one marking asnwer. figure out system to allow for "checked answer" to actually be true
+//        answerHolder.answerCheckMark.
+
+
+        
 //        answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
 
         // grab user
@@ -91,8 +98,16 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
                 } else {
 
 //                    answerUpVote(answerHolder, position, model);
-
                 }
+            }
+        });
+
+        answerHolder.answerCheckMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update answer isChecked to true
+                updateAnswer2Checked(answerHolder, position, model);
+
             }
         });
 
@@ -130,13 +145,14 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
 
         }
 
+
+
     }
     public interface OnItemClickListener {
-
         void onItemClick(DocumentSnapshot documentSnapshot, int position, String id);
 
-    }
 
+    }
     private void answerUpVote(@NonNull final AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull final Answer model) {
         final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
         final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
@@ -160,7 +176,6 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
             }
         });
     }
-
     private void answerDownVote(@NonNull final AnswerAdapter.AnswerHolder answerHolder, final int position, @NonNull final Answer model) {
         final String answerScoreFBValue = getSnapshots().getSnapshot(position).get("answerScore").toString();
         final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
@@ -183,6 +198,27 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         });
 
     }
+
+    private void updateAnswer2Checked(AnswerHolder answerHolder, int position, Answer model) {
+
+        final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+        final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+        final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
+        boolean answerChecked = true;
+
+
+        answerDocRef.update("checked", answerChecked).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(mContext, "answerCheckmark has been checked.", Toast.LENGTH_SHORT).show();
+            }
+        })
+    }
+
+
+
+
+
 
 
 }

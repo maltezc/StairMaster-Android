@@ -10,6 +10,7 @@ public class Answer {
     private String answerFirebaseId;
     private String parentQuestionId;
     private String collectionType;
+    private boolean isChecked;
 
 
     public Answer(String answer, String answerCreatedTimestamp, String author, String parentQuestionId, int answerScore) {
@@ -20,8 +21,7 @@ public class Answer {
         this.author = author;
         this.parentQuestionId = parentQuestionId;
         this.collectionType = collectionType;
-
-
+        this.isChecked = isChecked();
 
     }
 
@@ -83,5 +83,13 @@ public class Answer {
 
     public void setParentQuestionId(String parentQuestionId) {
         this.parentQuestionId = parentQuestionId;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

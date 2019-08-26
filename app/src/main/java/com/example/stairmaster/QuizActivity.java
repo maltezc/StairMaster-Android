@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -93,28 +94,39 @@ public class QuizActivity extends AppCompatActivity {
 
 
         // TODO: 2019-08-16 grab a question from questions grabbed
+        // done.
+
+        setAnswer();
 
         // TODO: 2019-08-23 set options to potential answers
         // pull random questions' answers for now. in
         // in future, will pull random questions that have the same tag.(one day)
 
+        // assign actual answer to random position 1-6
+
+        // assign random answers to other options in onStart potentially (before shit becomes visible)
+
 
         // TODO: 2019-08-16 if answer exists, grab answer and other potential answers from firebase
+        // check answer. use parent ID or isChecked parameter
+
 
         // TODO: 2019-08-16 submit answer
 
         // TODO: 2019-08-16 check answer
 
+
         // TODO: 2019-08-16 if answer is correct, update score.
 
+        //proceed to next.
+
         // TODO: 2019-08-16 set max questions to 20 for now.
+        //if no more questions, show results.
 
 
 
 
     }
-
-
 
 
     private void loadQuestionSet() {
@@ -130,6 +142,20 @@ public class QuizActivity extends AppCompatActivity {
 //                final int counter = 1;
                 DocumentSnapshot lastVisible = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size() - 1);
                 questionTextTextView.setText(lastVisible.get("question").toString());
+
+                if (lastVisible.contains("answer")) {
+
+                    String correctString = lastVisible.get("answer").toString();
+                    option1RadioButton.setText(correctString);
+
+                } else {
+                    option1RadioButton.setText("No answer exists for this question yet");
+
+                }
+
+
+//                setAnswer();
+
                 quizQuestionCountTextView.setText(mCounter + " / " + queryDocumentSnapshots.size());
 
                 Log.d(TAG, "onSuccess: loadQuestionSet size " + queryDocumentSnapshots.size());
@@ -141,17 +167,12 @@ public class QuizActivity extends AppCompatActivity {
                         questionTextTextView.setText(lastVisible.get("question").toString());
                         Log.d(TAG, "onSuccess: loadQuestionSet size " + queryDocumentSnapshots.size());
                         mCounter++;
+//                        setAnswer();
 
                         quizQuestionCountTextView.setText(mCounter + " / " + queryDocumentSnapshots.size());
                         Log.d(TAG, "onSuccess: counter is at " + mCounter);
                     }
                 });
-
-
-
-
-
-
             }
         });
     }
@@ -163,10 +184,88 @@ public class QuizActivity extends AppCompatActivity {
         mCounter ++;
 //        questionList.get(mCounter);
 
+    }
+
+    private void setAnswer() {
+        String correctString = "testCorrectString";
+        String inCorrectString1 = "testIncorrectString1";
+        String inCorrectString2 = "testIncorrectString2";
+        String inCorrectString3 = "testIncorrectString3";
+        String inCorrectString4 = "testIncorrectString4";
+        String inCorrectString5 = "testIncorrectString5";
 
 
+        Random rand = new Random();
+        int n = rand.nextInt(6);
+        Log.d(TAG, "setAnswer: randomInt = " + n);
+
+        switch (n) {
+            case 0:
+                // test1
+                option1RadioButton.setText(correctString);
+                option2RadioButton.setText(inCorrectString1);
+                option3RadioButton.setText(inCorrectString2);
+                option4RadioButton.setText(inCorrectString3);
+                option5RadioButton.setText(inCorrectString4);
+                option6RadioButton.setText(inCorrectString5);
+                break;
+            case 1:
+                // test1
+                option1RadioButton.setText(inCorrectString1);
+                option2RadioButton.setText(correctString);
+                option3RadioButton.setText(inCorrectString2);
+                option4RadioButton.setText(inCorrectString3);
+                option5RadioButton.setText(inCorrectString4);
+                option6RadioButton.setText(inCorrectString5);
+                break;
+
+            case 2:
+                //test2
+                option1RadioButton.setText(inCorrectString1);
+                option2RadioButton.setText(inCorrectString2);
+                option3RadioButton.setText(correctString);
+                option4RadioButton.setText(inCorrectString3);
+                option5RadioButton.setText(inCorrectString4);
+                option6RadioButton.setText(inCorrectString5);
+                break;
+            case 3:
+                //test3
+                option1RadioButton.setText(inCorrectString1);
+                option2RadioButton.setText(inCorrectString2);
+                option3RadioButton.setText(inCorrectString3);
+                option4RadioButton.setText(correctString);
+                option5RadioButton.setText(inCorrectString4);
+                option6RadioButton.setText(inCorrectString5);
+                break;
+            case 4:
+                // test4
+                option1RadioButton.setText(inCorrectString1);
+                option2RadioButton.setText(inCorrectString2);
+                option3RadioButton.setText(inCorrectString3);
+                option4RadioButton.setText(inCorrectString4);
+                option5RadioButton.setText(correctString);
+                option6RadioButton.setText(inCorrectString5);
+                break;
+            case 5:
+                // test5
+                option1RadioButton.setText(inCorrectString1);
+                option2RadioButton.setText(inCorrectString2);
+                option3RadioButton.setText(inCorrectString3);
+                option4RadioButton.setText(inCorrectString4);
+                option5RadioButton.setText(inCorrectString5);
+                option6RadioButton.setText(correctString);
+                break;
 
 
+        }
+
+//        if(n == 0){
+//            answer1.setText(correctString);
+//            answer2.setText(inCorrectString);
+//        }else{
+//            answer1.setText(inCorrectString);
+//            answer2.setText(correctString);
+//        }
     }
 
 
