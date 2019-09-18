@@ -38,8 +38,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
         questionHolder.textViewQuestion.setText(model.getQuestion());
         questionHolder.textViewScore.setText(String.valueOf(model.getQuestionScore()));
 
-
-
     }
 
     @NonNull
@@ -111,6 +109,7 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<Question, Question
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
+
         this.listener = listener;
     }
 

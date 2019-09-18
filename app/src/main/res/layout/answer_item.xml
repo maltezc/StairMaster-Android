@@ -40,7 +40,10 @@
                         android:textOn=""
                         android:textOff=""
                         android:background="@drawable/check_mark_selectors"
+
                         />
+                    <!--                        android:background="@drawable/ic_check_black_24dp"-->
+
 
                     <ToggleButton
                         android:id="@+id/answerUpVoteId"

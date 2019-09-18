@@ -131,10 +131,6 @@ public class DashboardActivity extends AppCompatActivity {
         super.onStart();
         mQuestionAdapter.startListening();
 
-
-
-
-
     }
 
     @Override

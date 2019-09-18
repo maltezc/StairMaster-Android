@@ -144,10 +144,8 @@ public class QuizActivity extends AppCompatActivity {
                 questionTextTextView.setText(lastVisible.get("question").toString());
 
                 if (lastVisible.contains("answer")) {
-
                     String correctString = lastVisible.get("answer").toString();
                     option1RadioButton.setText(correctString);
-
                 } else {
                     option1RadioButton.setText("No answer exists for this question yet");
 

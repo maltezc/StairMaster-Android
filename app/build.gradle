@@ -24,32 +24,32 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
 //    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
 //    implementation 'androidx.cardview:cardview:1.0.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-storage:16.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
+    androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
 //    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
     // firebase
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-firestore:18.2.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-firestore:21.0.0'
     implementation 'com.firebaseui:firebase-ui-firestore:4.3.2'
-    implementation 'com.google.firebase:firebase-database:16.1.0'
+    implementation 'com.google.firebase:firebase-database:19.0.0'
 
     // must add this for authentication
-    implementation 'com.google.firebase:firebase-auth:16.2.1'
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
     //firebaseUI
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     //firebase storage
-    implementation 'com.google.firebase:firebase-storage:16.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.0.0'
     // must add this for authentication
     implementation 'com.firebase:firebase-client-android:2.5.0'
-    implementation "com.google.android.gms:play-services-gcm:16.1.0"
+    implementation "com.google.android.gms:play-services-gcm:17.0.0"
     // not sure if i need this version control of error handling
 
 
@@ -58,7 +58,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     //for google login
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
 
     // for facebook login
@@ -77,7 +77,7 @@ dependencies {
 
     // material.io - https://material.io/develop/android/docs/getting-started/
 //    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
 
 //    Multidex dependency
     implementation 'com.android.support:multidex:1.0.3'

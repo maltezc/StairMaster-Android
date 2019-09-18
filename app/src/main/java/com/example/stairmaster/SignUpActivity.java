@@ -243,57 +243,5 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-   /*
-
-    private void userLogin() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
-
-        if (email.isEmpty()) {
-            editTextEmail.setError("Email is required");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Please enter a valid email");
-            editTextEmail.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            editTextPassword.setError("Password is required");
-            editTextPassword.requestFocus();
-            return;
-        }
-
-        if (password.length() < 6) {
-            editTextPassword.setError("Minimum length of password should be 6");
-            editTextPassword.requestFocus();
-            return;
-        }
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.GONE);
-                if (task.isSuccessful()) {
-                    finish();
-                    Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    Log.i("info","going to Dashboard");
-                } else {
-                    Toast.makeText(getApplicationContext(), "mAuth.SignInWithEmailandPassword " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onComplete: mAuth.SignInWithEmailandPassword    " + task.getException().getMessage());
-                }
-            }
-        });
-    }
-*/
-
-
 }
 

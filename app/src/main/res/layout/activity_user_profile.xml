@@ -21,7 +21,8 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
             android:background="@drawable/icon_camera"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            />
 
         <ProgressBar
             android:id="@+id/progressbar"

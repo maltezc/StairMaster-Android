@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -58,12 +59,15 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         answerHolder.answerAuthorTextView.setText(model.getAuthor());
         answerHolder.answerTimeStampTextView.setText(model.getAnswerCreatedTimestamp());
 
+
         // TODO: 2019-08-25 check for firestore value. if answer. is checked, set state to show green, else checkmark is blank
+
+
         //another note: since question poser isnt the only one marking asnwer. figure out system to allow for "checked answer" to actually be true
 //        answerHolder.answerCheckMark.
 
 
-        
+
 //        answerHolder.answerScoreTextView.setText(getSnapshots().getSnapshot(position).get("answerScore").toString());
 
         // grab user
@@ -102,12 +106,91 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
             }
         });
 
+
+        final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+        final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+        final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
+
+        /*
+        answerHolder.answerCheckMark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    answerHolder.answerCheckMark.setBackgroundResource(R.drawable.ic_check_green_24dp);
+
+                }
+//                answerDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        if (documentSnapshot.get("checked") == "true") {
+//                            Log.d(TAG, "onSuccess: status is currently set to " + documentSnapshot.get("checked").toString());
+//                        }
+//                    }
+//                });
+            }
+        });
+
+         */
+
+
+
+        answerDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.get("checked") == "true") {
+//                    answerHolder.answerCheckMark.setBackgroundDrawable(R.drawable.ic_check_green_24dp);
+//                    answerHolder.answerCheckMark.setBackground(R.drawable.ic_check_black_24dp);
+//                    answerHolder.answerCheckMark.toggle();
+//                    answerHolder.answerCheckMark.setButtonDrawable(R.drawable.ic_check_green_24dp);
+                    answerHolder.answerCheckMark.setBackgroundResource(R.drawable.ic_check_green_24dp);
+                }
+
+            }
+        });
+
+
+
+
+
+
         answerHolder.answerCheckMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // update answer isChecked to true
-                updateAnswer2Checked(answerHolder, position, model);
 
+                final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
+                final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
+                final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
+
+                answerDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        boolean answerCheckedFalse = false;
+                        String answerCheckedBoolean = documentSnapshot.get("checked").toString();
+                        if (answerCheckedBoolean == "true") {
+                            answerDocRef.update("checked", answerCheckedFalse).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(mContext, "answerCheckmark has been set to false.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+//                            updateAnswer2Checked(answerHolder, position, model);
+                            // TODO: 2019-08-26 if answer checked is false, then set to true. otherwise set to false.
+                            boolean answerCheckedTrue = true;
+//                            answerHolder.answerCheckMark.setChecked(true);
+//                            answerHolder.answerCheckMark.setActivated(true);
+//                            answerHolder.answerCheckMark.toggle();
+                            answerDocRef.update("checked", answerCheckedTrue).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(mContext, "answerCheckmark has been set to true.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
 
@@ -198,27 +281,6 @@ public class AnswerAdapter extends FirestoreRecyclerAdapter<Answer, AnswerAdapte
         });
 
     }
-
-    private void updateAnswer2Checked(AnswerHolder answerHolder, int position, Answer model) {
-
-        final String answerFirebaseIdString = getSnapshots().getSnapshot(position).get("answerFirebaseId").toString();
-        final CollectionReference answerCollectionRef = FirebaseFirestore.getInstance().collection("Answers");
-        final DocumentReference answerDocRef = answerCollectionRef.document(answerFirebaseIdString);
-        boolean answerChecked = true;
-
-
-        answerDocRef.update("checked", answerChecked).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(mContext, "answerCheckmark has been checked.", Toast.LENGTH_SHORT).show();
-            }
-        })
-    }
-
-
-
-
-
 
 
 }

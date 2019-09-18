@@ -12,7 +12,7 @@ Fn + Command + F12 = quickly navigate structure of file
 surround with
 Option + command + t
 
-Override Method insert
+Override Method insert ** very helpful!
 ctrl + o
 
 refactor
@@ -38,6 +38,8 @@ java block of code
 /*
 stuff inside here
 */
+
+
 
 Recycler view Notes
 https://guides.codepath.com/android/using-the-recyclerview
